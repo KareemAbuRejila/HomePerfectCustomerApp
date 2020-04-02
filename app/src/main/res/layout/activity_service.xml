@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="adapter"
+            type="com.codeshot.home_perfect.adapters.ProvidersAdapters" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.service_activity.ServiceActivity">
+
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarService"
+            style="@style/ThemeOverlay.MaterialComponents.ActionBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/white"
+            android:elevation="15dp"
+            android:foregroundGravity="center"
+            android:gravity="center"
+            app:contentInsetStart="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RelativeLayout
+                android:id="@+id/layoutToolBar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+                <ImageView
+                    android:id="@+id/back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="10dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabLayoutService"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/bg_tab_layout"
+                    app:tabGravity="center"
+                    app:tabIndicator="@drawable/bg_tab_item_layout"
+                    app:tabIndicatorColor="@color/colorPrimaryDark"
+                    app:tabIndicatorGravity="stretch"
+                    app:tabMode="scrollable"
+                    app:tabPaddingEnd="20dp"
+                    app:tabPaddingStart="20dp"
+                    app:tabSelectedTextColor="#FFFFFF">
+
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/maltem"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Male" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/allItem"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="All" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/femaltem"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Female" />
+
+                </com.google.android.material.tabs.TabLayout>
+
+            </RelativeLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvProviders"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:clipChildren="true"
+            android:clipToPadding="true"
+            android:scrollbars="none"
+            app:adapter="@{adapter}"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbarService"
+            app:spanCount="2"
+            tools:itemCount="12"
+            tools:listitem="@layout/item_provider" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="List"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

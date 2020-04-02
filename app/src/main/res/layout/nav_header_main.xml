@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="User"
+            type="com.codeshot.home_perfect.models.User" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_header_height"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="110dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:contentDescription="@string/nav_header_desc"
+            android:maxHeight="110dp"
+            android:paddingTop="@dimen/nav_header_vertical_spacing"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_max="110dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_logohomeperefect"
+            tools:ignore="VectorDrawableCompat"
+            />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/input_profile_image"
+            android:layout_width="40dp"
+            android:layout_height="0dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            app:civ_border_width=".2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="h,1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:imageUrl="@{User.personalImageUri}"
+            />
+
+
+        <TextView
+            android:id="@+id/nav_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/nav_username" />
+
+        <TextView
+            android:id="@+id/nav_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:paddingTop="@dimen/nav_header_vertical_spacing"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toTopOf="@+id/nav_email"
+            app:layout_constraintStart_toEndOf="@+id/input_profile_image"
+            android:text="@{User.userName}"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

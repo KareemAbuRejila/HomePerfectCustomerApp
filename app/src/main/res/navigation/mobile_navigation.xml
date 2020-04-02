@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.codeshot.home_perfect.ui.home.HomeFragment"
+        android:label="Home Perfect"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_nav_profile"
+            app:destination="@id/nav_profile" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.codeshot.home_perfect.ui.profile.ProfileFragment"
+        android:label="@string/menu_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_nav_profile_to_nav_wishlist2"
+            app:destination="@id/nav_wishlist" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_wishlist"
+        android:name="com.codeshot.home_perfect.ui.wishList.WishListFragment"
+        android:label="@string/menu_wishList"
+        tools:layout="@layout/fragment_slideshow" >
+        <action
+            android:id="@+id/action_nav_wishlist_to_nav_myBooking"
+            app:destination="@id/nav_myBooking" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_myBooking"
+        android:name="com.codeshot.home_perfect.ui.mybooking.MyBookingFragment"
+        android:label="@string/menu_myBooking"
+        tools:layout="@layout/fragment_my_booking" >
+        <action
+            android:id="@+id/action_nav_myBooking_to_nav_aboutUs"
+            app:destination="@id/nav_aboutUs" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_aboutUs"
+        android:name="com.codeshot.home_perfect.ui.aboutus.AboutUsFragment"
+        android:label="@string/menu_aboutUS"
+        tools:layout="@layout/fragment_aboutus" />
+
+<!--    <fragment-->
+<!--        android:id="@+id/nav_termsConditions"-->
+<!--        android:name="com.codeshot.home_perfect.ui.terms_conditions.TermsConditionsFragment"-->
+<!--        android:label="@string/menu_termsConditions"-->
+<!--        tools:layout="@layout/fragment_send" />-->
+</navigation>

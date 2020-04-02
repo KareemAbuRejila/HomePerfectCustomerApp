@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:title="@string/home"
+            />
+        <item
+            android:id="@+id/nav_profile"
+            android:title="@string/menu_profile" />
+        <item
+            android:id="@+id/nav_wishlist"
+            android:title="@string/menu_wishList" />
+        <item
+            android:id="@+id/nav_myBooking"
+            android:title="@string/menu_myBooking" />
+    </group>
+
+    <item android:title="More">
+        <menu>
+            <item
+                android:id="@+id/nav_aboutUs"
+                android:title="@string/menu_aboutUS" />
+<!--            <item-->
+<!--                android:id="@+id/nav_termsConditions"-->
+<!--                android:title="Terms &amp; Conditions" />-->
+            <item
+                android:id="@+id/nav_logOut"
+                android:title="@string/log_out" />
+        </menu>
+    </item>
+
+
+</menu>

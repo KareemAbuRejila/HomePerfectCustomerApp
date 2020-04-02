@@ -1,0 +1,47 @@
+package com.codeshot.home_perfect.Common
+
+
+import android.location.Location
+import com.codeshot.home_perfect.remote.FCMClient
+import com.codeshot.home_perfect.remote.IFCMService
+import com.firebase.geofire.GeoFire
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.FirebaseFirestore
+
+object Common {
+    fun isCONNECTED():Boolean?{
+        var connected:Boolean?=false
+        val connectRef= FirebaseDatabase.getInstance().getReference(".info/connected")
+        connectRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                connected=dataSnapshot.getValue(Boolean::class.java)
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+                connected=false
+            }
+        })
+        return connected
+    }
+    var CURRENT_USER_KEY =""
+    var CURRENT_TOKEN=""
+    var CURRENT_USER_PHONE=""
+    var CURRENT_USER_NAME=""
+    var CURRENT_USER_IMAGE=""
+    var CURRENT_LOCATION:Location?=null
+    var SERVICE_Providers:List<String>?=ArrayList<String>()
+    var ROOT_REF=FirebaseFirestore.getInstance()
+    var USERS_REF= ROOT_REF.collection("Users")
+    var PROVIDERS_REF= ROOT_REF.collection("Providers")
+    val SERVICES_REF= ROOT_REF.collection("Services")
+    val REQUESTS_REF= ROOT_REF.collection("Requests")
+
+    private const val FCM_URL = "https://fcm.googleapis.com/"
+    val TOKENS_REF= ROOT_REF.collection("Tokens")
+
+    val FCM_SERVICE:IFCMService
+    get() = FCMClient.getClient(FCM_URL)!!.create(IFCMService::class.java)
+
+}

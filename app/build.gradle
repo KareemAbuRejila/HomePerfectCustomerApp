@@ -1,0 +1,151 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.google.gms.google-services'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+        applicationId "com.codeshot.home_perfect"
+        minSdkVersion 18
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        //EnableMultiDex
+        multiDexEnabled true
+        //Enable Crachlytics
+//        ext.enableCrashlytics = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+    dataBinding {
+        enabled = true
+    }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.navigation:navigation-fragment:2.2.1'
+    implementation 'androidx.navigation:navigation-ui:2.2.1'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.2.1'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.2.1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.firebase:firebase-analytics:17.2.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'androidx.fragment:fragment-ktx:1.2.2'
+
+
+    //Material From Google
+    implementation 'com.google.android.material:material:1.1.0'
+    //ViewModel Dependencies
+    def lifecycle_version = "2.1.0"
+    // ViewModel and LiveData
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    //CircleImageView
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    //GooglePlayLocation
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
+
+
+    //SwipeBack Liuguanggiang
+    implementation 'com.github.liuguangqiang.swipeback:library:1.0.2@aar'
+    //Slide Activity
+    implementation 'com.r0adkll:slidableactivity:2.0.6'
+    //FireBase
+    implementation 'com.google.firebase:firebase-core:17.2.3'
+    implementation 'com.google.firebase:firebase-database:19.2.1'
+    // FirebaseUI for Cloud FireStore
+    implementation 'com.firebaseui:firebase-ui-firestore:6.2.0'
+    // Firebase for Cloud FireStore
+    implementation 'com.google.firebase:firebase-firestore:21.4.1'
+    // FirebaseUI for Cloud Storage
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
+    implementation 'com.firebase:firebase-client-android:2.5.2'
+    // FirebaseUI for Firebase Auth
+    implementation 'com.google.firebase:firebase-auth:19.2.0'
+    implementation 'com.google.firebase:firebase-messaging:20.1.2'
+    implementation 'com.firebase:geofire-java:3.0.0'
+
+    //MultiDex for  Android
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    //CodeCountries
+    implementation 'com.github.joielechong:countrycodepicker:2.4.1'
+
+    //CodeInput
+    implementation 'com.github.glomadrian:CodeInput:1.1@aar'
+    implementation 'com.raycoarana.codeinputview:codeinputview:1.2.5'
+    //Retrofit 2
+    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.6.2'
+
+    //material-animated-switch
+    implementation 'com.github.glomadrian:MaterialAnimatedSwitch:1.1@aar'
+    //waiting Dialog
+    implementation 'com.github.d-max:spots-dialog:1.1@aar'
+    //CropActivity
+    api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
+    //Picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    //Glide For Images
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+    //GeoFire
+//    implementation 'com.firebase:geofire-android:2.3.1'
+    //GeoFireStore
+    implementation 'com.github.imperiumlabs:GeoFirestore-Android:v1.5.0'
+
+
+    //Ac ProgressBar
+    implementation 'cc.cloudist.acplibrary:library:1.2.1'
+    //StateProgressBar
+    implementation 'com.kofigyan.stateprogressbar:stateprogressbar:1.0.0'
+//    //Country Code Picker Library
+//    implementation 'com.hbb20:ccp:2.3.2'
+//    implementation 'com.lamudi.phonefield:phone-field:0.1.3@aar'
+    //IconNotifications
+    implementation 'com.joanzapata.iconify:android-iconify-material:2.2.2'
+    //Crash analysis
+//    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    //Glide Lib
+    implementation 'com.github.bumptech.glide:glide:4.10.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
+    //Swiping Lib
+    implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.2'
+    //Compress The Image Size
+    implementation 'id.zelory:compressor:2.1.0'
+
+    //SuperBottomSheet
+    implementation 'com.github.andrefrsousa:SuperBottomSheet:1.2.0'
+    //StateProgressBar
+    implementation 'com.kofigyan.stateprogressbar:stateprogressbar:1.0.0'
+    //MaterialRatingBar
+    implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
+    //Material DateTime Picker library
+    implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
+}

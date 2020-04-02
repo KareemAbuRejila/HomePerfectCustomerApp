@@ -1,0 +1,88 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/helvetica_neue</item>
+
+    </style>
+
+    <style name="NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+
+    <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+<!--        <item name="android:windowTranslucentStatus">true</item>-->
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
+        <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
+        <item name="editTextBackground">@android:color/transparent</item>
+    </style>
+    <style name="FullDialogTheme" parent="Theme.AppCompat.Light.DialogWhenLarge">
+        <!--        <item name="android:windowTranslucentStatus">true</item>-->
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
+        <item name="editTextBackground">@android:color/transparent</item>
+<!--        <item name="android:windowTranslucentStatus">true</item>-->
+    </style>
+
+    <style name="Splash" parent="Theme.MaterialComponents.Light.NoActionBar">
+    </style>
+
+    <style name="ratingStyle" parent="Widget.AppCompat.RatingBar.Indicator">
+        <item name="colorControlActivated">#FFAA00</item>
+        <item name="colorAccent">#FF9900</item>
+        <item name="colorControlNormal">@android:color/darker_gray</item>
+    </style>
+
+    <style name="HeadText">
+        <item name="android:textColor">@color/HeadText</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+
+    <style name="MoreStyleText">
+        <item name="android:textColor">@color/MoreStyleText</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:text">">"</item>
+        <item name="android:gravity">right|center_vertical</item>
+        <item name="android:layout_marginRight">32dp</item>
+
+    </style>
+
+    <style name="titleOfBookingFragment" parent="TextAppearance.AppCompat.Title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/Icon</item>
+        <item name="android:drawablePadding">6dp</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="textInputEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@null</item>
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:inputType">textAutoComplete</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:singleLine">true</item>
+
+    </style>
+
+
+</resources>

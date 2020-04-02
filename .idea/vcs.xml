@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Amina" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Android-ObservableScrollView" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/ChatKit" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/ExoPlayer" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/J-Chain" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/MyFirstApplicationForGSG" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/SkillUpFb" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/android-MVVM-DataBinding-RecyclerViewExample" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/architecture-patterns-HomeWork" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/folding-cell-android" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/garland-view-android" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pagerbullet" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/paper-onboarding-android" vcs="Git" />
+  </component>
+</project>

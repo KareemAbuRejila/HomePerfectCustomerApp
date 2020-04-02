@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:icon="@drawable/ic_launcher"
+        android:title="Android" />
+    <item
+        android:icon="@drawable/common_google_signin_btn_icon_dark"
+        android:title="Google" />
+    <item
+        android:icon="@drawable/common_google_signin_btn_icon_disabled"
+        android:title="Google Black" />
+</menu>
