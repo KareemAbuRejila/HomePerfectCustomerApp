@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import com.andrefrsousa.superbottomsheet.SuperBottomSheetFragment
+import com.codeshot.home_perfect.R
 import com.codeshot.home_perfect.common.Common
 import com.codeshot.home_perfect.common.Common.CURRENT_TOKEN
 import com.codeshot.home_perfect.common.Common.CURRENT_USER_KEY
@@ -16,7 +16,6 @@ import com.codeshot.home_perfect.common.Common.CURRENT_USER_PHONE
 import com.codeshot.home_perfect.common.Common.PROVIDERS_REF
 import com.codeshot.home_perfect.common.Common.TOKENS_REF
 import com.codeshot.home_perfect.common.Common.USERS_REF
-import com.codeshot.home_perfect.R
 import com.codeshot.home_perfect.databinding.DialogProviderProfileBinding
 import com.codeshot.home_perfect.models.*
 import com.codeshot.home_perfect.remote.IFCMService
@@ -28,7 +27,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ProviderProfileDialog : SuperBottomSheetFragment {
+class ProviderProfileDialog : DialogFragment {
     lateinit var dialogProviderProfileBinding: DialogProviderProfileBinding
     private val TAG = "ProviderProfileDialog"
 
@@ -43,9 +42,10 @@ class ProviderProfileDialog : SuperBottomSheetFragment {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //Set Dialog To FullScreenTheme
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialogTheme)
+        setStyle(STYLE_NORMAL, R.style.FullDialogTheme)
         fcmService = Common.FCM_SERVICE
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -73,6 +73,7 @@ class ProviderProfileDialog : SuperBottomSheetFragment {
         }
 
     }
+
 
     private fun checkProviderStatus() {
         PROVIDERS_REF.document(provider!!.id!!)
@@ -102,9 +103,10 @@ class ProviderProfileDialog : SuperBottomSheetFragment {
 
     }
 
-    override fun getPeekHeight(): Int {
-        return super.getPeekHeight() + 100
-    }
+
+//    override fun getPeekHeight(): Int {
+//        return super.getPeekHeight() + 100
+//    }
 
 
     private fun bookProvider(providerID: String) {

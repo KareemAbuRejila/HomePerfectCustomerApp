@@ -193,7 +193,7 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
-    fun showLoginDialog() {
+    fun showLoginDialog(view: View) {
         val alertDialog =
             AlertDialog.Builder(this)
                 .setPositiveButton(

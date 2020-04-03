@@ -16,7 +16,7 @@
     </style>
 
 
-    <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+    <style name="BottomSheetDialogTheme" parent="superBottomSheetDialog">
 <!--        <item name="android:windowTranslucentStatus">true</item>-->
         <item name="windowNoTitle">true</item>
         <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>

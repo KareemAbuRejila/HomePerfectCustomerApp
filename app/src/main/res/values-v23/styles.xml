@@ -13,9 +13,9 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
         <item name="editTextBackground">@android:color/transparent</item>
-        <!--        <item name="android:windowTranslucentStatus">true</item>-->
-        <item name="android:statusBarColor">@android:color/white</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <!--        <item name="android:statusBarColor">@android:color/white</item>-->
+        <!--        <item name="android:windowLightStatusBar">true</item>-->
     </style>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
