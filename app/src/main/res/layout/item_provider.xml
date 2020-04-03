@@ -29,7 +29,7 @@
                 android:layout_height="160dp"
                 android:layout_alignParentTop="true"
                 android:layout_gravity="center"
-                android:contentDescription="Provider Image"
+                android:contentDescription="@string/provider_image"
                 android:scaleType="centerCrop"
                 app:ImgVProvider="@{provider.personalImageUri}"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -67,7 +67,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:background="#A8000000"
+                android:background="@drawable/bg_text_top_provider"
                 android:gravity="clip_horizontal|clip_vertical"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="@+id/imgPersonalImgITEMTOP"
@@ -76,7 +76,7 @@
                 app:layout_constraintStart_toStartOf="@+id/imgPersonalImgITEMTOP">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:layout_weight="2"
@@ -87,21 +87,21 @@
                         android:id="@+id/tvUserNameITEMTOP"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:text="@{provider.userName}"
                         android:textColor="#fff"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         android:textStyle="bold"
-                        tools:text="Provider Namr" />
+                        tools:text="Provider Name" />
 
                     <TextView
                         android:id="@+id/tvServiceTypeITEMTOP"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:text="@{provider.serviceType}"
                         android:textColor="#fff"
-                        android:textSize="12sp"
+                        android:textSize="8sp"
                         tools:text="Service Type" />
                 </LinearLayout>
 
@@ -110,7 +110,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|end"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginEnd="5dp"
                     android:numStars="5"
                     android:stepSize="0.5"
                     android:theme="@style/ratingStyle"

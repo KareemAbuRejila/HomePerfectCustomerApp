@@ -5,10 +5,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.codeshot.home_perfect.common.Common
-import com.codeshot.home_perfect.common.StandardActivity
 import com.codeshot.home_perfect.R
 import com.codeshot.home_perfect.adapters.ProvidersAdapters
+import com.codeshot.home_perfect.common.Common
+import com.codeshot.home_perfect.common.StandardActivity
 import com.codeshot.home_perfect.databinding.ActivityServiceBinding
 import com.codeshot.home_perfect.models.Provider
 import com.codeshot.home_perfect.ui.provider_profile.ProviderProfileDialog
@@ -16,7 +16,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.firestore.FieldPath
 
-class ServiceActivity : StandardActivity(), ProvidersAdapters.OnItemClickLinstener {
+class ServiceActivity : StandardActivity(), ProvidersAdapters.OnItemClickListener {
     private lateinit var activityServiceBinding: ActivityServiceBinding
     private lateinit var serviceViewModel: ServiceViewModel
     private var serviceId: String? = null
@@ -41,7 +41,8 @@ class ServiceActivity : StandardActivity(), ProvidersAdapters.OnItemClickLinsten
             .setQuery(query, Provider::class.java)
             .build()
         providersAdapter = ProvidersAdapters(options)
-        providersAdapter!!.setOnCLickLinstener(this)
+        providersAdapter!!.setViewType(providersAdapter!!.PROVIDERS_TYPE)
+        providersAdapter!!.setOnCLickListener(this)
         activityServiceBinding.adapter = providersAdapter
 
 //        serviceViewModel.providers.observe(this, Observer { prviders ->
@@ -50,33 +51,38 @@ class ServiceActivity : StandardActivity(), ProvidersAdapters.OnItemClickLinsten
         activityServiceBinding.tabLayoutService.addOnTabSelectedListener(object :
             TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                if (tab!!.text == "All") {
-                    val query = Common.PROVIDERS_REF.whereIn(
-                        FieldPath.documentId().toString(),
-                        providersId!!
-                    )
-                    val options = FirestoreRecyclerOptions.Builder<Provider>()
-                        .setQuery(query, Provider::class.java)
-                        .build()
-                    providersAdapter!!.updateOptions(options)
-                } else if (tab!!.text == "Male") {
-                    val query = Common.PROVIDERS_REF.whereIn(
-                        FieldPath.documentId().toString(),
-                        providersId!!
-                    ).whereEqualTo("gender", "Male")
-                    val options = FirestoreRecyclerOptions.Builder<Provider>()
-                        .setQuery(query, Provider::class.java)
-                        .build()
-                    providersAdapter!!.updateOptions(options)
-                } else if (tab!!.text == "Female") {
-                    val query = Common.PROVIDERS_REF.whereIn(
-                        FieldPath.documentId().toString(),
-                        providersId!!
-                    ).whereEqualTo("gender", "Female")
-                    val options = FirestoreRecyclerOptions.Builder<Provider>()
-                        .setQuery(query, Provider::class.java)
-                        .build()
-                    providersAdapter!!.updateOptions(options)
+
+                when {
+                    tab!!.text == "All" -> {
+                        val queryAll = Common.PROVIDERS_REF.whereIn(
+                            FieldPath.documentId().toString(),
+                            providersId!!
+                        )
+                        val optionsAll = FirestoreRecyclerOptions.Builder<Provider>()
+                            .setQuery(queryAll, Provider::class.java)
+                            .build()
+                        providersAdapter!!.updateOptions(optionsAll)
+                    }
+                    tab.text == "Male" -> {
+                        val queryMale = Common.PROVIDERS_REF.whereIn(
+                            FieldPath.documentId().toString(),
+                            providersId!!
+                        ).whereEqualTo("gender", "Male")
+                        val optionsMale = FirestoreRecyclerOptions.Builder<Provider>()
+                            .setQuery(queryMale, Provider::class.java)
+                            .build()
+                        providersAdapter!!.updateOptions(optionsMale)
+                    }
+                    tab.text == "Female" -> {
+                        val queryFemale = Common.PROVIDERS_REF.whereIn(
+                            FieldPath.documentId().toString(),
+                            providersId!!
+                        ).whereEqualTo("gender", "Female")
+                        val optionsFemale = FirestoreRecyclerOptions.Builder<Provider>()
+                            .setQuery(queryFemale, Provider::class.java)
+                            .build()
+                        providersAdapter!!.updateOptions(optionsFemale)
+                    }
                 }
             }
 
@@ -115,7 +121,7 @@ class ServiceActivity : StandardActivity(), ProvidersAdapters.OnItemClickLinsten
 
     private fun checkIntent() {
         if (intent != null) {
-            serviceId = intent.getStringExtra("serviceId").toString()
+            serviceId = intent.getStringExtra("serviceId")!!.toString()
             providersId = intent.getStringArrayListExtra("providersId")
 
         }
@@ -126,8 +132,8 @@ class ServiceActivity : StandardActivity(), ProvidersAdapters.OnItemClickLinsten
             .addOnSuccessListener {
                 val provider = it.toObject(Provider::class.java)
                 provider!!.id = it.id
-                val profileDialog =ProviderProfileDialog(provider)
-                profileDialog.show(this.supportFragmentManager,"ProviderProfileDialog")
+                val profileDialog = ProviderProfileDialog(provider)
+                profileDialog.show(this.supportFragmentManager, "ProviderProfileDialog")
             }
     }
 

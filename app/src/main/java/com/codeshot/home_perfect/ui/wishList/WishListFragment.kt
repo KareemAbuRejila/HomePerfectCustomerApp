@@ -5,11 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.codeshot.home_perfect.adapters.ProvidersAdapters
+import com.codeshot.home_perfect.common.Common
 import com.codeshot.home_perfect.databinding.FragmentWishListBinding
+import com.codeshot.home_perfect.models.Provider
+import com.codeshot.home_perfect.ui.provider_profile.ProviderProfileDialog
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
-class WishListFragment : Fragment() {
+class WishListFragment : Fragment(), ProvidersAdapters.OnItemClickListener {
 
     private lateinit var fragmentWishListBinding: FragmentWishListBinding
     private lateinit var slideshowViewModel: WishListViewModel
@@ -32,8 +36,28 @@ class WishListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        slideshowViewModel.text.observe(viewLifecycleOwner, Observer {
-            fragmentWishListBinding.textSlideshow.text = it
-        })
+
+        val query = Common.PROVIDERS_REF
+        val options = FirestoreRecyclerOptions.Builder<Provider>()
+            .setQuery(query, Provider::class.java)
+            .build()
+        val providersAdapter = ProvidersAdapters(options)
+        providersAdapter.setViewType(providersAdapter.WISHLIST_TYPE)
+        fragmentWishListBinding.adapter = providersAdapter
+
+        providersAdapter.startListening()
+    }
+
+    override fun onItemClicked(providerId: String) {
+        Common.PROVIDERS_REF.document(providerId).get()
+            .addOnSuccessListener {
+                val provider = it.toObject(Provider::class.java)
+                provider!!.id = it.id
+                val profileDialog = ProviderProfileDialog(provider)
+                profileDialog.show(
+                    requireActivity().supportFragmentManager,
+                    "ProviderProfileDialog"
+                )
+            }
     }
 }

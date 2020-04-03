@@ -66,4 +66,5 @@
     <string name="done">Done</string>
     <string name="rating">Rating</string>
     <string name="canceled">Canceled</string>
+    <string name="provider_image">Provider Image</string>
 </resources>

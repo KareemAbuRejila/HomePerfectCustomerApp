@@ -5,17 +5,32 @@
 
     <data>
 
+        <variable
+            name="phoneNumber"
+            type="String" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_login"
-        android:backgroundTint="#80000000"
-        android:backgroundTintMode="src_over"
-        tools:context=".ui.LoginActivity"
+        android:background="@android:color/white"
         android:clipToPadding="false"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        tools:context=".ui.LoginActivity">
+
+        <ImageView
+            android:id="@+id/imgBg"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:backgroundTint="#80000000"
+            android:backgroundTintMode="src_over"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/bg_login" />
 
         <Button
             android:id="@+id/btnConLogin"
@@ -38,11 +53,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="183dp"
-            android:background="@color/backgroundColor"
+            android:background="@color/Icon"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/phoneLayoutLogin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:underline_color="@color/colorAccent"
             tools:visibility="visible" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -104,9 +120,41 @@
             android:layout_marginEnd="32dp"
             android:onClick="showLoginDialog"
             android:text="@string/emulator"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvCodeEnter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:text="@{`you are received code for \nthis Number: `+phoneNumber+`\nplease Enter these code`}"
+            android:textAlignment="textStart"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/codeInput"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="you are received code for this Number: 0597080897\nplease Enter these code" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/groupCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="tvCodeEnter,codeInput"
+            tools:visibility="visible" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/groupDefult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="btnConLogin,textView3,phoneLayoutLogin,imgBg"
+            tools:visibility="visible" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

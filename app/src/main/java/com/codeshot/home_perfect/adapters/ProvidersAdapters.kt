@@ -1,40 +1,62 @@
 package com.codeshot.home_perfect.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.codeshot.home_perfect.databinding.ItemProviderBinding
+import com.codeshot.home_perfect.databinding.ItemWishListProviderBinding
 import com.codeshot.home_perfect.models.Provider
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.google.firebase.firestore.DocumentSnapshot
 
 class ProvidersAdapters(options:FirestoreRecyclerOptions<Provider>):
-    FirestoreRecyclerAdapter<Provider, ProvidersAdapters.ProviderItem>(options) {
-    private lateinit var itemProviderBinding: ItemProviderBinding
+    FirestoreRecyclerAdapter<Provider, RecyclerView.ViewHolder>(options) {
+    private var viewtype: Int = 0
+    val PROVIDERS_TYPE = 0
+    val WISHLIST_TYPE = 1
 
-    private var providerList:List<Provider>?=ArrayList<Provider>()
-    private var onItemClickLinstener: OnItemClickLinstener? = null
+    private var providerList: List<Provider>? = ArrayList()
+    private var onItemClickListener: OnItemClickListener? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProviderItem {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater=LayoutInflater.from(parent.context)
-        itemProviderBinding=ItemProviderBinding.inflate(inflater,parent,false)
-        return ProviderItem(itemProviderBinding)
+        return when (viewtype) {
+            0 -> {
+                val itemProviderBinding = ItemProviderBinding.inflate(inflater, parent, false)
+                ProviderItem(itemProviderBinding)
+            }
+            else -> {
+                val itemWishListBinding =
+                    ItemWishListProviderBinding.inflate(inflater, parent, false)
+                WishListItem(itemWishListBinding)
+            }
+        }
     }
 
-    override fun onBindViewHolder(holder: ProviderItem, position: Int, model: Provider) {
-        holder.bindItem(model)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, model: Provider) {
+        when (viewtype) {
+            0 -> (holder as ProviderItem).bindItem(model)
+            1 -> (holder as WishListItem).bindItem(model)
+        }
     }
+
+    fun setViewType(viewType: Int) {
+        this.viewtype = viewType
+        notifyDataSetChanged()
+    }
+
     fun setList(providersList:List<Provider>){
         this.providerList=providersList
         notifyDataSetChanged()
     }
 
-    interface OnItemClickLinstener{
+    interface OnItemClickListener {
         fun onItemClicked(providerId:String)
     }
-    fun setOnCLickLinstener(onItemClickLinstener: OnItemClickLinstener){
-        this.onItemClickLinstener=onItemClickLinstener
+
+    fun setOnCLickListener(onItemClickListener: OnItemClickListener) {
+        this.onItemClickListener = onItemClickListener
     }
 
 
@@ -50,12 +72,32 @@ class ProvidersAdapters(options:FirestoreRecyclerOptions<Provider>):
             }
 
             itemProviderBinding.root.setOnClickListener {
-                if (adapterPosition!=RecyclerView.NO_POSITION && onItemClickLinstener!=null){
+                if (adapterPosition != RecyclerView.NO_POSITION && onItemClickListener != null) {
                     val providerId=snapshots.getSnapshot(adapterPosition).id
-                    onItemClickLinstener!!.onItemClicked(providerId=providerId)
+                    onItemClickListener!!.onItemClicked(providerId = providerId)
 
                 }
             }
         }
     }
+
+    inner class WishListItem(private val itemWishListProviderBinding: ItemWishListProviderBinding) :
+        RecyclerView.ViewHolder(itemWishListProviderBinding.root) {
+
+        fun bindItem(provider: Provider) {
+            itemWishListProviderBinding.provider = provider
+            itemWishListProviderBinding.executePendingBindings()
+            itemWishListProviderBinding.root.setOnClickListener {
+                if (adapterPosition != RecyclerView.NO_POSITION && onItemClickListener != null) {
+                    val providerId = snapshots.getSnapshot(adapterPosition).id
+                    onItemClickListener!!.onItemClicked(providerId = providerId)
+                }
+            }
+            if (adapterPosition == providerList!!.size - 1) {
+                itemWishListProviderBinding.view.visibility = View.INVISIBLE
+            }
+        }
+    }
+
+
 }

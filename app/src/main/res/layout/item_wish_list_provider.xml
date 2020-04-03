@@ -12,13 +12,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/circleImageView3"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            app:ImgCProvider="@{provider.personalImageUri"
+            app:ImgCProvider="@{provider.personalImageUri}"
             app:layout_constraintBottom_toBottomOf="@+id/appCompatRatingBar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_provider_name"
@@ -44,6 +44,7 @@
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="@+id/tv_provider_name"
             app:layout_constraintTop_toBottomOf="@+id/tv_provider_name"
+            android:text="@{provider.serviceType}"
             tools:text="Service Type" />
 
         <androidx.appcompat.widget.AppCompatRatingBar
@@ -52,14 +53,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginEnd="16dp"
             android:isIndicator="true"
             android:numStars="5"
             android:rating="4"
             android:stepSize="0.5"
             android:theme="@style/ratingStyle"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageView4"
             app:layout_constraintTop_toBottomOf="@+id/tv_provider_service" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/appCompatRatingBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="0.2dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/txtGray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_provider_name"
+            app:layout_constraintTop_toBottomOf="@+id/appCompatRatingBar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

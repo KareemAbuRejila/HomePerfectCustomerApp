@@ -107,12 +107,6 @@ class HomeActivity : StandardActivity(),
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
-    override fun onBackPressed() {
-        if (navController.currentDestination!!.id != 0) {
-            navController.currentDestination!!.id = 0
-        } else
-            super.onBackPressed()
-    }
 
 
     private fun checkToken() {
@@ -203,7 +197,7 @@ class HomeActivity : StandardActivity(),
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         val drawerLayout: DrawerLayout = activityHomeBinding.drawerLayout
-        val navView: NavigationView = activityHomeBinding.navView;
+        val navView: NavigationView = activityHomeBinding.navView
         navController = findNavController(R.id.nav_host_fragment)
 
         // Passing each menu ID as a set of Ids because each
@@ -298,10 +292,10 @@ class HomeActivity : StandardActivity(),
     }
     private fun createLocationRequest() {
         mLocationRequest = LocationRequest()
-        mLocationRequest!!.setInterval(UPDATE_INTERVAL.toLong())
-        mLocationRequest!!.setFastestInterval(FASTEST_INTERVAL.toLong())
-        mLocationRequest!!.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-        mLocationRequest!!.setSmallestDisplacement(DISPLACEMENT.toFloat())
+        mLocationRequest!!.interval = UPDATE_INTERVAL.toLong()
+        mLocationRequest!!.fastestInterval = FASTEST_INTERVAL.toLong()
+        mLocationRequest!!.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        mLocationRequest!!.smallestDisplacement = DISPLACEMENT.toFloat()
     }
     override fun onConnected(p0: Bundle?) {
         startLocationUpdates()
@@ -310,7 +304,7 @@ class HomeActivity : StandardActivity(),
         mGoogleApiClient!!.connect()
     }
     override fun onConnectionFailed(p0: ConnectionResult)   {
-        Toast.makeText(this, p0.getErrorMessage(), Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, p0.errorMessage, Toast.LENGTH_SHORT).show()
 
     }
     override fun onLocationChanged(p0: Location?) {
