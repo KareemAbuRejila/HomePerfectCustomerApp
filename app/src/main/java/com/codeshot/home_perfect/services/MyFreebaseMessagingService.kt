@@ -1,6 +1,5 @@
 package com.codeshot.home_perfect.services
 
-import android.R.id.message
 import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -13,8 +12,8 @@ import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import com.codeshot.home_perfect.Common.Common.CURRENT_USER_KEY
-import com.codeshot.home_perfect.Common.Common.TOKENS_REF
+import com.codeshot.home_perfect.common.Common.CURRENT_USER_KEY
+import com.codeshot.home_perfect.common.Common.TOKENS_REF
 import com.codeshot.home_perfect.models.Token
 import com.codeshot.home_perfect_provider.Helpers.NotificationsHelper
 import com.google.firebase.auth.FirebaseAuth

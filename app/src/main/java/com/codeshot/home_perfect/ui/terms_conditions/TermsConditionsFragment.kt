@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.codeshot.home_perfect.R
 
 class TermsConditionsFragment : Fragment() {
-
     private lateinit var sendViewModel: TermsConditionsViewModel
 
     override fun onCreateView(
@@ -23,7 +22,7 @@ class TermsConditionsFragment : Fragment() {
             ViewModelProviders.of(this).get(TermsConditionsViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_send, container, false)
         val textView: TextView = root.findViewById(R.id.text_send)
-        sendViewModel.text.observe(this, Observer {
+        sendViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root

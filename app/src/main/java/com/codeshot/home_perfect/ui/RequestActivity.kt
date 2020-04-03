@@ -3,7 +3,7 @@ package com.codeshot.home_perfect.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
-import com.codeshot.home_perfect.Common.Common.REQUESTS_REF
+import com.codeshot.home_perfect.common.Common.REQUESTS_REF
 import com.codeshot.home_perfect.R
 import com.codeshot.home_perfect.databinding.ActivityRequestBinding
 import com.codeshot.home_perfect.models.Request

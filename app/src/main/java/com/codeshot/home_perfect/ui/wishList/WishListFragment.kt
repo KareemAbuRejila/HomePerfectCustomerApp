@@ -4,28 +4,36 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import com.codeshot.home_perfect.R
+import androidx.lifecycle.ViewModelProvider
+import com.codeshot.home_perfect.databinding.FragmentWishListBinding
 
 class WishListFragment : Fragment() {
 
+    private lateinit var fragmentWishListBinding: FragmentWishListBinding
     private lateinit var slideshowViewModel: WishListViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        slideshowViewModel =
+            ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+                .create(WishListViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        slideshowViewModel =
-            ViewModelProviders.of(this).get(WishListViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_slideshow, container, false)
-        val textView: TextView = root.findViewById(R.id.text_slideshow)
-        slideshowViewModel.text.observe(this, Observer {
-            textView.text = it
+        fragmentWishListBinding=FragmentWishListBinding.inflate(inflater,container,false)
+        return fragmentWishListBinding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        slideshowViewModel.text.observe(viewLifecycleOwner, Observer {
+            fragmentWishListBinding.textSlideshow.text = it
         })
-        return root
     }
 }

@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.ProgressDialog
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.Resources
@@ -20,10 +19,10 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import com.codeshot.home_perfect.Common.Common
-import com.codeshot.home_perfect.Common.Common.CURRENT_USER_KEY
-import com.codeshot.home_perfect.Common.Common.USERS_REF
+import androidx.lifecycle.ViewModelProvider
+import com.codeshot.home_perfect.common.Common
+import com.codeshot.home_perfect.common.Common.CURRENT_USER_KEY
+import com.codeshot.home_perfect.common.Common.USERS_REF
 import com.codeshot.home_perfect.R
 import com.codeshot.home_perfect.databinding.FragmentProfileBinding
 import com.codeshot.home_perfect.models.User
@@ -39,13 +38,16 @@ class ProfileFragment : Fragment() {
     private lateinit var profileBinding: FragmentProfileBinding
     private var user:User= User()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        profileViewModel=ViewModelProvider.AndroidViewModelFactory(requireActivity().application).create(
+            ProfileViewModel::class.java)
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        profileViewModel =
-            ViewModelProviders.of(this).get(ProfileViewModel::class.java)
         profileBinding=DataBindingUtil.inflate(inflater,R.layout.fragment_profile,container,false)
         return profileBinding.root
     }

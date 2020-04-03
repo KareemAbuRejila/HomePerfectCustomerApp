@@ -9,7 +9,8 @@
     <color name="HeadText">#000000</color>
     <color name="MoreStyleText">#00aeff</color>
     <color name="Icon">#FFFFFF</color>
-    <color name="greenLight">#59ff22</color>
+    <color name="greenLight">#1FF800</color>
+    <color name="redLight">#FF0000</color>
     <color name="itemTabLine">#001eff</color>
     <color name="backgroundColor">#AB151C25</color>
 </resources>

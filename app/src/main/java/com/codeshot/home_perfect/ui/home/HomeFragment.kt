@@ -9,11 +9,11 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import cc.cloudist.acplibrary.ACProgressBaseDialog
-import com.codeshot.home_perfect.Common.Common.PROVIDERS_REF
-import com.codeshot.home_perfect.Common.Common.SERVICES_REF
-import com.codeshot.home_perfect.Common.Common.SERVICE_Providers
+import com.codeshot.home_perfect.common.Common.PROVIDERS_REF
+import com.codeshot.home_perfect.common.Common.SERVICES_REF
+import com.codeshot.home_perfect.common.Common.SERVICE_Providers
 import com.codeshot.home_perfect.R
 import com.codeshot.home_perfect.adapters.RecentProvidersAdapters
 import com.codeshot.home_perfect.adapters.ServicesAdapters
@@ -24,7 +24,6 @@ import com.codeshot.home_perfect.models.Service
 import com.codeshot.home_perfect.ui.provider_profile.ProviderProfileDialog
 import com.codeshot.home_perfect.ui.service_activity.ServiceActivity
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import java.util.*
 
@@ -42,8 +41,7 @@ class HomeFragment : Fragment(), TopProvidersAdapters.OnItemTopProviderLinstener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (homeViewModel == null) {
-            homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel::class.java)
+            homeViewModel =ViewModelProvider.AndroidViewModelFactory(requireActivity().application).create(HomeViewModel::class.java)
         }
         // Access a Cloud Firestore instance from Activity
         val queryTopProvider = PROVIDERS_REF.orderBy("rate", Query.Direction.DESCENDING)
@@ -53,6 +51,9 @@ class HomeFragment : Fragment(), TopProvidersAdapters.OnItemTopProviderLinstener
             .setQuery(queryTopProvider, Provider::class.java)
             .build()
         providersAdapters = TopProvidersAdapters(options)
+
+
+
 
 
 //        homeViewModel!!.providers.observe(this, Observer {

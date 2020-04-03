@@ -41,6 +41,12 @@
                     app:ImgVProvider="@{provider.personalImageUri}"
                     tools:srcCompat="@tools:sample/avatars" />
 
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/gradient_bg" />
+
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         </com.google.android.material.appbar.AppBarLayout>

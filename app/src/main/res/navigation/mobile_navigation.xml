@@ -29,7 +29,7 @@
         android:id="@+id/nav_wishlist"
         android:name="com.codeshot.home_perfect.ui.wishList.WishListFragment"
         android:label="@string/menu_wishList"
-        tools:layout="@layout/fragment_slideshow" >
+        tools:layout="@layout/fragment_wish_list" >
         <action
             android:id="@+id/action_nav_wishlist_to_nav_myBooking"
             app:destination="@id/nav_myBooking" />

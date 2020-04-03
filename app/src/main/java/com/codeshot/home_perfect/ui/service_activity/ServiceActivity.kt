@@ -1,13 +1,12 @@
 package com.codeshot.home_perfect.ui.service_activity
 
 import android.os.Bundle
-import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.codeshot.home_perfect.Common.Common
-import com.codeshot.home_perfect.Common.StandardActivity
+import com.codeshot.home_perfect.common.Common
+import com.codeshot.home_perfect.common.StandardActivity
 import com.codeshot.home_perfect.R
 import com.codeshot.home_perfect.adapters.ProvidersAdapters
 import com.codeshot.home_perfect.databinding.ActivityServiceBinding
@@ -15,7 +14,6 @@ import com.codeshot.home_perfect.models.Provider
 import com.codeshot.home_perfect.ui.provider_profile.ProviderProfileDialog
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.tabs.TabLayout
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldPath
 
 class ServiceActivity : StandardActivity(), ProvidersAdapters.OnItemClickLinstener {
@@ -28,7 +26,7 @@ class ServiceActivity : StandardActivity(), ProvidersAdapters.OnItemClickLinsten
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityServiceBinding = DataBindingUtil.setContentView(this, R.layout.activity_service)
-        serviceViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(application)
+        serviceViewModel = ViewModelProvider.AndroidViewModelFactory(application)
             .create(ServiceViewModel::class.java)
         activityServiceBinding.tabLayoutService.selectTab(
             activityServiceBinding.tabLayoutService.getTabAt(

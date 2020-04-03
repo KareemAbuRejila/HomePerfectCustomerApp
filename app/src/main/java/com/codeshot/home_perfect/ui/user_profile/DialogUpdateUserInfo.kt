@@ -4,7 +4,6 @@ package com.codeshot.home_perfect.ui.user_profile
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -17,9 +16,8 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import com.codeshot.home_perfect.Common.Common
-import com.codeshot.home_perfect.Common.Common.CURRENT_USER_KEY
-import com.codeshot.home_perfect.Common.Common.USERS_REF
+import com.codeshot.home_perfect.common.Common
+import com.codeshot.home_perfect.common.Common.USERS_REF
 import com.codeshot.home_perfect.HomeActivity
 import com.codeshot.home_perfect.R
 import com.codeshot.home_perfect.databinding.DialogUpdateUserInfoBinding

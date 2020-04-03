@@ -3,13 +3,11 @@ package com.codeshot.home_perfect.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.codeshot.home_perfect.Common.Common.PROVIDERS_REF
-import com.codeshot.home_perfect.Common.Common.SERVICES_REF
+import com.codeshot.home_perfect.common.Common.PROVIDERS_REF
+import com.codeshot.home_perfect.common.Common.SERVICES_REF
 import com.codeshot.home_perfect.models.Provider
 import com.codeshot.home_perfect.models.Service
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.Source
 
 class HomeViewModel : ViewModel() {
 

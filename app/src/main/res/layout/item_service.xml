@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:background="@drawable/bg_text"
+                android:background="@drawable/bg_text_service"
                 android:gravity="center"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"

@@ -8,8 +8,6 @@ import com.codeshot.home_perfect.R
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import java.io.Serializable
-import java.text.DateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
@@ -68,9 +66,9 @@ class Provider : Serializable {
         @BindingAdapter("ImgCProviderStatus")
         fun loadImageStatus(view: CircleImageView?, online: Boolean) {
             if (online)
-                view!!.setImageResource(android.R.color.holo_green_light)
+                view!!.setImageResource(R.color.greenLight)
             else
-                view!!.setImageResource(android.R.color.holo_red_light)
+                view!!.setImageResource(R.color.redLight)
 
         }
 
@@ -79,8 +77,11 @@ class Provider : Serializable {
         fun loadStatus(textView: TextView, online: Boolean) {
             if (online) {
                 textView.text = textView.context.resources.getString(R.string.online)
+                textView.setBackgroundColor(textView.context.resources.getColor(R.color.greenLight))
             } else {
                 textView.text = textView.context.resources.getString(R.string.offline)
+                textView.setBackgroundColor(textView.context.resources.getColor(R.color.redLight))
+
             }
         }
 

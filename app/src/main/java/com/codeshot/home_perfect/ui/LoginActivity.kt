@@ -18,7 +18,6 @@ import androidx.databinding.DataBindingUtil
 import cc.cloudist.acplibrary.ACProgressBaseDialog
 import cc.cloudist.acplibrary.ACProgressConstant
 import cc.cloudist.acplibrary.ACProgressFlower
-import com.codeshot.home_perfect.Common.Common.USERS_REF
 import com.codeshot.home_perfect.HomeActivity
 import com.codeshot.home_perfect.R
 import com.codeshot.home_perfect.databinding.ActivityLoginBinding
@@ -27,7 +26,6 @@ import com.google.firebase.FirebaseException
 import com.google.firebase.auth.*
 import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
 import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks
-import com.google.firebase.database.FirebaseDatabase
 import java.util.concurrent.TimeUnit
 
 

@@ -69,7 +69,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:background="#80000000"
+                android:background="@drawable/bg_text_top_provider"
                 android:gravity="clip_horizontal|clip_vertical"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="@+id/imgPersonalImgITEMTOP"

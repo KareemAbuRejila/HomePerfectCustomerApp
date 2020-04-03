@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.codeshot.home_perfect.Common.Common.CURRENT_USER_KEY
-import com.codeshot.home_perfect.Common.Common.REQUESTS_REF
-import com.codeshot.home_perfect.Common.Common.USERS_REF
+import com.codeshot.home_perfect.common.Common.CURRENT_USER_KEY
+import com.codeshot.home_perfect.common.Common.REQUESTS_REF
+import com.codeshot.home_perfect.common.Common.USERS_REF
 import com.codeshot.home_perfect.models.Request
 import com.codeshot.home_perfect.models.User
 import com.google.firebase.firestore.Query

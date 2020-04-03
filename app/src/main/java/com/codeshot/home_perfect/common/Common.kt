@@ -1,10 +1,9 @@
-package com.codeshot.home_perfect.Common
+package com.codeshot.home_perfect.common
 
 
 import android.location.Location
 import com.codeshot.home_perfect.remote.FCMClient
 import com.codeshot.home_perfect.remote.IFCMService
-import com.firebase.geofire.GeoFire
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase

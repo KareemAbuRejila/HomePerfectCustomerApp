@@ -11,12 +11,12 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import cc.cloudist.acplibrary.ACProgressConstant
 import cc.cloudist.acplibrary.ACProgressFlower
-import com.codeshot.home_perfect.Common.Common
-import com.codeshot.home_perfect.Common.Common.CURRENT_USER_IMAGE
-import com.codeshot.home_perfect.Common.Common.CURRENT_USER_KEY
-import com.codeshot.home_perfect.Common.Common.CURRENT_USER_NAME
-import com.codeshot.home_perfect.Common.Common.PROVIDERS_REF
-import com.codeshot.home_perfect.Common.Common.USERS_REF
+import com.codeshot.home_perfect.common.Common
+import com.codeshot.home_perfect.common.Common.CURRENT_USER_IMAGE
+import com.codeshot.home_perfect.common.Common.CURRENT_USER_KEY
+import com.codeshot.home_perfect.common.Common.CURRENT_USER_NAME
+import com.codeshot.home_perfect.common.Common.PROVIDERS_REF
+import com.codeshot.home_perfect.common.Common.USERS_REF
 import com.codeshot.home_perfect.R
 import com.codeshot.home_perfect.databinding.DialogBookingProviderBinding
 import com.codeshot.home_perfect.models.*
@@ -33,7 +33,6 @@ import com.kofigyan.stateprogressbar.StateProgressBar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.*
 import kotlin.collections.HashMap
 
 class BookingProviderDialog(val provider: Provider?) : DialogFragment() {

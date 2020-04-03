@@ -87,10 +87,10 @@
             <LinearLayout
                 android:id="@+id/linearLayout"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:layout_weight="3"
-                android:layout_marginTop="10dp">
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -101,22 +101,22 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:weightSum="3"
-                        android:baselineAligned="false">
+                        android:baselineAligned="false"
+                        android:weightSum="3">
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:layout_gravity="center" />
+                            android:layout_gravity="center"
+                            android:gravity="center" />
 
                         <TextView
                             android:id="@+id/TVviewsProvider"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            tools:text="25.2 k"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp"
+                            tools:text="25.2 k" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -127,8 +127,8 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:layout_gravity="center" />
+                            android:layout_gravity="center"
+                            android:gravity="center" />
 
                         <TextView
                             android:id="@+id/TVlikesProvider"
@@ -143,13 +143,13 @@
 
                 <TextView
                     android:id="@+id/status"
-                    android:layout_width="80dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="end"
-                    android:background="@android:color/holo_green_light"
+                    android:background="@drawable/ic_status_on"
                     android:gravity="center"
                     android:textColor="@android:color/white"
-                    android:textSize="12sp"
+                    android:textSize="10sp"
                     app:providerStatus="@{provider.online}"
                     tools:text="Online" />
 

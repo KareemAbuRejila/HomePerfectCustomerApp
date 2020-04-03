@@ -1,4 +1,4 @@
-package com.codeshot.home_perfect.Common
+package com.codeshot.home_perfect.common
 
 import android.content.Intent
 import android.view.MenuItem
@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.codeshot.home_perfect.R
 
 
-open class StandardActivity : AppCompatActivity() {
+open class StandardButtomDialog : AppCompatActivity() {
 
     override fun startActivity(intent: Intent?) {
         super.startActivity(intent)

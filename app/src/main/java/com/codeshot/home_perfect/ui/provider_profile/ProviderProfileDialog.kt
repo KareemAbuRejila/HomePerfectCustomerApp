@@ -8,14 +8,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.andrefrsousa.superbottomsheet.SuperBottomSheetFragment
-import com.codeshot.home_perfect.Common.Common
-import com.codeshot.home_perfect.Common.Common.CURRENT_TOKEN
-import com.codeshot.home_perfect.Common.Common.CURRENT_USER_KEY
-import com.codeshot.home_perfect.Common.Common.CURRENT_USER_NAME
-import com.codeshot.home_perfect.Common.Common.CURRENT_USER_PHONE
-import com.codeshot.home_perfect.Common.Common.PROVIDERS_REF
-import com.codeshot.home_perfect.Common.Common.TOKENS_REF
-import com.codeshot.home_perfect.Common.Common.USERS_REF
+import com.codeshot.home_perfect.common.Common
+import com.codeshot.home_perfect.common.Common.CURRENT_TOKEN
+import com.codeshot.home_perfect.common.Common.CURRENT_USER_KEY
+import com.codeshot.home_perfect.common.Common.CURRENT_USER_NAME
+import com.codeshot.home_perfect.common.Common.CURRENT_USER_PHONE
+import com.codeshot.home_perfect.common.Common.PROVIDERS_REF
+import com.codeshot.home_perfect.common.Common.TOKENS_REF
+import com.codeshot.home_perfect.common.Common.USERS_REF
 import com.codeshot.home_perfect.R
 import com.codeshot.home_perfect.databinding.DialogProviderProfileBinding
 import com.codeshot.home_perfect.models.*
@@ -84,10 +84,10 @@ class ProviderProfileDialog : SuperBottomSheetFragment {
                     dialogProviderProfileBinding.btnBookingDialog.visibility=View.VISIBLE
 //                    dialogProviderProfileBinding.btnBookingDialog.setTextColor(requireActivity().resources.getColor(android.R.color.holo_green_light))
                     dialogProviderProfileBinding.btnBookingDialog.isEnabled=true
-                    dialogProviderProfileBinding.contentProfile.status.setBackgroundColor(requireContext().resources.getColor(android.R.color.holo_green_light))
+                    dialogProviderProfileBinding.contentProfile.status.background=requireContext().resources.getDrawable(R.drawable.ic_status_on)
                 }else{
                     dialogProviderProfileBinding.btnBookingDialog.visibility=View.GONE
-                    dialogProviderProfileBinding.contentProfile.status.setBackgroundColor(requireContext().resources.getColor(android.R.color.holo_red_light))
+                    dialogProviderProfileBinding.contentProfile.status.background=requireContext().resources.getDrawable(R.drawable.ic_status_off)
 
                 }
 

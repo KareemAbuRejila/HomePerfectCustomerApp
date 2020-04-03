@@ -3,9 +3,8 @@ package com.codeshot.home_perfect.ui.profile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.codeshot.home_perfect.Common.Common.CURRENT_USER_KEY
-import com.codeshot.home_perfect.Common.Common.CURRENT_USER_PHONE
-import com.codeshot.home_perfect.Common.Common.USERS_REF
+import com.codeshot.home_perfect.common.Common.CURRENT_USER_KEY
+import com.codeshot.home_perfect.common.Common.USERS_REF
 import com.codeshot.home_perfect.models.User
 
 class ProfileViewModel : ViewModel() {
