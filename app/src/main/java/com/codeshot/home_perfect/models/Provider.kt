@@ -8,8 +8,6 @@ import com.codeshot.home_perfect.R
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import java.io.Serializable
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 
 class Provider : Serializable {
@@ -24,6 +22,7 @@ class Provider : Serializable {
     var serviceType: String? = ""
     var rate: Double? = 0.0
     var perHour: Double? = 0.0
+    var views: Int = 0
     var address: Map<String, String>? = HashMap()
     var online: Boolean = false
     var requests= ArrayList<String>()
