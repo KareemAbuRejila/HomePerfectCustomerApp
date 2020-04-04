@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import cc.cloudist.acplibrary.ACProgressBaseDialog
 import com.codeshot.home_perfect.adapters.ProvidersAdapters
 import com.codeshot.home_perfect.common.Common
 import com.codeshot.home_perfect.databinding.FragmentWishListBinding
@@ -17,12 +18,17 @@ class WishListFragment : Fragment(), ProvidersAdapters.OnItemClickListener {
 
     private lateinit var fragmentWishListBinding: FragmentWishListBinding
     private lateinit var slideshowViewModel: WishListViewModel
+    private lateinit var loadingDialog: ACProgressBaseDialog
+    private lateinit var providersAdapters: ProvidersAdapters
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         slideshowViewModel =
             ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
                 .create(WishListViewModel::class.java)
+        loadingDialog = Common.LOADING_DIALOG(requireContext())
+        loadingDialog.show()
     }
 
     override fun onCreateView(
@@ -34,24 +40,22 @@ class WishListFragment : Fragment(), ProvidersAdapters.OnItemClickListener {
         return fragmentWishListBinding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val query = Common.PROVIDERS_REF
         val options = FirestoreRecyclerOptions.Builder<Provider>()
             .setQuery(query, Provider::class.java)
             .build()
-        val providersAdapter = ProvidersAdapters(options)
-        providersAdapter.setOnCLickListener(this)
-        providersAdapter.setViewType(providersAdapter.WISHLIST_TYPE)
-        fragmentWishListBinding.adapter = providersAdapter
+        providersAdapters = ProvidersAdapters(options)
+        providersAdapters.setOnCLickListener(this)
+        providersAdapters.setViewType(providersAdapters.WISHLIST_TYPE)
+        fragmentWishListBinding.adapter = providersAdapters
+    }
 
-        providersAdapter.startListening()
+    override fun onStart() {
+        super.onStart()
+        providersAdapters.startListening()
+        loadingDialog.dismiss()
     }
 
     override fun onItemClicked(providerId: String) {

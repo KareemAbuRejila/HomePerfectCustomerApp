@@ -24,6 +24,8 @@ class User : Serializable {
     var bod:String?=null
     var gender:String?=null
     var address=HashMap<String,String>()
+    var rate: Double? = 0.0
+    var rates = ArrayList<Rate>()
 
 
     constructor(personalImageUri: String, userName: String) {

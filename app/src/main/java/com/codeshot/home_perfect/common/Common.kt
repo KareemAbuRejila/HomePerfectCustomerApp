@@ -2,6 +2,7 @@ package com.codeshot.home_perfect.common
 
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.location.Location
 import cc.cloudist.acplibrary.ACProgressBaseDialog
@@ -41,6 +42,7 @@ object Common {
     var PROVIDERS_REF= ROOT_REF.collection("Providers")
     val SERVICES_REF= ROOT_REF.collection("Services")
     val REQUESTS_REF= ROOT_REF.collection("Requests")
+    val RATINGS = ROOT_REF.collection("Ratings")
 
     private const val FCM_URL = "https://fcm.googleapis.com/"
     val TOKENS_REF= ROOT_REF.collection("Tokens")
@@ -55,6 +57,13 @@ object Common {
             .text("Please Wait ....!")
             .fadeColor(Color.DKGRAY).build()
         return acProgressBaseDialog
+    }
+
+    fun SHARED_PREF(context: Context): SharedPreferences {
+        return context.getSharedPreferences(
+            "com.codeshot.home_perfect",
+            Context.MODE_PRIVATE
+        )
     }
 
 

@@ -20,10 +20,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import cc.cloudist.acplibrary.ACProgressBaseDialog
 import com.codeshot.home_perfect.common.Common
 import com.codeshot.home_perfect.common.Common.CURRENT_USER_KEY
 import com.codeshot.home_perfect.common.Common.USERS_REF
 import com.codeshot.home_perfect.R
+import com.codeshot.home_perfect.common.Common.LOADING_DIALOG
 import com.codeshot.home_perfect.databinding.FragmentProfileBinding
 import com.codeshot.home_perfect.models.User
 import com.google.firebase.storage.FirebaseStorage
@@ -37,11 +39,14 @@ class ProfileFragment : Fragment() {
     private lateinit var profileViewModel: ProfileViewModel
     private lateinit var profileBinding: FragmentProfileBinding
     private var user:User= User()
+    private lateinit var loadingDialog: ACProgressBaseDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         profileViewModel=ViewModelProvider.AndroidViewModelFactory(requireActivity().application).create(
             ProfileViewModel::class.java)
+        loadingDialog = LOADING_DIALOG(requireContext())
+        loadingDialog.show()
     }
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,12 +59,11 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         profileViewModel.user.observe(viewLifecycleOwner, Observer {
             user=it
             profileBinding.user=it
+            loadingDialog.dismiss()
         })
-
         profileBinding.userImage.setOnClickListener {
             showImageInDialog()
         }

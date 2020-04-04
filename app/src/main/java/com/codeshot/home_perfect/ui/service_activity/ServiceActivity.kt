@@ -2,6 +2,7 @@ package com.codeshot.home_perfect.ui.service_activity
 
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,6 +29,7 @@ class ServiceActivity : StandardActivity(), ProvidersAdapters.OnItemClickListene
         activityServiceBinding = DataBindingUtil.setContentView(this, R.layout.activity_service)
         serviceViewModel = ViewModelProvider.AndroidViewModelFactory(application)
             .create(ServiceViewModel::class.java)
+        serviceViewModel.getInstance(this)
         activityServiceBinding.tabLayoutService.selectTab(
             activityServiceBinding.tabLayoutService.getTabAt(
                 1
@@ -44,45 +46,18 @@ class ServiceActivity : StandardActivity(), ProvidersAdapters.OnItemClickListene
         providersAdapter!!.setViewType(providersAdapter!!.PROVIDERS_TYPE)
         providersAdapter!!.setOnCLickListener(this)
         activityServiceBinding.adapter = providersAdapter
+        serviceViewModel.providersOption!!.observe(this, Observer {
+            providersAdapter!!.updateOptions(it)
+        })
 
-//        serviceViewModel.providers.observe(this, Observer { prviders ->
-//            providersAdapter.setList(prviders)
-//        })
         activityServiceBinding.tabLayoutService.addOnTabSelectedListener(object :
             TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
 
                 when {
-                    tab!!.text == "All" -> {
-                        val queryAll = Common.PROVIDERS_REF.whereIn(
-                            FieldPath.documentId().toString(),
-                            providersId!!
-                        )
-                        val optionsAll = FirestoreRecyclerOptions.Builder<Provider>()
-                            .setQuery(queryAll, Provider::class.java)
-                            .build()
-                        providersAdapter!!.updateOptions(optionsAll)
-                    }
-                    tab.text == "Male" -> {
-                        val queryMale = Common.PROVIDERS_REF.whereIn(
-                            FieldPath.documentId().toString(),
-                            providersId!!
-                        ).whereEqualTo("gender", "Male")
-                        val optionsMale = FirestoreRecyclerOptions.Builder<Provider>()
-                            .setQuery(queryMale, Provider::class.java)
-                            .build()
-                        providersAdapter!!.updateOptions(optionsMale)
-                    }
-                    tab.text == "Female" -> {
-                        val queryFemale = Common.PROVIDERS_REF.whereIn(
-                            FieldPath.documentId().toString(),
-                            providersId!!
-                        ).whereEqualTo("gender", "Female")
-                        val optionsFemale = FirestoreRecyclerOptions.Builder<Provider>()
-                            .setQuery(queryFemale, Provider::class.java)
-                            .build()
-                        providersAdapter!!.updateOptions(optionsFemale)
-                    }
+                    tab!!.text == "All" -> serviceViewModel.getAll(providersId = providersId!!)
+                    tab.text == "Male" -> serviceViewModel.getMales(providersId = providersId!!)
+                    tab.text == "Female" -> serviceViewModel.getFemales(providersId = providersId!!)
                 }
             }
 

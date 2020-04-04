@@ -26,6 +26,10 @@ class Provider : Serializable {
     var online: Boolean = false
     var requests= ArrayList<String>()
     var additions= ArrayList<Addition>()
+    var rates = ArrayList<Rate>()
+    var views: Int? = 0
+    var likes: Int? = 0
+
 
     constructor()
     constructor(personalImageUri: String?, userName: String?, serviceType: String?) {

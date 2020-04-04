@@ -54,6 +54,7 @@ class DialogUpdateUserInfo : DialogFragment() {
         // Inflate the layout for this fragment
         updateUserInfoBinding=DialogUpdateUserInfoBinding.inflate(layoutInflater, container, false)
         return updateUserInfoBinding.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -93,7 +93,7 @@ class ProvidersAdapters(options:FirestoreRecyclerOptions<Provider>):
                     onItemClickListener!!.onItemClicked(providerId = providerId)
                 }
             }
-            if (adapterPosition == providerList!!.size - 1) {
+            if (adapterPosition == snapshots.size - 1) {
                 itemWishListProviderBinding.view.visibility = View.INVISIBLE
             }
         }
