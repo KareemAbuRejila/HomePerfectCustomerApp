@@ -36,7 +36,6 @@ class MyFreebaseMessagingService : FirebaseMessagingService() {
         if (title=="Booking"){
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     showAcceptedRequestNotification(requestStatus)
-
             }
         }
     }

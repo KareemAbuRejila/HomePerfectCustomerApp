@@ -24,12 +24,20 @@
         <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
         <item name="editTextBackground">@android:color/transparent</item>
     </style>
-    <style name="FullDialogTheme" parent="Theme.AppCompat.Light.DialogWhenLarge">
+
+    <style name="BookingDialogTheme" parent="Theme.AppCompat.Light.DialogWhenLarge">
         <!--        <item name="android:windowTranslucentStatus">true</item>-->
         <item name="windowNoTitle">true</item>
         <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
         <item name="editTextBackground">@android:color/transparent</item>
-<!--        <item name="android:windowTranslucentStatus">true</item>-->
+
+    </style>
+
+    <style name="ProfileProviderDialogTheme" parent="Theme.AppCompat.Light.DialogWhenLarge">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
+        <item name="editTextBackground">@android:color/transparent</item>
+
     </style>
 
     <style name="Splash" parent="Theme.MaterialComponents.Light.NoActionBar">

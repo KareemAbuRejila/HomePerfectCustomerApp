@@ -74,8 +74,17 @@ class HomeFragment : Fragment(), TopProvidersAdapters.OnItemTopProviderListener,
         super.onViewCreated(view, savedInstanceState)
 
         homeBinding.topProviderAdapter = providersAdapters
+        homeViewModel!!.providersOption.observe(viewLifecycleOwner, Observer {
+            providersAdapters.updateOptions(it)
+        })
         homeBinding.servicesAdapter = servicesAdapters
+        homeViewModel!!.servicesOption.observe(viewLifecycleOwner, Observer {
+            servicesAdapters.updateOptions(it)
+        })
         homeBinding.onlineProviderAdapter = onlineProvidersAdapters
+        homeViewModel!!.onlineProvidersOption.observe(viewLifecycleOwner, Observer {
+            onlineProvidersAdapters.updateOptions(it)
+        })
 
         homeBinding.homeLayout.visibility = View.VISIBLE
     }

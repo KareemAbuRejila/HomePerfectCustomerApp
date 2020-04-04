@@ -6,45 +6,40 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.codeshot.home_perfect.databinding.ItemBookBinding
 import com.codeshot.home_perfect.models.Request
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
-class MyBookingAdapter : RecyclerView.Adapter<MyBookingAdapter.ItemBook>() {
-    private var requestsArray:List<Request>?=ArrayList<Request>()
+class MyBookingAdapter(options: FirestoreRecyclerOptions<Request>) :
+    FirestoreRecyclerAdapter<Request, MyBookingAdapter.ItemBook>(options) {
     private lateinit var requestListener: ItemRequestListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemBook {
-        val inflater=LayoutInflater.from(parent.context)
-        val itemBinding=ItemBookBinding.inflate(inflater,parent,false)
+        val inflater = LayoutInflater.from(parent.context)
+        val itemBinding = ItemBookBinding.inflate(inflater, parent, false)
         return ItemBook(itemBookBinding = itemBinding)
     }
 
-    override fun getItemCount(): Int {
-        return requestsArray!!.size
+    override fun onBindViewHolder(holder: ItemBook, position: Int, model: Request) {
+        holder.bind(request = model)
     }
 
-    override fun onBindViewHolder(holder: ItemBook, position: Int) {
-        val request=requestsArray!![position]
-        holder.bind(request)
-    }
-    fun setList(requestsArray:List<Request>){
-        this.requestsArray=requestsArray
-        notifyDataSetChanged()
-    }
-    fun setItemRequestListener(requestListener: ItemRequestListener){
-        this.requestListener=requestListener
+
+    fun setItemRequestListener(requestListener: ItemRequestListener) {
+        this.requestListener = requestListener
     }
 
-    inner class ItemBook(val itemBookBinding: ItemBookBinding):
+    inner class ItemBook(val itemBookBinding: ItemBookBinding) :
         RecyclerView.ViewHolder(itemBookBinding.root) {
-        fun bind(request:Request){
-            itemBookBinding.request=request
+        fun bind(request: Request) {
+            itemBookBinding.request = request
             itemBookBinding.executePendingBindings()
             itemBookBinding.root.setOnClickListener {
-                if (adapterPosition!=RecyclerView.NO_POSITION && requestListener!=null){
+                if (adapterPosition != RecyclerView.NO_POSITION && requestListener != null) {
                     requestListener.OnItemClicked(request = request)
                 }
             }
             itemBookBinding.circleImageView2.setOnClickListener {
-                if (adapterPosition!=RecyclerView.NO_POSITION && requestListener!=null){
+                if (adapterPosition != RecyclerView.NO_POSITION && requestListener != null) {
                     requestListener.OnImageClicked(request.to!!)
                 }
             }
@@ -53,8 +48,9 @@ class MyBookingAdapter : RecyclerView.Adapter<MyBookingAdapter.ItemBook>() {
 
     }
 
-    interface ItemRequestListener{
+    interface ItemRequestListener {
         fun OnItemClicked(request: Request)
-        fun OnImageClicked(providerId:String)
+        fun OnImageClicked(providerId: String)
     }
 }
+

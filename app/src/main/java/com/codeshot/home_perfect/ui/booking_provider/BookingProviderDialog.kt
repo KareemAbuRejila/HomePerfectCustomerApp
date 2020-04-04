@@ -1,7 +1,6 @@
 package com.codeshot.home_perfect.ui.booking_provider
 
 import android.content.ContentValues.TAG
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,8 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import cc.cloudist.acplibrary.ACProgressConstant
-import cc.cloudist.acplibrary.ACProgressFlower
 import com.codeshot.home_perfect.common.Common
 import com.codeshot.home_perfect.common.Common.CURRENT_USER_IMAGE
 import com.codeshot.home_perfect.common.Common.CURRENT_USER_KEY
@@ -46,7 +43,7 @@ class BookingProviderDialog(val provider: Provider?) : DialogFragment() {
     private val thirdStep = ThirdStepBookingFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.FullDialogTheme)
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.BookingDialogTheme)
         super.setCancelable(false)
         fcmService = Common.FCM_SERVICE
 
@@ -80,8 +77,10 @@ class BookingProviderDialog(val provider: Provider?) : DialogFragment() {
                 dialogBookingProviderBinding.stateProgressBarBooking.setCurrentStateNumber(StateProgressBar.StateNumber.TWO)
                 childFragmentManager.beginTransaction()
                     .replace(R.id.contentOfBookingSteps, secondStep).commit()
-                dialogBookingProviderBinding.imgbtnCloseToolBarBookingActivity.setVisibility(View.GONE)
-                dialogBookingProviderBinding.imgbtnBackToolBarBookingActivity.setVisibility(View.VISIBLE)
+                dialogBookingProviderBinding.imgbtnCloseToolBarBookingActivity.visibility =
+                    View.GONE
+                dialogBookingProviderBinding.imgbtnBackToolBarBookingActivity.visibility =
+                    View.VISIBLE
                 request.customerUserName= CURRENT_USER_NAME
                 request.customerUserImage= CURRENT_USER_IMAGE
                 request.providerUserName=provider!!.userName

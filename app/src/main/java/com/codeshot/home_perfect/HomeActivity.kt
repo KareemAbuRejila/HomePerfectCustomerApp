@@ -31,6 +31,7 @@ import com.codeshot.home_perfect.common.Common.CURRENT_USER_IMAGE
 import com.codeshot.home_perfect.common.Common.CURRENT_USER_KEY
 import com.codeshot.home_perfect.common.Common.CURRENT_USER_NAME
 import com.codeshot.home_perfect.common.Common.LOADING_DIALOG
+import com.codeshot.home_perfect.common.Common.SHARED_PREF
 import com.codeshot.home_perfect.common.Common.USERS_REF
 import com.codeshot.home_perfect.common.StandardActivity
 import com.codeshot.home_perfect.databinding.ActivityHomeBinding
@@ -53,6 +54,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.Source
 import com.google.firebase.iid.FirebaseInstanceId
+import com.google.gson.Gson
 import org.imperiumlabs.geofirestore.GeoFirestore
 
 class HomeActivity : StandardActivity(),
@@ -143,7 +145,7 @@ class HomeActivity : StandardActivity(),
     fun checkUserData() {
         loadingDialog.show()
         // Source can be CACHE, SERVER, or DEFAULT.
-        val source = Source.CACHE
+        val source = Source.SERVER
         USERS_REF.document(CURRENT_USER_KEY)
             .get(source).addOnSuccessListener { document ->
                 if (!document!!.exists()) {
@@ -155,8 +157,17 @@ class HomeActivity : StandardActivity(),
                     navHeaderMainBinding =
                         NavHeaderMainBinding.bind(activityHomeBinding.navView.getHeaderView(0))
                     navHeaderMainBinding.user = user
+
+                    val userGSON = Gson().toJson(user)
+                    SHARED_PREF(this).edit().putString("user", userGSON).apply()
                 }
                 loadingDialog.hide()
+            }.addOnFailureListener {
+                val userGSON = SHARED_PREF(this).getString("user", null)
+                if (userGSON != null) {
+                    val user = Gson().fromJson<User>(userGSON, User::class.java)
+                    navHeaderMainBinding.user = user
+                } else return@addOnFailureListener
             }
     }
 

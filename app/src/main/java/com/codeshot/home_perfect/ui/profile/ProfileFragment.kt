@@ -45,6 +45,8 @@ class ProfileFragment : Fragment() {
         super.onCreate(savedInstanceState)
         profileViewModel=ViewModelProvider.AndroidViewModelFactory(requireActivity().application).create(
             ProfileViewModel::class.java)
+        profileViewModel.getInstance(requireContext())
+        profileViewModel.getUser()
         loadingDialog = LOADING_DIALOG(requireContext())
         loadingDialog.show()
     }

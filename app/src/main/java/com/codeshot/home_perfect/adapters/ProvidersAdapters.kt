@@ -46,11 +46,6 @@ class ProvidersAdapters(options:FirestoreRecyclerOptions<Provider>):
         notifyDataSetChanged()
     }
 
-    fun setList(providersList:List<Provider>){
-        this.providerList=providersList
-        notifyDataSetChanged()
-    }
-
     interface OnItemClickListener {
         fun onItemClicked(providerId:String)
     }

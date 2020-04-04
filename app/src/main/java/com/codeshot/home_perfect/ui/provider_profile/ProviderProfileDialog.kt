@@ -14,6 +14,7 @@ import com.codeshot.home_perfect.common.Common.CURRENT_USER_KEY
 import com.codeshot.home_perfect.common.Common.CURRENT_USER_NAME
 import com.codeshot.home_perfect.common.Common.CURRENT_USER_PHONE
 import com.codeshot.home_perfect.common.Common.PROVIDERS_REF
+import com.codeshot.home_perfect.common.Common.SHARED_PREF
 import com.codeshot.home_perfect.common.Common.TOKENS_REF
 import com.codeshot.home_perfect.common.Common.USERS_REF
 import com.codeshot.home_perfect.databinding.DialogProviderProfileBinding
@@ -23,6 +24,7 @@ import com.codeshot.home_perfect.ui.booking_provider.BookingProviderDialog
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FieldValue
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,6 +35,8 @@ class ProviderProfileDialog : DialogFragment {
 
     private lateinit var fcmService: IFCMService
     private var provider: Provider? = null
+    private var added = false
+    private var user = User()
 
     constructor() : super()
     constructor(provider: Provider?) : super() {
@@ -42,7 +46,7 @@ class ProviderProfileDialog : DialogFragment {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //Set Dialog To FullScreenTheme
-        setStyle(STYLE_NORMAL, R.style.FullDialogTheme)
+        setStyle(STYLE_NORMAL, R.style.ProfileProviderDialogTheme)
         fcmService = Common.FCM_SERVICE
     }
 
@@ -63,11 +67,66 @@ class ProviderProfileDialog : DialogFragment {
         dialogProviderProfileBinding.provider = provider
         dialogProviderProfileBinding.contentProfile.provider = provider
         checkProviderStatus()
+        checkWishList()
 
+        dialogProviderProfileBinding.btnAddWishList.setOnClickListener {
+            if (!added) addToWishList()
+            else removeFromWishList()
+        }
         dialogProviderProfileBinding.btnBookingDialog.setOnClickListener {
             val bookingDialog = BookingProviderDialog(provider)
             bookingDialog.show(childFragmentManager, "BookingDialog")
         }
+    }
+
+    private fun checkWishList() {
+        val userGSON = SHARED_PREF(requireContext()).getString("user", null)
+        if (userGSON != null) {
+            user = Gson().fromJson<User>(userGSON, User::class.java)
+            if (user.wishList.contains(provider!!.id)) {
+                added = true
+                dialogProviderProfileBinding.btnAddWishList.setImageResource(R.drawable.ic_favorite_black_24dp)
+            } else {
+                added = false
+                dialogProviderProfileBinding.btnAddWishList.setImageResource(R.drawable.ic_favorite_border_24dp)
+            }
+        }
+    }
+
+    private fun addToWishList() {
+        USERS_REF.document(CURRENT_USER_KEY)
+            .update("wishList", FieldValue.arrayUnion(provider!!.id))
+            .addOnSuccessListener {
+                Toast.makeText(requireContext(), "Added to your wishList", Toast.LENGTH_SHORT)
+                    .show()
+                added = true
+                user.wishList.add(provider!!.id!!)
+                val userGSON = Gson().toJson(user)
+
+                SHARED_PREF(requireContext()).edit().putString("user", userGSON).apply()
+                dialogProviderProfileBinding.btnAddWishList.setImageResource(R.drawable.ic_favorite_black_24dp)
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Failed", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun removeFromWishList() {
+        USERS_REF.document(CURRENT_USER_KEY)
+            .update("wishList", FieldValue.arrayRemove(provider!!.id))
+            .addOnSuccessListener {
+                Toast.makeText(requireContext(), "Removed from your wishList", Toast.LENGTH_SHORT)
+                    .show()
+                added = false
+                user.wishList.remove(provider!!.id!!)
+                val userGSON = Gson().toJson(user)
+                SHARED_PREF(requireContext()).edit().putString("user", userGSON).apply()
+                dialogProviderProfileBinding.btnAddWishList.setImageResource(R.drawable.ic_favorite_border_24dp)
+
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Failed", Toast.LENGTH_SHORT).show()
+            }
     }
 
 
@@ -79,17 +138,17 @@ class ProviderProfileDialog : DialogFragment {
                 else {
                     val provider = documentSnapshot!!.toObject(Provider::class.java)
                     if (provider!!.online) {
-                        dialogProviderProfileBinding.btnBookingDialog.text =
-                            requireActivity().resources.getString(R.string.book)
+//                        dialogProviderProfileBinding.btnBookingDialog.text =
+//                            requireActivity().resources.getString(R.string.book)
                         dialogProviderProfileBinding.btnBookingDialog.visibility = View.VISIBLE
 //                    dialogProviderProfileBinding.btnBookingDialog.setTextColor(requireActivity().resources.getColor(android.R.color.holo_green_light))
                         dialogProviderProfileBinding.btnBookingDialog.isEnabled = true
-                        dialogProviderProfileBinding.contentProfile.status.background =
-                            requireActivity().resources.getDrawable(R.drawable.ic_status_on)
+//                        dialogProviderProfileBinding.contentProfile.status.background =
+//                            requireActivity().resources.getDrawable(R.drawable.ic_status_on)
                     } else {
                         dialogProviderProfileBinding.btnBookingDialog.visibility = View.GONE
-                        dialogProviderProfileBinding.contentProfile.status.background =
-                            requireActivity().resources.getDrawable(R.drawable.ic_status_off)
+//                        dialogProviderProfileBinding.contentProfile.status.background =
+//                            requireActivity().resources.getDrawable(R.drawable.ic_status_off)
 
                     }
 

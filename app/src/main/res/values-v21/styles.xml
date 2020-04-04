@@ -6,13 +6,21 @@
         <item name="android:statusBarColor">@android:color/white</item>
     </style>
 
-    <style name="FullDialogTheme" parent="Theme.AppCompat.Light.DialogWhenLarge">
+    <style name="BookingDialogTheme" parent="Theme.AppCompat.Light.DialogWhenLarge">
         <!--        <item name="android:windowTranslucentStatus">true</item>-->
         <item name="windowNoTitle">true</item>
         <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
         <item name="editTextBackground">@android:color/transparent</item>
         <!--        <item name="android:windowTranslucentStatus">true</item>-->
-        <item name="android:statusBarColor">@android:color/white</item>
+    </style>
+
+    <style name="ProfileProviderDialogTheme" parent="Theme.AppCompat.Light.DialogWhenLarge">
+        <!--        <item name="android:windowTranslucentStatus">true</item>-->
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
+        <item name="editTextBackground">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+
     </style>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
