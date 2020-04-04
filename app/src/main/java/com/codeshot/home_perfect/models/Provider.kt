@@ -75,10 +75,12 @@ class Provider : Serializable {
         fun loadStatus(textView: TextView, online: Boolean) {
             if (online) {
                 textView.text = textView.context.resources.getString(R.string.online)
-                textView.setBackgroundColor(textView.context.resources.getColor(R.color.greenLight))
+                textView.background =
+                    textView.context.resources.getDrawable(R.drawable.ic_status_on)
             } else {
                 textView.text = textView.context.resources.getString(R.string.offline)
-                textView.setBackgroundColor(textView.context.resources.getColor(R.color.redLight))
+                textView.background =
+                    textView.context.resources.getDrawable(R.drawable.ic_status_off)
 
             }
         }

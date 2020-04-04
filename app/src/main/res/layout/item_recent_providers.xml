@@ -90,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginBottom="8dp"
-                    android:text="Psychologist"
+                    android:text="@{provider.serviceType}"
                     android:textSize="10sp"
                     app:layout_constraintBottom_toTopOf="@+id/item_ratDoctorRating"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -106,6 +106,7 @@
                     android:isIndicator="true"
                     android:numStars="5"
                     android:rating="3.5"
+                    android:theme="@style/ratingStyle"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 

@@ -1,7 +1,12 @@
 package com.codeshot.home_perfect.common
 
 
+import android.content.Context
+import android.graphics.Color
 import android.location.Location
+import cc.cloudist.acplibrary.ACProgressBaseDialog
+import cc.cloudist.acplibrary.ACProgressConstant
+import cc.cloudist.acplibrary.ACProgressFlower
 import com.codeshot.home_perfect.remote.FCMClient
 import com.codeshot.home_perfect.remote.IFCMService
 import com.google.firebase.database.DataSnapshot
@@ -42,5 +47,16 @@ object Common {
 
     val FCM_SERVICE:IFCMService
     get() = FCMClient.getClient(FCM_URL)!!.create(IFCMService::class.java)
+
+    fun LOADING_DIALOG(context: Context): ACProgressBaseDialog {
+        val acProgressBaseDialog = ACProgressFlower.Builder(context)
+            .direction(ACProgressConstant.DIRECT_CLOCKWISE)
+            .themeColor(Color.WHITE)
+            .text("Please Wait ....!")
+            .fadeColor(Color.DKGRAY).build()
+        return acProgressBaseDialog
+    }
+
+
 
 }

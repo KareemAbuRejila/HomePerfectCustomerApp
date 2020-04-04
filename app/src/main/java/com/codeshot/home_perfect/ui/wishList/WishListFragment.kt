@@ -37,11 +37,17 @@ class WishListFragment : Fragment(), ProvidersAdapters.OnItemClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val query = Common.PROVIDERS_REF
         val options = FirestoreRecyclerOptions.Builder<Provider>()
             .setQuery(query, Provider::class.java)
             .build()
         val providersAdapter = ProvidersAdapters(options)
+        providersAdapter.setOnCLickListener(this)
         providersAdapter.setViewType(providersAdapter.WISHLIST_TYPE)
         fragmentWishListBinding.adapter = providersAdapter
 

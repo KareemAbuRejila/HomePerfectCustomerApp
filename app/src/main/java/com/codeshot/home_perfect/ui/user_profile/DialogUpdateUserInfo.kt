@@ -44,7 +44,6 @@ class DialogUpdateUserInfo : DialogFragment() {
         super.onCreate(savedInstanceState)
         //Set Dialog To FullScreenTheme
         setStyle(DialogFragment.STYLE_NORMAL,R.style.FullDialogTheme)
-        // Access a Cloud Firestore instance from your Activity
         super.setCancelable(false)
 
     }
@@ -57,8 +56,8 @@ class DialogUpdateUserInfo : DialogFragment() {
         return updateUserInfoBinding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         updateUserInfoBinding.fullDialogClose.setOnClickListener { v: View? ->
             super.dismiss()
         }
@@ -82,10 +81,9 @@ class DialogUpdateUserInfo : DialogFragment() {
                 }
 
             }
-
     }
 
-    fun saveUserData(){
+    private fun saveUserData() {
         if (updateUserInfoBinding.edtUserNameDialog.text!!.isNotEmpty()){
             val progressDialog = ProgressDialog(context)
             progressDialog.setTitle("Set Profile Image")

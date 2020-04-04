@@ -58,20 +58,16 @@ class ProviderProfileDialog : DialogFragment {
         return dialogProviderProfileBinding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         dialogProviderProfileBinding.provider = provider
         dialogProviderProfileBinding.contentProfile.provider = provider
         checkProviderStatus()
 
-
-//        dialogProviderProfileBinding.fullDialogClose.setOnClickListener { super.dismiss() }
         dialogProviderProfileBinding.btnBookingDialog.setOnClickListener {
-//            bookProvider(provider!!.id!!)
             val bookingDialog = BookingProviderDialog(provider)
             bookingDialog.show(childFragmentManager, "BookingDialog")
         }
-
     }
 
 
@@ -84,16 +80,16 @@ class ProviderProfileDialog : DialogFragment {
                     val provider = documentSnapshot!!.toObject(Provider::class.java)
                     if (provider!!.online) {
                         dialogProviderProfileBinding.btnBookingDialog.text =
-                            requireContext().resources.getString(R.string.book)
+                            requireActivity().resources.getString(R.string.book)
                         dialogProviderProfileBinding.btnBookingDialog.visibility = View.VISIBLE
 //                    dialogProviderProfileBinding.btnBookingDialog.setTextColor(requireActivity().resources.getColor(android.R.color.holo_green_light))
                         dialogProviderProfileBinding.btnBookingDialog.isEnabled = true
                         dialogProviderProfileBinding.contentProfile.status.background =
-                            requireContext().resources.getDrawable(R.drawable.ic_status_on)
+                            requireActivity().resources.getDrawable(R.drawable.ic_status_on)
                     } else {
                         dialogProviderProfileBinding.btnBookingDialog.visibility = View.GONE
                         dialogProviderProfileBinding.contentProfile.status.background =
-                            requireContext().resources.getDrawable(R.drawable.ic_status_off)
+                            requireActivity().resources.getDrawable(R.drawable.ic_status_off)
 
                     }
 
@@ -102,12 +98,6 @@ class ProviderProfileDialog : DialogFragment {
             }
 
     }
-
-
-//    override fun getPeekHeight(): Int {
-//        return super.getPeekHeight() + 100
-//    }
-
 
     private fun bookProvider(providerID: String) {
         TOKENS_REF.orderBy(FieldPath.documentId())

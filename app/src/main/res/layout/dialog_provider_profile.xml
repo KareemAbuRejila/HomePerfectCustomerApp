@@ -61,6 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:cardCornerRadius="30dp"
+                app:cardElevation="25dp"
 
                 >
 

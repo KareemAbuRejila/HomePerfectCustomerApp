@@ -23,7 +23,7 @@ class AboutUsFragment : Fragment() {
             ViewModelProviders.of(this).get(AboutUSViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_aboutus, container, false)
         val textView: TextView = root.findViewById(R.id.text_share)
-        shareViewModel.text.observe(this, Observer {
+        shareViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root

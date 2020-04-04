@@ -52,8 +52,8 @@ class ProfileFragment : Fragment() {
         return profileBinding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         profileViewModel.user.observe(viewLifecycleOwner, Observer {
             user=it
@@ -147,11 +147,13 @@ class ProfileFragment : Fragment() {
         }, Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH)
         dateDialog.show()
     }
-    fun dpToPx(dp: Int): Int {
-        return (dp * Resources.getSystem().getDisplayMetrics().density).toInt()
+
+    private fun dpToPx(dp: Int): Int {
+        return (dp * Resources.getSystem().displayMetrics.density).toInt()
     }
-    fun pxToDp(px: Int): Int {
-        return (px / Resources.getSystem().getDisplayMetrics().density).toInt()
+
+    private fun pxToDp(px: Int): Int {
+        return (px / Resources.getSystem().displayMetrics.density).toInt()
     }
 
     private val Gellary_Key = 7000
@@ -244,6 +246,5 @@ class ProfileFragment : Fragment() {
                 uploadProviderImage(localImageURI)
         }
     }
-
 
 }

@@ -12,8 +12,8 @@
             name="servicesAdapter"
             type="com.codeshot.home_perfect.adapters.ServicesAdapters" />
         <variable
-            name="recentProviderAdapter"
-            type="com.codeshot.home_perfect.adapters.RecentProvidersAdapters" />
+            name="onlineProviderAdapter"
+            type="com.codeshot.home_perfect.adapters.OnlineProvidersAdapters" />
 
     </data>
 
@@ -82,7 +82,7 @@
             android:id="@+id/rvRecentProviders"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:adapter="@{recentProviderAdapter}"
+            android:adapter="@{onlineProviderAdapter}"
             android:layoutDirection="ltr"
             android:orientation="horizontal"
             android:visibility="visible"

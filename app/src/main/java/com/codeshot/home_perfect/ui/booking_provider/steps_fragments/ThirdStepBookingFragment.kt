@@ -23,15 +23,14 @@ class ThirdStepBookingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         fragmentStepThirdBookingBinding =
             FragmentStepThirdBookingBinding.inflate(inflater, container, false)
 
         return fragmentStepThirdBookingBinding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val parentDialog = (parentFragment as BookingProviderDialog)
 
         val request = parentDialog.request

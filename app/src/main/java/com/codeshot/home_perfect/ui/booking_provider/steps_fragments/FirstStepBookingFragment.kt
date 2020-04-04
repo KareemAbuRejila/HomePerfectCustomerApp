@@ -29,8 +29,8 @@ class FirstStepBookingFragment : Fragment() {
     }
 
     val calendar=Calendar.getInstance()
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val parentDialog=(parentFragment as BookingProviderDialog)
 
         fragmentStepFirstBookingBinding.edtCity.onFocusChangeListener=
@@ -50,6 +50,5 @@ class FirstStepBookingFragment : Fragment() {
             timePicker.show()
 
         }
-
     }
 }

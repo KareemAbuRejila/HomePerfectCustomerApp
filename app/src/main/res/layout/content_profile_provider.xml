@@ -148,6 +148,7 @@
                     android:layout_gravity="end"
                     android:background="@drawable/ic_status_on"
                     android:gravity="center"
+                    android:paddingBottom="5dp"
                     android:textColor="@android:color/white"
                     android:textSize="10sp"
                     app:providerStatus="@{provider.online}"

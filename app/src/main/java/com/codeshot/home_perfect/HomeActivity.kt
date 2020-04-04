@@ -21,6 +21,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
+import cc.cloudist.acplibrary.ACProgressBaseDialog
 import cc.cloudist.acplibrary.ACProgressConstant
 import cc.cloudist.acplibrary.ACProgressFlower
 import com.codeshot.home_perfect.common.Common
@@ -29,6 +30,7 @@ import com.codeshot.home_perfect.common.Common.CURRENT_TOKEN
 import com.codeshot.home_perfect.common.Common.CURRENT_USER_IMAGE
 import com.codeshot.home_perfect.common.Common.CURRENT_USER_KEY
 import com.codeshot.home_perfect.common.Common.CURRENT_USER_NAME
+import com.codeshot.home_perfect.common.Common.LOADING_DIALOG
 import com.codeshot.home_perfect.common.Common.USERS_REF
 import com.codeshot.home_perfect.common.StandardActivity
 import com.codeshot.home_perfect.databinding.ActivityHomeBinding
@@ -56,14 +58,15 @@ import org.imperiumlabs.geofirestore.GeoFirestore
 class HomeActivity : StandardActivity(),
     GoogleApiClient.ConnectionCallbacks,
     GoogleApiClient.OnConnectionFailedListener,
-    LocationListener{
-    private lateinit var activityHomeBinding: ActivityHomeBinding
+    LocationListener {
+    lateinit var activityHomeBinding: ActivityHomeBinding
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navHeaderMainBinding: NavHeaderMainBinding
     private lateinit var navController: NavController
     private lateinit var dialogUpdateUserInfo: DialogUpdateUserInfo
+    private lateinit var loadingDialog: ACProgressBaseDialog
 
-    private var currentLocation:Location?=null
+    private var currentLocation: Location? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,6 +77,7 @@ class HomeActivity : StandardActivity(),
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
+        loadingDialog = LOADING_DIALOG(this)
 
 
         CURRENT_USER_KEY = FirebaseAuth.getInstance().currentUser!!.uid
@@ -91,18 +95,20 @@ class HomeActivity : StandardActivity(),
                 if (intent.getStringExtra("user") == "new") {
                     checkNewUserData()
                     checkToken()
-                }else if (intent.getStringExtra("user") == "old"){
+                } else if (intent.getStringExtra("user") == "old") {
                     checkUserData()
                 }
             }
 
         }
     }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
         return true
     }
+
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
@@ -125,10 +131,7 @@ class HomeActivity : StandardActivity(),
 
     private fun updateTokenToServer(newToken: String) {
         val token = Token(newToken)
-        if (FirebaseAuth.getInstance()
-                .currentUser != null
-        ) //if already login, must update Token
-        {
+        if (FirebaseAuth.getInstance().currentUser != null) {
             Common.TOKENS_REF.document(CURRENT_USER_KEY)
                 .set(token)
                 .addOnSuccessListener { Log.i("Saved Token", "Yesssssssssssssssssssssss") }
@@ -138,13 +141,7 @@ class HomeActivity : StandardActivity(),
     }
 
     fun checkUserData() {
-        val acProgressBaseDialog = ACProgressFlower.Builder(this)
-            .direction(ACProgressConstant.DIRECT_CLOCKWISE)
-            .themeColor(Color.WHITE)
-            .text("Please Wait ....!")
-            .fadeColor(Color.DKGRAY).build()
-        acProgressBaseDialog.show()
-
+        loadingDialog.show()
         // Source can be CACHE, SERVER, or DEFAULT.
         val source = Source.CACHE
         USERS_REF.document(CURRENT_USER_KEY)
@@ -154,21 +151,18 @@ class HomeActivity : StandardActivity(),
                 } else {
                     val user = document.toObject(User::class.java)
                     CURRENT_USER_NAME = user!!.userName!!
-                    CURRENT_USER_IMAGE= user.personalImageUri!!
+                    CURRENT_USER_IMAGE = user.personalImageUri!!
                     navHeaderMainBinding =
                         NavHeaderMainBinding.bind(activityHomeBinding.navView.getHeaderView(0))
                     navHeaderMainBinding.user = user
                 }
-                acProgressBaseDialog.hide()
+                loadingDialog.hide()
             }
     }
+
     private fun checkNewUserData() {
-        val acProgressBaseDialog = ACProgressFlower.Builder(this)
-            .direction(ACProgressConstant.DIRECT_CLOCKWISE)
-            .themeColor(Color.WHITE)
-            .text("Please Wait ....!")
-            .fadeColor(Color.DKGRAY).build()
-        acProgressBaseDialog.show()
+
+        loadingDialog.show()
 
         // Source can be CACHE, SERVER, or DEFAULT.
         val source = Source.SERVER
@@ -179,7 +173,7 @@ class HomeActivity : StandardActivity(),
                 } else {
                     val user = document.toObject(User::class.java)
                     CURRENT_USER_NAME = user!!.userName!!
-                    CURRENT_USER_IMAGE= user.personalImageUri!!
+                    CURRENT_USER_IMAGE = user.personalImageUri!!
                     navHeaderMainBinding =
                         NavHeaderMainBinding.bind(activityHomeBinding.navView.getHeaderView(0))
                     navHeaderMainBinding.user = user
@@ -189,9 +183,10 @@ class HomeActivity : StandardActivity(),
                         Snackbar.LENGTH_SHORT
                     ).show()
                 }
-                acProgressBaseDialog.hide()
+                loadingDialog.hide()
             }
     }
+
     private fun setUpDrawerNav() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -213,14 +208,15 @@ class HomeActivity : StandardActivity(),
         collapsingToolbarLayout.setupWithNavController(toolbar, navController, appBarConfiguration)
 
 
-        val itemLogout=navView.menu.findItem(R.id.nav_logOut)
+        val itemLogout = navView.menu.findItem(R.id.nav_logOut)
         itemLogout.setOnMenuItemClickListener {
             FirebaseAuth.getInstance().signOut()
-            startActivity(Intent(this,LoginActivity::class.java))
+            startActivity(Intent(this, LoginActivity::class.java))
             return@setOnMenuItemClickListener true
         }
 
     }
+
     private fun setUpLocation() {
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -245,7 +241,12 @@ class HomeActivity : StandardActivity(),
             }
         }
     }
-    override fun onRequestPermissionsResult(requestCode: Int,permissions: Array<String?>,grantResults: IntArray) {
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             if (checkPlayServices()) {
@@ -254,9 +255,11 @@ class HomeActivity : StandardActivity(),
             }
         }
     }
+
     //PlayService
     private val My_PERMISSION_REQUEST_CODE = 7000
     private val PLAY_SERVICE_RES_REQUEST = 7001
+
     //LocationRequest
     private var UPDATE_INTERVAL: Int = 5000
     private val FASTEST_INTERVAL = 3000
@@ -282,6 +285,7 @@ class HomeActivity : StandardActivity(),
         }
         return true
     }
+
     private fun buildGoogleApiClient() {
         mGoogleApiClient = GoogleApiClient.Builder(this)
             .enableAutoManage(this, this)
@@ -290,6 +294,7 @@ class HomeActivity : StandardActivity(),
             .build()
         mGoogleApiClient!!.connect()
     }
+
     private fun createLocationRequest() {
         mLocationRequest = LocationRequest()
         mLocationRequest!!.interval = UPDATE_INTERVAL.toLong()
@@ -297,23 +302,28 @@ class HomeActivity : StandardActivity(),
         mLocationRequest!!.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         mLocationRequest!!.smallestDisplacement = DISPLACEMENT.toFloat()
     }
+
     override fun onConnected(p0: Bundle?) {
         startLocationUpdates()
     }
+
     override fun onConnectionSuspended(p0: Int) {
         mGoogleApiClient!!.connect()
     }
-    override fun onConnectionFailed(p0: ConnectionResult)   {
+
+    override fun onConnectionFailed(p0: ConnectionResult) {
         Toast.makeText(this, p0.errorMessage, Toast.LENGTH_SHORT).show()
 
     }
+
     override fun onLocationChanged(p0: Location?) {
-        this.currentLocation=p0
-        CURRENT_LOCATION=p0
-        val geo=GeoFirestore(USERS_REF.document(CURRENT_USER_KEY).collection("location"))
-        geo.setLocation("currentLocation", GeoPoint(p0!!.latitude,p0.longitude))
+        this.currentLocation = p0
+        CURRENT_LOCATION = p0
+        val geo = GeoFirestore(USERS_REF.document(CURRENT_USER_KEY).collection("location"))
+        geo.setLocation("currentLocation", GeoPoint(p0!!.latitude, p0.longitude))
 //            .update("currentLocation",p0)
     }
+
     private fun startLocationUpdates() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ActivityCompat.checkSelfPermission(
@@ -334,7 +344,6 @@ class HomeActivity : StandardActivity(),
             )
         }
     }
-
 
 
 }

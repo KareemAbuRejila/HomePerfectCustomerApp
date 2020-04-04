@@ -13,7 +13,7 @@ class TopProvidersAdapters(options: FirestoreRecyclerOptions<Provider>) :
     private lateinit var itemTopProviderBinding: ItemTopProviderBinding
 
     private var providerList: List<Provider>? = ArrayList<Provider>()
-    private var onItemClickLinstener: OnItemTopProviderLinstener? = null
+    private var onItemClickListener: OnItemTopProviderListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProviderItem {
         val inflater = LayoutInflater.from(parent.context)
@@ -32,12 +32,12 @@ class TopProvidersAdapters(options: FirestoreRecyclerOptions<Provider>) :
         notifyDataSetChanged()
     }
 
-    interface OnItemTopProviderLinstener {
+    interface OnItemTopProviderListener {
         fun onItemClicked(providerId:String)
     }
 
-    fun setOnCLickLinstener(onItemClickLinstener: OnItemTopProviderLinstener) {
-        this.onItemClickLinstener = onItemClickLinstener
+    fun setOnCLickListener(onItemClickListener: OnItemTopProviderListener) {
+        this.onItemClickListener = onItemClickListener
     }
 
 
@@ -47,16 +47,10 @@ class TopProvidersAdapters(options: FirestoreRecyclerOptions<Provider>) :
         fun bindItem(provider: Provider) {
             itemTopProviderBinding.provider = provider
             itemTopProviderBinding.executePendingBindings()
-//            if (provider.online) {
-//                itemTopProviderBinding.imgStatus.setImageResource(android.R.color.holo_green_light)
-//            } else {
-//                itemTopProviderBinding.imgStatus.setImageResource(android.R.color.holo_red_light)
-//            }
-
             itemTopProviderBinding.root.setOnClickListener {
-                if (adapterPosition != RecyclerView.NO_POSITION && onItemClickLinstener != null){
+                if (adapterPosition != RecyclerView.NO_POSITION && onItemClickListener != null) {
                     val providerId=snapshots.getSnapshot(adapterPosition).id
-                    onItemClickLinstener!!.onItemClicked(providerId = providerId)
+                    onItemClickListener!!.onItemClicked(providerId = providerId)
                 }
 
             }

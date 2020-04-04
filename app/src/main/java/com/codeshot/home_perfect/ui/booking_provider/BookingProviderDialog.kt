@@ -18,11 +18,11 @@ import com.codeshot.home_perfect.common.Common.CURRENT_USER_NAME
 import com.codeshot.home_perfect.common.Common.PROVIDERS_REF
 import com.codeshot.home_perfect.common.Common.USERS_REF
 import com.codeshot.home_perfect.R
+import com.codeshot.home_perfect.common.Common.LOADING_DIALOG
 import com.codeshot.home_perfect.databinding.DialogBookingProviderBinding
 import com.codeshot.home_perfect.models.*
 import com.codeshot.home_perfect.remote.IFCMService
 import com.codeshot.home_perfect.ui.booking_provider.steps_fragments.FirstStepBookingFragment
-import com.codeshot.home_perfect.ui.booking_provider.steps_fragments.FourthStepBookingFragment
 import com.codeshot.home_perfect.ui.booking_provider.steps_fragments.SecondStepBookingFragment
 import com.codeshot.home_perfect.ui.booking_provider.steps_fragments.ThirdStepBookingFragment
 import com.google.android.gms.tasks.Tasks
@@ -41,10 +41,9 @@ class BookingProviderDialog(val provider: Provider?) : DialogFragment() {
     private lateinit var fcmService: IFCMService
     val request=Request()
 
-    val firstStep=FirstStepBookingFragment()
-    val secondStep=SecondStepBookingFragment()
-    val thirdStep=ThirdStepBookingFragment()
-    val fourthStep=FourthStepBookingFragment()
+    private val firstStep = FirstStepBookingFragment()
+    private val secondStep = SecondStepBookingFragment()
+    private val thirdStep = ThirdStepBookingFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(DialogFragment.STYLE_NORMAL, R.style.FullDialogTheme)
@@ -62,8 +61,8 @@ class BookingProviderDialog(val provider: Provider?) : DialogFragment() {
         return dialogBookingProviderBinding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         childFragmentManager.beginTransaction()
             .replace(R.id.contentOfBookingSteps, firstStep).commit()
@@ -72,11 +71,11 @@ class BookingProviderDialog(val provider: Provider?) : DialogFragment() {
         dialogBookingProviderBinding.imgbtnBackToolBarBookingActivity.setOnClickListener { backFragment() }
         dialogBookingProviderBinding.tvNextToolBarBookingActivity.setOnClickListener { nextFragment() }
         dialogBookingProviderBinding.tvBookToolBarBookingActivity.setOnClickListener {bookProvider(providerID = provider!!.id!!)  }
-
     }
+
+
     private fun nextFragment() {
-        val index: Int = dialogBookingProviderBinding.stateProgressBarBooking.currentStateNumber
-        when (index) {
+        when (dialogBookingProviderBinding.stateProgressBarBooking.currentStateNumber) {
             1 -> {
                 dialogBookingProviderBinding.stateProgressBarBooking.setCurrentStateNumber(StateProgressBar.StateNumber.TWO)
                 childFragmentManager.beginTransaction()
@@ -103,25 +102,10 @@ class BookingProviderDialog(val provider: Provider?) : DialogFragment() {
                 request.totalPrice=secondStep.totalPrice
                 request.perHour=provider!!.perHour
             }
-//            3 -> {
-//                dialogBookingProviderBinding.stateProgressBarBooking.setCurrentStateNumber(StateProgressBar.StateNumber.FOUR)
-//                childFragmentManager.beginTransaction()
-//                    .replace(R.id.contentOfBookingSteps, fourthStep).commit()
-//                dialogBookingProviderBinding.tvNextToolBarBookingActivity.setVisibility(View.GONE)
-//                dialogBookingProviderBinding.tvBookToolBarBookingActivity.setVisibility(View.VISIBLE)
-//            }
         }
     }
     private fun backFragment() {
-        val index: Int = dialogBookingProviderBinding.stateProgressBarBooking.currentStateNumber
-        when (index) {
-//            4 -> {
-//                dialogBookingProviderBinding.stateProgressBarBooking.setCurrentStateNumber(StateProgressBar.StateNumber.THREE)
-//                childFragmentManager.beginTransaction()
-//                    .replace(R.id.contentOfBookingSteps, thirdStep).commit()
-//                dialogBookingProviderBinding.tvNextToolBarBookingActivity.setVisibility(View.VISIBLE)
-//                dialogBookingProviderBinding.tvBookToolBarBookingActivity.setVisibility(View.GONE)
-//            }
+        when (dialogBookingProviderBinding.stateProgressBarBooking.currentStateNumber) {
             3 -> {
                 dialogBookingProviderBinding.stateProgressBarBooking.setCurrentStateNumber(StateProgressBar.StateNumber.TWO)
                 childFragmentManager.beginTransaction()
@@ -140,17 +124,13 @@ class BookingProviderDialog(val provider: Provider?) : DialogFragment() {
     }
 
     private fun bookProvider(providerID: String) {
-        val acProgressBaseDialog = ACProgressFlower.Builder(requireContext())
-            .direction(ACProgressConstant.DIRECT_CLOCKWISE)
-            .themeColor(Color.WHITE)
-            .text("Please Wait ....!")
-            .fadeColor(Color.DKGRAY).build()
-        acProgressBaseDialog.show()
+        val loadingDialog = LOADING_DIALOG(requireContext())
+        loadingDialog.show()
         Common.TOKENS_REF.orderBy(FieldPath.documentId())
             .whereEqualTo(FieldPath.documentId(), providerID)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 if (firebaseFirestoreException != null) {
-                    Log.e(TAG, firebaseFirestoreException!!.message)
+                    Log.e(TAG, firebaseFirestoreException.message!!)
                     return@addSnapshotListener
                 } else {
                     querySnapshot!!.forEach { document ->
@@ -161,10 +141,10 @@ class BookingProviderDialog(val provider: Provider?) : DialogFragment() {
                             msgContent["title"]="Booking"
                             msgContent["userToken"] = userToken
                             msgContent["userPhone"]= Common.CURRENT_USER_PHONE
-                            msgContent["userKey"]= Common.CURRENT_USER_KEY
-                            msgContent["userName"]= Common.CURRENT_USER_NAME
+                            msgContent["userKey"] = CURRENT_USER_KEY
+                            msgContent["userName"] = CURRENT_USER_NAME
 //                            val request= Request(Common.CURRENT_USER_PHONE,providerID,"waiting")
-                            request.from=Common.CURRENT_USER_KEY
+                            request.from = CURRENT_USER_KEY
                             request.to=providerID
                             request.status="waiting"
 //                            request.requestLocation= CURRENT_LOCATION
@@ -185,7 +165,7 @@ class BookingProviderDialog(val provider: Provider?) : DialogFragment() {
                                                         if (response.isSuccessful) {
                                                             Toast.makeText(dialog!!.context, "Success", Toast.LENGTH_LONG)
                                                                 .show()
-                                                            acProgressBaseDialog.dismiss()
+                                                            loadingDialog.dismiss()
                                                             dialog!!.dismiss()
                                                         } else {
                                                             Toast.makeText(
@@ -196,7 +176,7 @@ class BookingProviderDialog(val provider: Provider?) : DialogFragment() {
                                                         }
                                                     }
                                                     override fun onFailure(call: Call<FCMResponse>,t: Throwable) {
-                                                        Log.e("ERROR REQUEST SENT ", t.message)
+                                                        Log.e("ERROR REQUEST SENT ", t.message!!)
                                                         Toast.makeText(
                                                             dialog!!.context,
                                                             "ERROR REQUEST SENT! " + t.message,
