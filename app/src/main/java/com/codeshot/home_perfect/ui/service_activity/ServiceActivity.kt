@@ -37,7 +37,25 @@ class ServiceActivity : StandardActivity(), ProvidersAdapters.OnItemClickListene
         )
         activityServiceBinding.back.setOnClickListener { onBackPressed() }
         checkIntent()
+        setUpList()
+        var listType = false
+        activityServiceBinding.button.setOnClickListener {
+            if (!listType) {
+                activityServiceBinding.rvProviders.layoutManager =
+                    LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+                listType = true
+            } else {
+                activityServiceBinding.rvProviders.layoutManager =
+                    GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false)
+                listType = false
+            }
 
+
+        }
+
+    }
+
+    private fun setUpList() {
         val query = Common.PROVIDERS_REF.whereIn(FieldPath.documentId().toString(), providersId!!)
         val options = FirestoreRecyclerOptions.Builder<Provider>()
             .setQuery(query, Provider::class.java)
@@ -46,10 +64,9 @@ class ServiceActivity : StandardActivity(), ProvidersAdapters.OnItemClickListene
         providersAdapter!!.setViewType(providersAdapter!!.PROVIDERS_TYPE)
         providersAdapter!!.setOnCLickListener(this)
         activityServiceBinding.adapter = providersAdapter
-        serviceViewModel.providersOption!!.observe(this, Observer {
+        serviceViewModel.providersOption.observe(this, Observer {
             providersAdapter!!.updateOptions(it)
         })
-
         activityServiceBinding.tabLayoutService.addOnTabSelectedListener(object :
             TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -69,23 +86,6 @@ class ServiceActivity : StandardActivity(), ProvidersAdapters.OnItemClickListene
                 return
             }
         })
-
-
-        var listType = false
-        activityServiceBinding.button.setOnClickListener {
-            if (!listType) {
-                activityServiceBinding.rvProviders.layoutManager =
-                    LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-                listType = true
-            } else {
-                activityServiceBinding.rvProviders.layoutManager =
-                    GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false)
-                listType = false
-            }
-
-
-        }
-
     }
 
     override fun onStart() {

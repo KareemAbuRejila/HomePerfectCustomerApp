@@ -44,30 +44,19 @@ class HomeFragment : Fragment(), TopProvidersAdapters.OnItemTopProviderListener,
             homeViewModel = ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
                 .create(HomeViewModel::class.java)
         }
-        // Access a Cloud Firestore instance from Activity
-        val queryTopProvider = PROVIDERS_REF.orderBy("rate", Query.Direction.DESCENDING)
-            .whereGreaterThan("rate", 3).limit(10)
-            .orderBy("online")
-        val options = FirestoreRecyclerOptions.Builder<Provider>()
-            .setQuery(queryTopProvider, Provider::class.java)
-            .build()
-        providersAdapters = TopProvidersAdapters(options)
+
+        homeViewModel!!.getTopProviders()
+        providersAdapters = TopProvidersAdapters(homeViewModel!!.providersOption.value!!)
         providersAdapters.setOnCLickListener(this)
 
 
-        val servicesOption = FirestoreRecyclerOptions.Builder<Service>()
-            .setQuery(SERVICES_REF.limit(9), Service::class.java)
-            .build()
-        servicesAdapters = ServicesAdapters(servicesOption)
-        onlineProvidersAdapters = OnlineProvidersAdapters(options)
+        homeViewModel!!.getServices()
+        servicesAdapters = ServicesAdapters(homeViewModel!!.servicesOption.value!!)
         servicesAdapters.setOnClickListener(this)
 
-
-        val queryOnlineProvider = PROVIDERS_REF.whereEqualTo("online", true)
-        val optionsOnlineProvider = FirestoreRecyclerOptions.Builder<Provider>()
-            .setQuery(queryOnlineProvider, Provider::class.java)
-            .build()
-        onlineProvidersAdapters = OnlineProvidersAdapters(optionsOnlineProvider)
+        homeViewModel!!.getOnlineProviders()
+        onlineProvidersAdapters =
+            OnlineProvidersAdapters(homeViewModel!!.onlineProvidersOption.value!!)
         onlineProvidersAdapters.setOnOnlineProviderCLickListener(this)
     }
 
@@ -84,17 +73,8 @@ class HomeFragment : Fragment(), TopProvidersAdapters.OnItemTopProviderListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //        homeViewModel!!.providers.observe(viewLifecycleOwner, Observer { providrslist ->
-//            providersAdapters.setList(providrslist)
-//            onlineProvidersAdapters.setList(providrslist)
-//        })
         homeBinding.topProviderAdapter = providersAdapters
-
-//        homeViewModel!!.services.observe(viewLifecycleOwner, Observer { servicesList ->
-//            servicesAdapters.setList(servicesList)
-//        })
         homeBinding.servicesAdapter = servicesAdapters
-
         homeBinding.onlineProviderAdapter = onlineProvidersAdapters
 
         homeBinding.homeLayout.visibility = View.VISIBLE

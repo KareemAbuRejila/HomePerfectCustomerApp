@@ -7,43 +7,39 @@ import com.codeshot.home_perfect.common.Common.PROVIDERS_REF
 import com.codeshot.home_perfect.common.Common.SERVICES_REF
 import com.codeshot.home_perfect.models.Provider
 import com.codeshot.home_perfect.models.Service
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.Query
 
 class HomeViewModel : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
-    }
-    val text: LiveData<String> = _text
-    private val providersMDL=MutableLiveData<List<Provider>>().apply {
-        PROVIDERS_REF.orderBy("rate", Query.Direction.DESCENDING)
+    val providersOption = MutableLiveData<FirestoreRecyclerOptions<Provider>>()
+    val servicesOption = MutableLiveData<FirestoreRecyclerOptions<Service>>()
+    val onlineProvidersOption = MutableLiveData<FirestoreRecyclerOptions<Provider>>()
+
+
+    fun getTopProviders() {
+        val queryTopProvider = PROVIDERS_REF.orderBy("rate", Query.Direction.DESCENDING)
             .whereGreaterThan("rate", 3).limit(10)
             .orderBy("online")
 
-            .get().addOnSuccessListener { querySnapshot ->
-            val providerList=ArrayList<Provider>()
-            for (document in querySnapshot){
-                val provider=document.toObject(Provider::class.java)
-                provider.id=document.id
-                providerList.add(provider)
-            }
-            value=providerList
-        }
-    }
-    val providers: LiveData<List<Provider>> = providersMDL
+        providersOption.value = FirestoreRecyclerOptions.Builder<Provider>()
+            .setQuery(queryTopProvider, Provider::class.java)
+            .build()
 
-    private val servicesMDL=MutableLiveData<List<Service>>().apply {
-        SERVICES_REF.get().addOnSuccessListener { querySnapshot ->
-            val servicesList=ArrayList<Service>()
-            for (document in querySnapshot){
-                val service=document.toObject(Service::class.java)
-                service.id=document.id
-                servicesList.add(service)
-            }
-            value=servicesList
-        }
     }
-    val services:LiveData<List<Service>> =servicesMDL
+
+    fun getOnlineProviders() {
+        val queryOnlineProvider = PROVIDERS_REF.whereEqualTo("online", true)
+        onlineProvidersOption.value = FirestoreRecyclerOptions.Builder<Provider>()
+            .setQuery(queryOnlineProvider, Provider::class.java)
+            .build()
+    }
+
+    fun getServices() {
+        servicesOption.value = FirestoreRecyclerOptions.Builder<Service>()
+            .setQuery(SERVICES_REF.limit(9), Service::class.java)
+            .build()
+    }
 
 
 
