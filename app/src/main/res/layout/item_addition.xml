@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:background="@drawable/bg_item_addition"
+        android:gravity="center"
         android:orientation="horizontal"
         android:padding="10dp"
         android:weightSum="9">
@@ -27,7 +28,7 @@
             android:layout_weight="4"
             android:gravity="start"
             android:text="@{addition.name}"
-            android:textSize="18sp"
+            android:textSize="14sp"
             tools:text="Addition" />
 
         <TextView
@@ -37,7 +38,7 @@
             android:layout_weight="4"
             android:gravity="center"
             android:text="@{`$`+addition.price.toString()}"
-            android:textSize="18sp"
+            android:textSize="14sp"
             tools:text="$ 5" />
 
         <ImageView

@@ -39,14 +39,16 @@ class ServiceActivity : StandardActivity(), ProvidersAdapters.OnItemClickListene
         checkIntent()
         setUpList()
         var listType = false
-        activityServiceBinding.button.setOnClickListener {
+        activityServiceBinding.btnviewType.setOnClickListener {
             if (!listType) {
                 activityServiceBinding.rvProviders.layoutManager =
                     LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+                activityServiceBinding.btnviewType.setImageResource(R.drawable.ic_view_list_black_24dp)
                 listType = true
             } else {
                 activityServiceBinding.rvProviders.layoutManager =
                     GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false)
+                activityServiceBinding.btnviewType.setImageResource(R.drawable.ic_view_grid_black_24dp)
                 listType = false
             }
 
