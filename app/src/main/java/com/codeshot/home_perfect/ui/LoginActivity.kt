@@ -19,6 +19,7 @@ import cc.cloudist.acplibrary.ACProgressConstant
 import cc.cloudist.acplibrary.ACProgressFlower
 import com.codeshot.home_perfect.HomeActivity
 import com.codeshot.home_perfect.R
+import com.codeshot.home_perfect.common.Common.LOADING_DIALOG
 import com.codeshot.home_perfect.databinding.ActivityLoginBinding
 import com.codeshot.home_perfect.databinding.DialogLoginBinding
 import com.google.firebase.FirebaseException
@@ -34,7 +35,7 @@ import java.util.concurrent.TimeUnit
 class LoginActivity : AppCompatActivity() {
     private val TAG: String = "LOGIN ACTIVITY"
     private lateinit var activityLoginBinding: ActivityLoginBinding
-    private lateinit var progressBar: ACProgressBaseDialog
+    private lateinit var loadingDialog: ACProgressBaseDialog
     private var phoneNumber = ""
     private var codeSent: String = ""
 
@@ -45,12 +46,9 @@ class LoginActivity : AppCompatActivity() {
             this,
             R.layout.activity_login
         )
+        loadingDialog = LOADING_DIALOG(this)
         activityLoginBinding.ccpLogin.registerPhoneNumberTextView(activityLoginBinding.edtPhoneLogin)
-        progressBar = ACProgressFlower.Builder(this)
-            .direction(ACProgressConstant.DIRECT_CLOCKWISE)
-            .themeColor(Color.WHITE)
-            .text("Please Wait ....!")
-            .fadeColor(Color.DKGRAY).build()
+
         activityLoginBinding.edtPhoneLogin
             .setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -94,7 +92,7 @@ class LoginActivity : AppCompatActivity() {
                 activityLoginBinding.edtPhoneLogin.error = "Check your Phone Number "
             }
             else -> {
-                progressBar.show()
+                loadingDialog.show()
                 PhoneAuthProvider.getInstance().verifyPhoneNumber(
                     phoneNumber,  // Phone number to verify
                     60,  // Timeout duration
@@ -110,17 +108,18 @@ class LoginActivity : AppCompatActivity() {
         object : OnVerificationStateChangedCallbacks() {
             override fun onVerificationCompleted(phoneAuthCredential: PhoneAuthCredential) {
                 signInWithPhoneAuthCredential(phoneAuthCredential)
+
             }
 
             override fun onVerificationFailed(e: FirebaseException) {
                 Toast.makeText(this@LoginActivity, e.message, Toast.LENGTH_LONG).show()
                 Log.e(TAG, e.message!!)
-                progressBar.hide()
+                loadingDialog.dismiss()
             }
 
             override fun onCodeSent(s: String, forceResendingToken: ForceResendingToken) {
                 super.onCodeSent(s, forceResendingToken)
-                progressBar.hide()
+                loadingDialog.dismiss()
                 showCodeInput()
                 codeSent = s
             }
@@ -161,7 +160,7 @@ class LoginActivity : AppCompatActivity() {
                 "Code IS Empty", Toast.LENGTH_LONG
             ).show()
         } else {
-            progressBar.show()
+            loadingDialog.show()
             val credential = PhoneAuthProvider.getCredential(codeSent, code)
             signInWithPhoneAuthCredential(credential)
         }
@@ -178,11 +177,12 @@ class LoginActivity : AppCompatActivity() {
                         " " + "IS Logined",
                         Toast.LENGTH_LONG
                     ).show()
+                    loadingDialog.dismiss()
                     sendToHomeActivity("new")
                 } else {
                     if (task.exception is FirebaseAuthInvalidCredentialsException) {
                         val errorMsg = task.exception.toString()
-                        progressBar.hide()
+                        loadingDialog.dismiss()
                         Toast.makeText(
                             this@LoginActivity,
                             "Incorrect Verification Code $errorMsg", Toast.LENGTH_LONG
@@ -218,9 +218,11 @@ class LoginActivity : AppCompatActivity() {
             val pass = dialogbinding.edtPassLogDia.text.toString()
             val repass = dialogbinding.edtRePassLogDia.text.toString()
             if (pass == repass) {
+                loadingDialog.show()
                 FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, pass)
                     .addOnSuccessListener {
                         sendToHomeActivity("new")
+                        loadingDialog.dismiss()
                     }
             }
         }
@@ -239,12 +241,15 @@ class LoginActivity : AppCompatActivity() {
         dialogbinding.edtRePassLogDia.visibility = View.INVISIBLE
         dialogbinding.btnLogin.text = "Login"
         dialogbinding.btnLogin.setOnClickListener {
+            loadingDialog.show()
             val email = dialogbinding.edtEmailLogDia.text.toString()
             val pass = dialogbinding.edtPassLogDia.text.toString()
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email, pass)
                 .addOnSuccessListener {
+                    loadingDialog.dismiss()
                     sendToHomeActivity("new")
                 }.addOnFailureListener {
+                    loadingDialog.dismiss()
                     Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
                 }
         }

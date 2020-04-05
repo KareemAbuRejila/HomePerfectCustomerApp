@@ -30,6 +30,7 @@ import com.codeshot.home_perfect.common.Common.CURRENT_TOKEN
 import com.codeshot.home_perfect.common.Common.CURRENT_USER_IMAGE
 import com.codeshot.home_perfect.common.Common.CURRENT_USER_KEY
 import com.codeshot.home_perfect.common.Common.CURRENT_USER_NAME
+import com.codeshot.home_perfect.common.Common.CURRENT_USER_PHONE
 import com.codeshot.home_perfect.common.Common.LOADING_DIALOG
 import com.codeshot.home_perfect.common.Common.SHARED_PREF
 import com.codeshot.home_perfect.common.Common.USERS_REF
@@ -157,16 +158,20 @@ class HomeActivity : StandardActivity(),
                     navHeaderMainBinding =
                         NavHeaderMainBinding.bind(activityHomeBinding.navView.getHeaderView(0))
                     navHeaderMainBinding.user = user
-
+                    user.id = CURRENT_USER_KEY
+                    user.phone = CURRENT_USER_PHONE
                     val userGSON = Gson().toJson(user)
                     SHARED_PREF(this).edit().putString("user", userGSON).apply()
                 }
-                loadingDialog.hide()
+                loadingDialog.dismiss()
             }.addOnFailureListener {
                 val userGSON = SHARED_PREF(this).getString("user", null)
                 if (userGSON != null) {
+                    navHeaderMainBinding =
+                        NavHeaderMainBinding.bind(activityHomeBinding.navView.getHeaderView(0))
                     val user = Gson().fromJson<User>(userGSON, User::class.java)
                     navHeaderMainBinding.user = user
+                    loadingDialog.dismiss()
                 } else return@addOnFailureListener
             }
     }
@@ -178,7 +183,7 @@ class HomeActivity : StandardActivity(),
         // Source can be CACHE, SERVER, or DEFAULT.
         val source = Source.SERVER
         USERS_REF.document(CURRENT_USER_KEY)
-            .get(source).addOnSuccessListener { document ->
+            .get().addOnSuccessListener { document ->
                 if (!document!!.exists()) {
                     dialogUpdateUserInfo.show(this.supportFragmentManager, "tag")
                 } else {
@@ -187,6 +192,10 @@ class HomeActivity : StandardActivity(),
                     CURRENT_USER_IMAGE = user.personalImageUri!!
                     navHeaderMainBinding =
                         NavHeaderMainBinding.bind(activityHomeBinding.navView.getHeaderView(0))
+                    user.id = CURRENT_USER_KEY
+                    user.phone = CURRENT_USER_PHONE
+                    val userGSON = Gson().toJson(user)
+                    SHARED_PREF(this).edit().putString("user", userGSON).apply()
                     navHeaderMainBinding.user = user
                     Snackbar.make(
                         activityHomeBinding.navView,
@@ -195,6 +204,14 @@ class HomeActivity : StandardActivity(),
                     ).show()
                 }
                 loadingDialog.hide()
+            }.addOnFailureListener {
+                val userGSON = SHARED_PREF(this).getString("user", null)
+                if (userGSON != null) {
+                    val user = Gson().fromJson<User>(userGSON, User::class.java)
+                    navHeaderMainBinding =
+                        NavHeaderMainBinding.bind(activityHomeBinding.navView.getHeaderView(0))
+                    navHeaderMainBinding.user = user
+                } else return@addOnFailureListener
             }
     }
 

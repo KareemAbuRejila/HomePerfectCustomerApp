@@ -89,7 +89,7 @@ class MyBookingFragment : Fragment(),
 
     override fun OnItemClicked(request: Request) {
         val requestId = request.id
-        Toast.makeText(requireContext(), "Request: $requestId", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(requireContext(), "Request: $requestId", Toast.LENGTH_SHORT).show()
     }
 
     override fun OnImageClicked(providerId: String) {

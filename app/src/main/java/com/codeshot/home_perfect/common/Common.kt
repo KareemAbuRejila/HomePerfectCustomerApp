@@ -17,19 +17,19 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.FirebaseFirestore
 
 object Common {
-    fun isCONNECTED():Boolean?{
-        var connected:Boolean?=false
-        val connectRef= FirebaseDatabase.getInstance().getReference(".info/connected")
-        connectRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                connected=dataSnapshot.getValue(Boolean::class.java)
-            }
-            override fun onCancelled(databaseError: DatabaseError) {
-                connected=false
-            }
-        })
-        return connected
-    }
+    //    fun isCONNECTED():Boolean?{
+//        var connected:Boolean?=false
+//        val connectRef= FirebaseDatabase.getInstance().getReference(".info/connected")
+//        connectRef.addValueEventListener(object : ValueEventListener {
+//            override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                connected=dataSnapshot.getValue(Boolean::class.java)
+//            }
+//            override fun onCancelled(databaseError: DatabaseError) {
+//                connected=false
+//            }
+//        })
+//        return connected
+//    }
     var CURRENT_USER_KEY =""
     var CURRENT_TOKEN=""
     var CURRENT_USER_PHONE=""
@@ -37,12 +37,13 @@ object Common {
     var CURRENT_USER_IMAGE=""
     var CURRENT_LOCATION:Location?=null
     var SERVICE_Providers:List<String>?=ArrayList<String>()
-    var ROOT_REF=FirebaseFirestore.getInstance()
-    var USERS_REF= ROOT_REF.collection("Users")
-    var PROVIDERS_REF= ROOT_REF.collection("Providers")
+    private val ROOT_REF = FirebaseFirestore.getInstance()
+    val USERS_REF = ROOT_REF.collection("Users")
+    val PROVIDERS_REF = ROOT_REF.collection("Providers")
     val SERVICES_REF= ROOT_REF.collection("Services")
     val REQUESTS_REF= ROOT_REF.collection("Requests")
     val RATINGS = ROOT_REF.collection("Ratings")
+    val NOTIFICATIONS_REF = ROOT_REF.collection("Notifications")
 
     private const val FCM_URL = "https://fcm.googleapis.com/"
     val TOKENS_REF= ROOT_REF.collection("Tokens")

@@ -15,32 +15,44 @@ import androidx.annotation.RequiresApi
 import com.codeshot.home_perfect.common.Common.CURRENT_USER_KEY
 import com.codeshot.home_perfect.common.Common.TOKENS_REF
 import com.codeshot.home_perfect.models.Token
+import com.codeshot.home_perfect.models.User
 import com.codeshot.home_perfect_provider.Helpers.NotificationsHelper
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.google.gson.Gson
 
 
 class MyFreebaseMessagingService : FirebaseMessagingService() {
     private var notificationManager: NotificationManager? = null
     private var notificationsHelper: NotificationsHelper? = null
+    private var user: User? = null
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         notificationManager =
             baseContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationsHelper = NotificationsHelper(baseContext)
+
+        val sharedPreferences =
+            getSharedPreferences("com.codeshot.home_perfect", Context.MODE_PRIVATE)
+        val userGSON = sharedPreferences.getString("user", null)
+        if (userGSON != null)
+            user = Gson().fromJson(userGSON, User::class.java)
+
 
         val dataMessage=remoteMessage.data
         val title=dataMessage["title"]
         val requestStatus=dataMessage["requestStatus"]
         if (title=="Booking"){
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    showAcceptedRequestNotification(requestStatus)
+                    showStatusRequestNotification(requestStatus)
             }
         }
     }
+
+
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private fun showAcceptedRequestNotification(requestStatus: String?) {
+    private fun showStatusRequestNotification(requestStatus: String?) {
         val defaultSound =
             RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val contentIntent = PendingIntent.getActivity(
@@ -60,7 +72,6 @@ class MyFreebaseMessagingService : FirebaseMessagingService() {
         handler.post(Runnable {
             Toast.makeText(this@MyFreebaseMessagingService,"Provider has $requestStatus Your Request", Toast.LENGTH_LONG).show()
         })
-
 
     }
 
