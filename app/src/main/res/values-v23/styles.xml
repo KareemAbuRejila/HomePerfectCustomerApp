@@ -32,6 +32,7 @@
         <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
         <item name="editTextBackground">@android:color/transparent</item>
         <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
 
