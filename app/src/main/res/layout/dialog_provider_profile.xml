@@ -19,19 +19,21 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:background="@color/colorPrimaryDark">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsingToolbarOfProfileProvider"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_scrollFlags="exitUntilCollapsed|scroll"
-                android:pointerIcon="cell"
-                app:contentScrim="@color/colorPrimaryDark"
+                app:contentScrim="@android:color/white"
                 app:collapsedTitleTextAppearance="@color/HeadText"
                 app:expandedTitleTextAppearance="@color/HeadText"
                 app:expandedTitleMarginStart="32dp"
-                android:fitsSystemWindows="true">
+                android:fitsSystemWindows="true"
+                app:titleEnabled="false"
+                app:title="@{provider.userName}">
 
                 <ImageView
                     android:id="@+id/imgProfileProvider"
@@ -57,6 +59,22 @@
                     android:layout_marginBottom="40dp"
                     android:background="@drawable/bg_icon"
                     android:padding="10dp" />
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    android:layout_marginTop="24dp">
+
+                    <ImageButton
+                        android:id="@+id/btnBack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_arrow_back_black_24dp"
+                        android:background="@drawable/bg_icon"
+                        android:padding="10dp" />
+                </androidx.appcompat.widget.Toolbar>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
