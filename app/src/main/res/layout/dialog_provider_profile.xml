@@ -13,7 +13,8 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:theme="@style/BookingDialogTheme">
+        android:theme="@style/BookingDialogTheme"
+        android:background="@android:color/white">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -30,8 +31,7 @@
                 app:collapsedTitleTextAppearance="@color/HeadText"
                 app:expandedTitleTextAppearance="@color/HeadText"
                 app:expandedTitleMarginStart="32dp"
-                android:fitsSystemWindows="true"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+                android:fitsSystemWindows="true">
 
                 <ImageView
                     android:id="@+id/imgProfileProvider"
@@ -61,25 +61,11 @@
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_marginTop="-30dp"
-            android:layout_marginBottom="-30dp">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:cardCornerRadius="30dp"
-                app:cardElevation="25dp"
+        <include
+            layout="@layout/content_profile_provider"
+            android:id="@+id/content_profile" />
 
-                >
-
-                <include layout="@layout/content_profile_provider"
-                    android:id="@+id/content_profile"/>
-            </androidx.cardview.widget.CardView>
-        </androidx.core.widget.NestedScrollView>
 
         <Button
             android:id="@+id/btnBookingDialog"

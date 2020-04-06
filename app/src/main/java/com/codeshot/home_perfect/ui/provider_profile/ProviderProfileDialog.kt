@@ -59,6 +59,7 @@ class ProviderProfileDialog : DialogFragment {
         super.onCreateView(inflater, container, savedInstanceState)
         dialogProviderProfileBinding =
             DialogProviderProfileBinding.inflate(inflater, container, false)
+
         return dialogProviderProfileBinding.root
     }
 
@@ -79,6 +80,11 @@ class ProviderProfileDialog : DialogFragment {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        plusOneToProviderViews()
+    }
+
     private fun checkWishList() {
         val userGSON = SHARED_PREF(requireContext()).getString("user", null)
         if (userGSON != null) {
@@ -94,26 +100,37 @@ class ProviderProfileDialog : DialogFragment {
     }
 
     private fun addToWishList() {
-        USERS_REF.document(CURRENT_USER_KEY)
+        val addToWishListTask = USERS_REF.document(CURRENT_USER_KEY)
             .update("wishList", FieldValue.arrayUnion(provider!!.id))
+        val plusLikeToProvider = PROVIDERS_REF.document(provider!!.id!!)
+            .update("likes", FieldValue.increment(1))
+
+        Tasks.whenAllSuccess<Tasks>(addToWishListTask, plusLikeToProvider)
             .addOnSuccessListener {
                 Toast.makeText(requireContext(), "Added to your wishList", Toast.LENGTH_SHORT)
                     .show()
                 added = true
                 user.wishList.add(provider!!.id!!)
                 val userGSON = Gson().toJson(user)
-
                 SHARED_PREF(requireContext()).edit().putString("user", userGSON).apply()
                 dialogProviderProfileBinding.btnAddWishList.setImageResource(R.drawable.ic_favorite_black_24dp)
-            }
-            .addOnFailureListener {
+            }.addOnFailureListener {
                 Toast.makeText(requireContext(), "Failed", Toast.LENGTH_SHORT).show()
             }
     }
 
+    private fun plusOneToProviderViews() {
+        PROVIDERS_REF.document(provider!!.id!!)
+            .update("views", FieldValue.increment(1))
+    }
+
     private fun removeFromWishList() {
-        USERS_REF.document(CURRENT_USER_KEY)
+        val removeFromWishListTask = USERS_REF.document(CURRENT_USER_KEY)
             .update("wishList", FieldValue.arrayRemove(provider!!.id))
+        val minLikeFromProvider = PROVIDERS_REF.document(provider!!.id!!)
+            .update("likes", FieldValue.increment(-1))
+
+        Tasks.whenAllSuccess<Tasks>(removeFromWishListTask, minLikeFromProvider)
             .addOnSuccessListener {
                 Toast.makeText(requireContext(), "Removed from your wishList", Toast.LENGTH_SHORT)
                     .show()

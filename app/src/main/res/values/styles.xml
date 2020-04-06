@@ -30,7 +30,6 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
         <item name="editTextBackground">@android:color/transparent</item>
-
     </style>
 
     <style name="ProfileProviderDialogTheme" parent="Theme.AppCompat.Light.DialogWhenLarge">
