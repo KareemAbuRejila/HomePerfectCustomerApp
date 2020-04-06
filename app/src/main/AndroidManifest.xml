@@ -17,7 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.RequestActivity"></activity>
+        <activity android:name=".ui.RequestActivity" />
         <activity
             android:name=".ui.service_activity.ServiceActivity"
             android:theme="@style/AppTheme.ServiceActivity" />
@@ -32,13 +32,15 @@
         </activity>
         <activity
             android:name=".ui.LoginActivity"
-            android:theme="@style/NoActionBar" />
+            android:theme="@style/AppTheme.LoginActivityStyle" />
         <activity
             android:name=".HomeActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme" />
 
-        <service android:name=".services.MyFreebaseMessagingService">
+        <service
+            android:name=".services.MyFreebaseMessagingService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

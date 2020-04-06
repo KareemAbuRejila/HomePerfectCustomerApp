@@ -15,11 +15,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import cc.cloudist.acplibrary.ACProgressBaseDialog
-import cc.cloudist.acplibrary.ACProgressConstant
-import cc.cloudist.acplibrary.ACProgressFlower
 import com.codeshot.home_perfect.HomeActivity
 import com.codeshot.home_perfect.R
 import com.codeshot.home_perfect.common.Common.LOADING_DIALOG
+import com.codeshot.home_perfect.common.Common.PROVIDERS_REF
 import com.codeshot.home_perfect.databinding.ActivityLoginBinding
 import com.codeshot.home_perfect.databinding.DialogLoginBinding
 import com.google.firebase.FirebaseException
@@ -77,13 +76,19 @@ class LoginActivity : AppCompatActivity() {
             return
     }
 
+    private fun checkNumber(phoneNum: String): Boolean {
+        var isUser = true
+        PROVIDERS_REF.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+            if (firebaseFirestoreException != null) return@addSnapshotListener
+            querySnapshot!!.forEach {
+            }
+        }
+        return isUser
+
+    }
+
     private fun sendVerificationCode() {
         phoneNumber = activityLoginBinding.ccpLogin.fullNumberWithPlus
-        Toast.makeText(
-            this@LoginActivity,
-            phoneNumber,
-            Toast.LENGTH_SHORT
-        ).show()
         when {
             phoneNumber.isEmpty() -> {
                 activityLoginBinding.edtPhoneLogin.error = "Phone Number is required  "
@@ -93,13 +98,32 @@ class LoginActivity : AppCompatActivity() {
             }
             else -> {
                 loadingDialog.show()
-                PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                    phoneNumber,  // Phone number to verify
-                    60,  // Timeout duration
-                    TimeUnit.SECONDS,  // Unit of timeout
-                    this,  // Activity (for callback binding)
-                    mCallbacks
-                ) // OnVerificationStateChangedCallbacks
+                PROVIDERS_REF.whereEqualTo("phone", phoneNumber)
+                    .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                        if (firebaseFirestoreException != null) return@addSnapshotListener
+                        if (querySnapshot!!.isEmpty) {
+                            PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                                phoneNumber,  // Phone number to verify
+                                60,  // Timeout duration
+                                TimeUnit.SECONDS,  // Unit of timeout
+                                this,  // Activity (for callback binding)
+                                mCallbacks
+                            ) // OnVerificationStateChangedCallbacks
+                        } else {
+                            loadingDialog.dismiss()
+                            Toast.makeText(
+                                this,
+                                "This Number used by Provider Account",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            return@addSnapshotListener
+                        }
+                    }
+
+
+
+
+
             }
         }
     }
@@ -254,7 +278,7 @@ class LoginActivity : AppCompatActivity() {
                 }
         }
 
-        val loginDialog = AlertDialog.Builder(this)
+        val loginDialog = AlertDialog.Builder(this, R.style.AppTheme_ServiceActivity)
             .setView(dialogbinding.root).create()
         loginDialog.show()
         loginDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

@@ -57,17 +57,19 @@
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabLayoutService"
                     android:layout_width="wrap_content"
-                    android:layout_height="35dp"
+                    android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:background="@drawable/bg_tab_layout"
                     app:tabGravity="center"
-                    app:tabIndicator="@drawable/bg_tab_item_layout"
+                    app:tabIndicatorAnimationDuration="600"
                     app:tabIndicatorColor="@color/colorPrimaryDark"
-                    app:tabIndicatorGravity="stretch"
-                    app:tabMode="scrollable"
+                    app:tabIndicatorFullWidth="true"
+                    app:tabIndicatorGravity="bottom"
+                    app:tabInlineLabel="true"
+                    app:tabMode="auto"
                     app:tabPaddingEnd="20dp"
                     app:tabPaddingStart="20dp"
-                    app:tabSelectedTextColor="#FFFFFF">
+                    app:tabRippleColor="#FFFFFF"
+                    app:tabSelectedTextColor="@color/colorPrimaryDark">
 
                     <com.google.android.material.tabs.TabItem
                         android:id="@+id/maltem"

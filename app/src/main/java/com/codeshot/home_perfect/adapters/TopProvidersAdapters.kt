@@ -22,8 +22,6 @@ class TopProvidersAdapters(val options: FirestoreRecyclerOptions<Provider>) :
     }
 
     override fun onBindViewHolder(holder: ProviderItem, position: Int, model: Provider) {
-        model.online = false
-
         holder.bindItem(model)
 
     }

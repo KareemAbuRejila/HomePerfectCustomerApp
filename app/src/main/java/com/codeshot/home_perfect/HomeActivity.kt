@@ -238,11 +238,22 @@ class HomeActivity : StandardActivity(),
 
         val itemLogout = navView.menu.findItem(R.id.nav_logOut)
         itemLogout.setOnMenuItemClickListener {
-            FirebaseAuth.getInstance().signOut()
-            startActivity(Intent(this, LoginActivity::class.java))
+            signOut()
             return@setOnMenuItemClickListener true
         }
 
+    }
+
+    private fun signOut() {
+        FirebaseAuth.getInstance().signOut()
+        startActivity(
+            Intent(
+                this,
+                LoginActivity::class.java
+            )
+        )
+        SHARED_PREF(this).edit().clear().apply()
+        finish()
     }
 
     private fun setUpLocation() {

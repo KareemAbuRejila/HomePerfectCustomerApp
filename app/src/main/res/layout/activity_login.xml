@@ -52,7 +52,6 @@
             android:id="@+id/codeInput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/Icon"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -120,7 +119,7 @@
             android:layout_marginEnd="32dp"
             android:onClick="showLoginDialog"
             android:text="@string/emulator"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/background_light"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -153,7 +152,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="btnConLogin,textView3,phoneLayoutLogin,imgBg"
-            tools:visibility="gone" />
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/textView14"

@@ -150,6 +150,7 @@ class BookingProviderDialog(val provider: Provider?) : DialogFragment() {
 
                             Common.REQUESTS_REF.add(request)
                                 .addOnSuccessListener {
+                                    it.update("id", it.id)
                                     msgContent["requestId"]=it.id
                                     val dataMessage = DataMessage(providerToken.token, msgContent)
                                     val providerTask=PROVIDERS_REF.document(providerID)
@@ -174,6 +175,7 @@ class BookingProviderDialog(val provider: Provider?) : DialogFragment() {
                                                             ).show()
                                                         }
                                                     }
+
                                                     override fun onFailure(call: Call<FCMResponse>,t: Throwable) {
                                                         Log.e("ERROR REQUEST SENT ", t.message!!)
                                                         Toast.makeText(

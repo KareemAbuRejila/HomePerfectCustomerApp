@@ -121,7 +121,7 @@
                             android:id="@+id/TVviewsProvider"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:drawableEnd="@drawable/ic_views"
+                            android:drawableEnd="@drawable/ic_visibility_black_24dp"
                             android:drawablePadding="5dp"
                             android:text="@{provider.views.toString()}"
                             android:textSize="12sp"
