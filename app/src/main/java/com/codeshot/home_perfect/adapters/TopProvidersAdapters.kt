@@ -8,7 +8,7 @@ import com.codeshot.home_perfect.models.Provider
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
-class TopProvidersAdapters(options: FirestoreRecyclerOptions<Provider>) :
+class TopProvidersAdapters(val options: FirestoreRecyclerOptions<Provider>) :
     FirestoreRecyclerAdapter<Provider, TopProvidersAdapters.ProviderItem>(options) {
     private lateinit var itemTopProviderBinding: ItemTopProviderBinding
 
@@ -22,8 +22,9 @@ class TopProvidersAdapters(options: FirestoreRecyclerOptions<Provider>) :
     }
 
     override fun onBindViewHolder(holder: ProviderItem, position: Int, model: Provider) {
+        model.online = false
 
-            holder.bindItem(model)
+        holder.bindItem(model)
 
     }
 

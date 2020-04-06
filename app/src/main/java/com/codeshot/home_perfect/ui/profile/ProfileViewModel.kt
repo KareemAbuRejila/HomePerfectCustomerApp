@@ -24,11 +24,14 @@ class ProfileViewModel : ViewModel() {
     fun getUser() {
         USERS_REF.document(CURRENT_USER_KEY)
             .get().addOnSuccessListener {
-                user.value = it.toObject(User::class.java)
-            }.addOnSuccessListener {
+                val userDoc = it.toObject(User::class.java)!!
+                val userGSON = Gson().toJson(userDoc)
+                sharedPreferences!!.edit().putString("user", userGSON).apply()
+                user.value = userDoc
+            }.addOnFailureListener {
                 val userGSON = sharedPreferences!!.getString("user", null)
                 if (userGSON != null) {
-                    val user = Gson().fromJson<User>(userGSON, User::class.java)
+                    val user = Gson().fromJson<User>(userGSON, User::class.java)!!
                     this.user.value = user
                 }
             }

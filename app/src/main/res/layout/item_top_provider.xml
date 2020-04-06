@@ -47,12 +47,12 @@
                 android:layout_marginEnd="8dp"
                 android:elevation="10dp"
                 android:outlineAmbientShadowColor="@android:color/white"
-                app:civ_border_overlay="true"
-                app:civ_border_color="@android:color/white"
-                app:civ_border_width="2dp"
                 android:src="@android:color/transparent"
+                app:civ_border_color="@android:color/white"
+                app:civ_border_overlay="true"
+                app:civ_border_width="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imgStatus"

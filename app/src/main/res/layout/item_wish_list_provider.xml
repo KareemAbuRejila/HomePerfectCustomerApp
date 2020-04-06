@@ -15,6 +15,32 @@
         android:layout_height="wrap_content">
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgStatusborder"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:elevation="10dp"
+            android:outlineAmbientShadowColor="@android:color/white"
+            android:src="@android:color/transparent"
+            app:civ_border_color="@android:color/white"
+            app:civ_border_overlay="true"
+            app:civ_border_width="2dp"
+            app:layout_constraintBottom_toTopOf="@+id/circleImageView3"
+            app:layout_constraintEnd_toEndOf="@+id/circleImageView3"
+            app:layout_constraintTop_toTopOf="@+id/circleImageView3" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgStatus"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:elevation="15dp"
+            app:layout_constraintBottom_toBottomOf="@id/imgStatusborder"
+            app:layout_constraintLeft_toLeftOf="@id/imgStatusborder"
+            app:layout_constraintRight_toRightOf="@id/imgStatusborder"
+            app:layout_constraintTop_toTopOf="@id/imgStatusborder"
+            tools:src="@tools:sample/backgrounds/scenic"
+            app:ImgCProviderStatus="@{provider.online}" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/circleImageView3"
             android:layout_width="60dp"
             android:layout_height="60dp"

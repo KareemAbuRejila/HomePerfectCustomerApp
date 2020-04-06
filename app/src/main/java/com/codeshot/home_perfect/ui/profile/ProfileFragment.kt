@@ -63,7 +63,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         profileViewModel.user.observe(viewLifecycleOwner, Observer {
             user=it
-            profileBinding.user=it
+            profileBinding.user = user
             loadingDialog.dismiss()
         })
         profileBinding.userImage.setOnClickListener {

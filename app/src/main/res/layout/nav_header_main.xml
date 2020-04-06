@@ -41,14 +41,13 @@
             android:layout_gravity="center"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="8dp"
-            android:layout_weight="1"
             android:scaleType="centerCrop"
             app:civ_border_width=".2dp"
+            app:imageUrl="@{User.personalImageUri}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="h,1:1"
             app:layout_constraintStart_toStartOf="parent"
-            app:imageUrl="@{User.personalImageUri}"
-            />
+            tools:src="@tools:sample/avatars" />
 
 
         <TextView

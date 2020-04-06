@@ -69,7 +69,7 @@ class ProviderProfileDialog : DialogFragment {
         dialogProviderProfileBinding.contentProfile.provider = provider
         checkProviderStatus()
         checkWishList()
-
+        dialogProviderProfileBinding.btnBack.setOnClickListener { dismiss() }
         dialogProviderProfileBinding.btnAddWishList.setOnClickListener {
             if (!added) addToWishList()
             else removeFromWishList()
