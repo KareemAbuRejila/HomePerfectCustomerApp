@@ -9,4 +9,4 @@ It also helps to preserve the rights of both the user and the service providers,
 Home Screens
 <img src="Imgs/ScreenShots1.jpg" width="1080" height="600">
 Booking Screens
-<img src="ScreenShots/ScreenShots2.jpg" width="1080" height="600">
+<img src="Imgs/ScreenShots2.jpg" width="1080" height="600">
