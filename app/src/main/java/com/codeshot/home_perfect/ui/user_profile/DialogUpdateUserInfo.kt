@@ -43,7 +43,7 @@ class DialogUpdateUserInfo : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //Set Dialog To FullScreenTheme
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.BookingDialogTheme)
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.AppTheme_BookingDialogTheme)
         super.setCancelable(false)
 
     }

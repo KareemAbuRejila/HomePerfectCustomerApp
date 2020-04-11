@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.codeshot.home_perfect.databinding.ItemProviderBinding
 import com.codeshot.home_perfect.databinding.ItemWishListProviderBinding
+import com.codeshot.home_perfect.init.MyApplication
 import com.codeshot.home_perfect.models.Provider
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
@@ -35,6 +36,7 @@ class ProvidersAdapters(options:FirestoreRecyclerOptions<Provider>):
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, model: Provider) {
+        if (!MyApplication.hasNetwork()) model.online = false
         when (viewtype) {
             0 -> (holder as ProviderItem).bindItem(model)
             1 -> (holder as WishListItem).bindItem(model)

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.codeshot.home_perfect.databinding.ItemTopProviderBinding
+import com.codeshot.home_perfect.init.MyApplication
 import com.codeshot.home_perfect.models.Provider
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
@@ -22,6 +23,7 @@ class TopProvidersAdapters(val options: FirestoreRecyclerOptions<Provider>) :
     }
 
     override fun onBindViewHolder(holder: ProviderItem, position: Int, model: Provider) {
+        if (!MyApplication.hasNetwork()) model.online = false
         holder.bindItem(model)
 
     }

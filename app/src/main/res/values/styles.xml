@@ -7,6 +7,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:fontFamily">@font/helvetica_neue</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+
 
     </style>
 
@@ -31,6 +33,8 @@
         <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
         <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
         <item name="editTextBackground">@android:color/transparent</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+
     </style>
 
     <style name="AppTheme.BookingDialogTheme" parent="Theme.AppCompat.Light.DialogWhenLarge">
@@ -38,12 +42,16 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
         <item name="editTextBackground">@android:color/transparent</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+
     </style>
 
     <style name="AppTheme.ProfileProviderDialogTheme" parent="Theme.AppCompat.Light.DialogWhenLarge">
         <item name="windowNoTitle">true</item>
         <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
         <item name="editTextBackground">@android:color/transparent</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+
     </style>
 
     <style name="Splash" parent="Theme.MaterialComponents.Light.NoActionBar">

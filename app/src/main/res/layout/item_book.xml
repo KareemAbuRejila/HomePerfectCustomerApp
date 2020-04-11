@@ -13,17 +13,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <View
+            android:id="@+id/line_up"
+            android:layout_width="0.3dp"
+            android:layout_height="0dp"
+            android:background="@drawable/side_nav_bar"
+            app:layout_constraintBottom_toTopOf="@+id/circleImageView2"
+            app:layout_constraintEnd_toEndOf="@+id/circleImageView2"
+            app:layout_constraintStart_toStartOf="@+id/circleImageView2"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/circleImageView2"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="16dp"
+            app:ImgCRequest="@{request.providerUserImage}"
             app:layout_constraintBottom_toBottomOf="@+id/cardView3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/cardView3"
-            tools:src="@tools:sample/avatars"
-            app:ImgCRequest="@{request.providerUserImage}"
-            />
+            tools:src="@tools:sample/avatars" />
+
+        <View
+            android:id="@+id/line_down"
+            android:layout_width="0.3dp"
+            android:layout_height="0dp"
+            android:background="@drawable/side_nav_bar"
+            app:layout_constraintBottom_toBottomOf="@+id/cardView3"
+            app:layout_constraintEnd_toEndOf="@+id/circleImageView2"
+            app:layout_constraintStart_toStartOf="@+id/circleImageView2"
+            app:layout_constraintTop_toBottomOf="@+id/circleImageView2" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView3"

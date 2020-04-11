@@ -47,7 +47,7 @@ class ProviderProfileDialog : DialogFragment {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //Set Dialog To FullScreenTheme
-        setStyle(STYLE_NORMAL, R.style.ProfileProviderDialogTheme)
+        setStyle(STYLE_NORMAL, R.style.AppTheme_ProfileProviderDialogTheme)
         fcmService = Common.FCM_SERVICE
     }
 

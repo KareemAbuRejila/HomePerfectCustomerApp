@@ -6,20 +6,24 @@
         <item name="android:statusBarColor">@android:color/white</item>
     </style>
 
-    <style name="BookingDialogTheme" parent="Theme.AppCompat.Light.DialogWhenLarge">
+    <style name="AppTheme.BookingDialogTheme" parent="Theme.AppCompat.Light.DialogWhenLarge">
         <!--        <item name="android:windowTranslucentStatus">true</item>-->
         <item name="windowNoTitle">true</item>
         <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
         <item name="editTextBackground">@android:color/transparent</item>
         <!--        <item name="android:windowTranslucentStatus">true</item>-->
+        <item name="android:windowSoftInputMode">adjustResize</item>
+
     </style>
 
-    <style name="ProfileProviderDialogTheme" parent="Theme.AppCompat.Light.DialogWhenLarge">
+    <style name="AppTheme.ProfileProviderDialogTheme" parent="Theme.AppCompat.Light.DialogWhenLarge">
         <!--        <item name="android:windowTranslucentStatus">true</item>-->
         <item name="windowNoTitle">true</item>
         <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
         <item name="editTextBackground">@android:color/transparent</item>
         <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+
 
     </style>
 
@@ -30,7 +34,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:fontFamily">@font/helvetica_neue</item>
         <item name="android:statusBarColor">@android:color/white</item>
-
+        <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
 
     <style name="AppTheme.LoginActivityStyle" parent="Theme.AppCompat.Light.NoActionBar">

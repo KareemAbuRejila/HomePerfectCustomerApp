@@ -43,7 +43,7 @@ class BookingProviderDialog(val provider: Provider?) : DialogFragment() {
     private val thirdStep = ThirdStepBookingFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.BookingDialogTheme)
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.AppTheme_BookingDialogTheme)
         super.setCancelable(false)
         fcmService = Common.FCM_SERVICE
 

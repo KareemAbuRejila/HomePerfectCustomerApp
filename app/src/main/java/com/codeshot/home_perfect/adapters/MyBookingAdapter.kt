@@ -2,6 +2,7 @@ package com.codeshot.home_perfect.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.codeshot.home_perfect.databinding.ItemBookBinding
@@ -43,6 +44,12 @@ class MyBookingAdapter(options: FirestoreRecyclerOptions<Request>) :
                     requestListener.OnImageClicked(request.to!!)
                 }
             }
+            if (adapterPosition == 0)
+                itemBookBinding.lineUp.visibility = View.GONE
+
+            if (adapterPosition == snapshots.size - 1)
+                itemBookBinding.lineDown.visibility = View.GONE
+
 
         }
 
