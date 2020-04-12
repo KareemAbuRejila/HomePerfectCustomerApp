@@ -6,7 +6,7 @@
     <data>
         <variable
             name="requestsAdapter"
-            type="com.codeshot.home_perfect.adapters.MyBookingAdapter" />
+            type="com.codeshot.home_perfect.adapters.ProvidersAdapter" />
 
     </data>
 

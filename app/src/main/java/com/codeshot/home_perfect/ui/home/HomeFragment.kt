@@ -11,32 +11,27 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import cc.cloudist.acplibrary.ACProgressBaseDialog
-import com.codeshot.home_perfect.common.Common.PROVIDERS_REF
-import com.codeshot.home_perfect.common.Common.SERVICES_REF
 import com.codeshot.home_perfect.common.Common.SERVICE_Providers
 import com.codeshot.home_perfect.R
 import com.codeshot.home_perfect.adapters.OnlineProvidersAdapters
+import com.codeshot.home_perfect.adapters.ProvidersAdapter
 import com.codeshot.home_perfect.adapters.ServicesAdapters
-import com.codeshot.home_perfect.adapters.TopProvidersAdapters
 import com.codeshot.home_perfect.databinding.FragmentHomeBinding
-import com.codeshot.home_perfect.models.Provider
 import com.codeshot.home_perfect.models.Service
 import com.codeshot.home_perfect.ui.provider_profile.ProviderProfileDialog
 import com.codeshot.home_perfect.ui.service_activity.ServiceActivity
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.google.firebase.firestore.Query
 import java.util.*
 
-class HomeFragment : Fragment(), TopProvidersAdapters.OnItemTopProviderListener,
+class HomeFragment : Fragment(), ProvidersAdapter.OnItemClickListener,
     ServicesAdapters.OnItemClickListener, OnlineProvidersAdapters.OnOnlineProviderListener {
 
 
     private var homeViewModel: HomeViewModel? = HomeViewModel()
     private lateinit var homeBinding: FragmentHomeBinding
-    private lateinit var providersAdapters: TopProvidersAdapters
+    private lateinit var topProvidersAdapter: ProvidersAdapter
     private lateinit var servicesAdapters: ServicesAdapters
-    private lateinit var onlineProvidersAdapters: OnlineProvidersAdapters
-    private lateinit var acProgressBaseDialog: ACProgressBaseDialog
+    private lateinit var onlineProvidersAdapter: ProvidersAdapter
+    private lateinit var loadingDialog: ACProgressBaseDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,8 +41,9 @@ class HomeFragment : Fragment(), TopProvidersAdapters.OnItemTopProviderListener,
         }
 
         homeViewModel!!.getTopProviders()
-        providersAdapters = TopProvidersAdapters(homeViewModel!!.providersOption.value!!)
-        providersAdapters.setOnCLickListener(this)
+        topProvidersAdapter = ProvidersAdapter()
+        topProvidersAdapter.setViewType(topProvidersAdapter.PROVIDER_TOP)
+        topProvidersAdapter.setOnCLickListener(this)
 
 
         homeViewModel!!.getServices()
@@ -55,9 +51,9 @@ class HomeFragment : Fragment(), TopProvidersAdapters.OnItemTopProviderListener,
         servicesAdapters.setOnClickListener(this)
 
         homeViewModel!!.getOnlineProviders()
-        onlineProvidersAdapters =
-            OnlineProvidersAdapters(homeViewModel!!.onlineProvidersOption.value!!)
-        onlineProvidersAdapters.setOnOnlineProviderCLickListener(this)
+        onlineProvidersAdapter = ProvidersAdapter()
+        onlineProvidersAdapter.setViewType(topProvidersAdapter.PROVIDER_ONLINE)
+        onlineProvidersAdapter.setOnCLickListener(this)
     }
 
     override fun onCreateView(
@@ -73,17 +69,19 @@ class HomeFragment : Fragment(), TopProvidersAdapters.OnItemTopProviderListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        homeBinding.topProviderAdapter = providersAdapters
-        homeViewModel!!.providersOption.observe(viewLifecycleOwner, Observer {
-            providersAdapters.updateOptions(it)
+        homeBinding.topProviderAdapter = topProvidersAdapter
+        homeViewModel!!.topProviders.observe(viewLifecycleOwner, Observer {
+            topProvidersAdapter.setList(it)
         })
+
+
         homeBinding.servicesAdapter = servicesAdapters
         homeViewModel!!.servicesOption.observe(viewLifecycleOwner, Observer {
             servicesAdapters.updateOptions(it)
         })
-        homeBinding.onlineProviderAdapter = onlineProvidersAdapters
-        homeViewModel!!.onlineProvidersOption.observe(viewLifecycleOwner, Observer {
-            onlineProvidersAdapters.updateOptions(it)
+        homeBinding.onlineProviderAdapter = onlineProvidersAdapter
+        homeViewModel!!.onlineProviders.observe(viewLifecycleOwner, Observer {
+            onlineProvidersAdapter.setList(it)
         })
 
         homeBinding.homeLayout.visibility = View.VISIBLE
@@ -91,26 +89,20 @@ class HomeFragment : Fragment(), TopProvidersAdapters.OnItemTopProviderListener,
 
     override fun onStart() {
         super.onStart()
-        providersAdapters.startListening()
         servicesAdapters.startListening()
-        onlineProvidersAdapters.startListening()
     }
 
 
     override fun onItemClicked(providerId: String) {
-        PROVIDERS_REF.document(providerId).get()
-            .addOnSuccessListener {
-                val provider = it.toObject(Provider::class.java)
-                provider!!.id = it.id
-                val profileDialog =
-                    ProviderProfileDialog(
-                        provider
-                    )
-                profileDialog.show(
-                    requireActivity().supportFragmentManager,
-                    "ProviderProfileDialog"
-                )
-            }
+        val profileDialog =
+            ProviderProfileDialog(
+                providerId
+            )
+        profileDialog.show(
+            requireActivity().supportFragmentManager,
+            "ProviderProfileDialog"
+        )
+
 
     }
 

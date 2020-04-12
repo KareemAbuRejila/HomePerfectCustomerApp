@@ -32,6 +32,7 @@ import com.codeshot.home_perfect.common.Common.CURRENT_USER_KEY
 import com.codeshot.home_perfect.common.Common.CURRENT_USER_NAME
 import com.codeshot.home_perfect.common.Common.CURRENT_USER_PHONE
 import com.codeshot.home_perfect.common.Common.LOADING_DIALOG
+import com.codeshot.home_perfect.common.Common.ROOT_REF
 import com.codeshot.home_perfect.common.Common.SHARED_PREF
 import com.codeshot.home_perfect.common.Common.USERS_REF
 import com.codeshot.home_perfect.common.StandardActivity
@@ -52,6 +53,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.Source
 import com.google.firebase.iid.FirebaseInstanceId
@@ -81,7 +83,6 @@ class HomeActivity : StandardActivity(),
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
         loadingDialog = LOADING_DIALOG(this)
-
 
         CURRENT_USER_KEY = FirebaseAuth.getInstance().currentUser!!.uid
         Common.CURRENT_USER_PHONE = FirebaseAuth.getInstance().currentUser!!.email.toString()

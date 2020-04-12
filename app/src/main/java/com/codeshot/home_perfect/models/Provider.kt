@@ -49,7 +49,7 @@ class Provider : Serializable {
     companion object {
         @JvmStatic
         @BindingAdapter("ImgVProvider")
-        fun loadImageProvider(view: ImageView, url: String) {
+        fun loadImageProvider(view: ImageView, url: String?) {
             if (url != null && url != "")
                 Picasso.get().load(url).placeholder(R.drawable.ic_person_black_24dp)
                     .error(R.color.error_color).into(view)

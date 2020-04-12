@@ -7,13 +7,13 @@
     <data>
         <variable
             name="topProviderAdapter"
-            type="com.codeshot.home_perfect.adapters.TopProvidersAdapters" />
+            type="com.codeshot.home_perfect.adapters.ProvidersAdapter" />
         <variable
             name="servicesAdapter"
             type="com.codeshot.home_perfect.adapters.ServicesAdapters" />
         <variable
             name="onlineProviderAdapter"
-            type="com.codeshot.home_perfect.adapters.OnlineProvidersAdapters" />
+            type="com.codeshot.home_perfect.adapters.ProvidersAdapter" />
 
     </data>
 
@@ -22,7 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
-        android:visibility="invisible">
+        android:visibility="invisible"
+        tools:visibility="visible">
 
         <TextView
             android:id="@+id/text_home"
@@ -41,7 +42,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTopProviders"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:adapter="@{topProviderAdapter}"
             android:layoutDirection="ltr"
             android:orientation="horizontal"
@@ -51,7 +52,7 @@
             app:layout_constraintTop_toBottomOf="@+id/text_home"
 
             app:layout_constraintVertical_weight="3"
-            tools:itemCount="5"
+            tools:itemCount="4"
             tools:listitem="@layout/item_provider" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -59,11 +60,9 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:adapter="@{servicesAdapter}"
-            android:clipToPadding="true"
             android:fadeScrollbars="false"
             android:nestedScrollingEnabled="false"
             android:padding="30dp"
-            android:visibility="visible"
             app:fastScrollEnabled="false"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/rvRecentProviders"
@@ -72,7 +71,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rvTopProviders"
-            app:layout_constraintVertical_weight="5"
+            app:layout_constraintVertical_weight="6"
             app:spanCount="3"
             tools:itemCount="9"
             tools:listitem="@layout/item_service"
@@ -81,7 +80,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvRecentProviders"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:adapter="@{onlineProviderAdapter}"
             android:layoutDirection="ltr"
             android:orientation="horizontal"
@@ -90,8 +89,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rvServices"
-            app:layout_constraintVertical_weight="3"
-            tools:itemCount="5"
+            app:layout_constraintVertical_weight="2.5"
+            tools:itemCount="4"
             tools:listitem="@layout/item_recent_providers"
             tools:visibility="visible" />
 
@@ -110,6 +109,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
             android:text="@string/online_providers"
             android:textColor="#000000"
             android:textSize="18sp"

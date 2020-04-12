@@ -7,7 +7,7 @@
 
         <variable
             name="adapter"
-            type="com.codeshot.home_perfect.adapters.ProvidersAdapters" />
+            type="com.codeshot.home_perfect.adapters.ProvidersAdapter" />
 
     </data>
 

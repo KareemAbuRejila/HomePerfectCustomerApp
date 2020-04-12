@@ -2,9 +2,13 @@ package com.codeshot.home_perfect.init
 
 import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import com.codeshot.home_perfect.common.Common
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreSettings
 
 class MyApplication : Application() {
     override fun onCreate() {
@@ -12,6 +16,15 @@ class MyApplication : Application() {
         if (instance == null) {
             instance = this
         }
+        setUpFireBaseStorage()
+    }
+
+    private fun setUpFireBaseStorage() {
+        val settings = FirebaseFirestoreSettings.Builder()
+            .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
+            .setPersistenceEnabled(true)
+            .build()
+        FirebaseFirestore.getInstance().firestoreSettings = settings
     }
 
     private val isNetworkConnected: Boolean
@@ -28,6 +41,10 @@ class MyApplication : Application() {
 
         fun hasNetwork(): Boolean {
             return instance!!.isNetWorkConnected(instance!!.baseContext)
+        }
+
+        fun getSharedPrf(): SharedPreferences {
+            return Common.SHARED_PREF(instance!!.baseContext)
         }
     }
 

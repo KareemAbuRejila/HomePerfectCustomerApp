@@ -8,23 +8,27 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
+import cc.cloudist.acplibrary.ACProgressBaseDialog
 import com.codeshot.home_perfect.R
 import com.codeshot.home_perfect.common.Common
 import com.codeshot.home_perfect.common.Common.CURRENT_TOKEN
 import com.codeshot.home_perfect.common.Common.CURRENT_USER_KEY
 import com.codeshot.home_perfect.common.Common.CURRENT_USER_NAME
 import com.codeshot.home_perfect.common.Common.CURRENT_USER_PHONE
+import com.codeshot.home_perfect.common.Common.LOADING_DIALOG
 import com.codeshot.home_perfect.common.Common.PROVIDERS_REF
 import com.codeshot.home_perfect.common.Common.SHARED_PREF
 import com.codeshot.home_perfect.common.Common.TOKENS_REF
 import com.codeshot.home_perfect.common.Common.USERS_REF
 import com.codeshot.home_perfect.databinding.DialogProviderProfileBinding
+import com.codeshot.home_perfect.init.MyApplication
 import com.codeshot.home_perfect.models.*
 import com.codeshot.home_perfect.remote.IFCMService
 import com.codeshot.home_perfect.ui.booking_provider.BookingProviderDialog
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.MetadataChanges
 import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
@@ -35,13 +39,15 @@ class ProviderProfileDialog : DialogFragment {
     private val TAG = "ProviderProfileDialog"
 
     private lateinit var fcmService: IFCMService
-    private var provider: Provider? = null
+    private var providerId: String? = null
+    private var provider: Provider? = Provider()
     private var added = false
     private var user = User()
+    private var loadingDialog: ACProgressBaseDialog? = null
 
     constructor() : super()
-    constructor(provider: Provider?) : super() {
-        this.provider = provider
+    constructor(providerId: String?) : super() {
+        this.providerId = providerId
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,15 +66,29 @@ class ProviderProfileDialog : DialogFragment {
         super.onCreateView(inflater, container, savedInstanceState)
         dialogProviderProfileBinding =
             DialogProviderProfileBinding.inflate(inflater, container, false)
+        loadingDialog = LOADING_DIALOG(requireContext())
+        loadingDialog!!.show()
         return dialogProviderProfileBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dialogProviderProfileBinding.provider = provider
-        dialogProviderProfileBinding.contentProfile.provider = provider
-        checkProviderStatus()
-        checkWishList()
+        PROVIDERS_REF.document(providerId!!)
+            .addSnapshotListener(MetadataChanges.INCLUDE)
+            { documentSnapshot, firebaseFirestoreException ->
+                if (firebaseFirestoreException != null) return@addSnapshotListener
+                provider = documentSnapshot!!.toObject(Provider::class.java)
+                provider!!.id = documentSnapshot.id
+                if (!documentSnapshot.metadata.isFromCache) {
+                    checkProviderStatus()
+                } else {
+                    provider!!.online = false
+                    checkProviderStatus()
+                }
+                dialogProviderProfileBinding.provider = provider
+                dialogProviderProfileBinding.contentProfile.provider = provider
+                checkWishList()
+            }
         dialogProviderProfileBinding.btnBack.setOnClickListener { dismiss() }
         dialogProviderProfileBinding.btnAddWishList.setOnClickListener {
             if (!added) addToWishList()
@@ -78,6 +98,8 @@ class ProviderProfileDialog : DialogFragment {
             val bookingDialog = BookingProviderDialog(provider)
             bookingDialog.show(childFragmentManager, "BookingDialog")
         }
+        loadingDialog!!.dismiss()
+
     }
 
     override fun onStart() {
@@ -86,7 +108,7 @@ class ProviderProfileDialog : DialogFragment {
     }
 
     private fun checkWishList() {
-        val userGSON = SHARED_PREF(requireContext()).getString("user", null)
+        val userGSON = MyApplication.getSharedPrf().getString("user", null)
         if (userGSON != null) {
             user = Gson().fromJson<User>(userGSON, User::class.java)
             if (user.wishList.contains(provider!!.id)) {
@@ -120,7 +142,7 @@ class ProviderProfileDialog : DialogFragment {
     }
 
     private fun plusOneToProviderViews() {
-        PROVIDERS_REF.document(provider!!.id!!)
+        PROVIDERS_REF.document(providerId!!)
             .update("views", FieldValue.increment(1))
     }
 
@@ -148,30 +170,14 @@ class ProviderProfileDialog : DialogFragment {
 
 
     private fun checkProviderStatus() {
-        PROVIDERS_REF.document(provider!!.id!!)
-            .addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
-                if (firebaseFirestoreException != null)
-                    return@addSnapshotListener
-                else {
-                    val provider = documentSnapshot!!.toObject(Provider::class.java)
                     if (provider!!.online) {
-//                        dialogProviderProfileBinding.btnBookingDialog.text =
-//                            requireActivity().resources.getString(R.string.book)
                         dialogProviderProfileBinding.btnBookingDialog.visibility = View.VISIBLE
-//                    dialogProviderProfileBinding.btnBookingDialog.setTextColor(requireActivity().resources.getColor(android.R.color.holo_green_light))
                         dialogProviderProfileBinding.btnBookingDialog.isEnabled = true
-//                        dialogProviderProfileBinding.contentProfile.status.background =
-//                            requireActivity().resources.getDrawable(R.drawable.ic_status_on)
+
                     } else {
                         dialogProviderProfileBinding.btnBookingDialog.visibility = View.GONE
-//                        dialogProviderProfileBinding.contentProfile.status.background =
-//                            requireActivity().resources.getDrawable(R.drawable.ic_status_off)
-
                     }
 
-
-                }
-            }
 
     }
 

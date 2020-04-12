@@ -14,6 +14,7 @@ import cc.cloudist.acplibrary.ACProgressConstant
 import cc.cloudist.acplibrary.ACProgressFlower
 import com.codeshot.home_perfect.common.Common
 import com.codeshot.home_perfect.adapters.MyBookingAdapter
+import com.codeshot.home_perfect.adapters.ProvidersAdapter
 import com.codeshot.home_perfect.common.Common.REQUESTS_REF
 import com.codeshot.home_perfect.databinding.FragmentMyBookingBinding
 import com.codeshot.home_perfect.models.Provider
@@ -24,12 +25,12 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.gson.Gson
 
 class MyBookingFragment : Fragment(),
-    MyBookingAdapter.ItemRequestListener {
+    ProvidersAdapter.ItemRequestListener {
 
     private lateinit var fragmentMyBookingBinding: FragmentMyBookingBinding
     private lateinit var myBookingViewModel: MyBookingViewModel
     private lateinit var loadingDialog: ACProgressBaseDialog
-    private lateinit var bookingAdapter: MyBookingAdapter
+    private lateinit var bookingAdapter: ProvidersAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +43,9 @@ class MyBookingFragment : Fragment(),
         loadingDialog.show()
         myBookingViewModel.getRequest()
 
+        bookingAdapter = ProvidersAdapter()
+        bookingAdapter.setViewType(bookingAdapter.REQUEST)
+        bookingAdapter.setItemRequestListener(this)
 
     }
 
@@ -56,33 +60,14 @@ class MyBookingFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val options = FirestoreRecyclerOptions.Builder<Request>()
-            .setQuery(REQUESTS_REF, Request::class.java)
-            .setLifecycleOwner(viewLifecycleOwner)
-            .build()
-
-        bookingAdapter = MyBookingAdapter(options = options)
-        bookingAdapter.setItemRequestListener(this)
-
-        myBookingViewModel.bookingsOption.observe(viewLifecycleOwner, Observer {
-            if (it == null) {
-                fragmentMyBookingBinding.rvRequests.visibility = View.GONE
-                fragmentMyBookingBinding.imgEmpty.visibility = View.VISIBLE
-                return@Observer
-
-            }
-            bookingAdapter.updateOptions(it)
+        fragmentMyBookingBinding.requestsAdapter = bookingAdapter
+        fragmentMyBookingBinding.rvRequests.visibility = View.GONE
+        fragmentMyBookingBinding.imgEmpty.visibility = View.VISIBLE
+        myBookingViewModel.bookings.observe(viewLifecycleOwner, Observer {
+            bookingAdapter.setRequestsList(it)
             fragmentMyBookingBinding.rvRequests.visibility = View.VISIBLE
             fragmentMyBookingBinding.imgEmpty.visibility = View.GONE
-            fragmentMyBookingBinding.requestsAdapter = bookingAdapter
-
         })
-
-    }
-
-    override fun onStart() {
-        super.onStart()
         loadingDialog.dismiss()
 
     }
@@ -91,17 +76,12 @@ class MyBookingFragment : Fragment(),
         val requestId = request.id
 //        Toast.makeText(requireContext(), "Request: $requestId", Toast.LENGTH_SHORT).show()
     }
-
     override fun OnImageClicked(providerId: String) {
         Common.PROVIDERS_REF.document(providerId).get()
             .addOnSuccessListener {
                 val provider = it.toObject(Provider::class.java)
                 provider!!.id = it.id
-                val profileDialog = ProviderProfileDialog(provider)
-                profileDialog.show(
-                    requireActivity().supportFragmentManager,
-                    "ProviderProfileDialog"
-                )
+
             }
     }
 

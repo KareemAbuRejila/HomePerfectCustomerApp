@@ -15,6 +15,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreSettings
 
 object Common {
     //    fun isCONNECTED():Boolean?{
@@ -37,7 +38,7 @@ object Common {
     var CURRENT_USER_IMAGE=""
     var CURRENT_LOCATION:Location?=null
     var SERVICE_Providers:List<String>?=ArrayList<String>()
-    private val ROOT_REF = FirebaseFirestore.getInstance()
+    val ROOT_REF = FirebaseFirestore.getInstance()
     val USERS_REF = ROOT_REF.collection("Users")
     val PROVIDERS_REF = ROOT_REF.collection("Providers")
     val SERVICES_REF= ROOT_REF.collection("Services")

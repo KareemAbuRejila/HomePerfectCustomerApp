@@ -20,23 +20,27 @@ import com.google.gson.Gson
 class MyBookingViewModel : ViewModel() {
 
     private var sharedPreferences: SharedPreferences? = null
-    val bookingsOption = MutableLiveData<FirestoreRecyclerOptions<Request>>()
+    val bookings = MutableLiveData<List<Request>>()
 
     fun getInstance(context: Context) {
         if (sharedPreferences != null) return
         sharedPreferences = SHARED_PREF(context = context)
     }
-    fun getRequest(){
+
+    fun getRequest() {
         USERS_REF.document(CURRENT_USER_KEY)
-            .addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
-                if (firebaseFirestoreException != null) return@addSnapshotListener
-                val user = documentSnapshot!!.toObject(User::class.java)
-                if (user!!.requests!!.isNotEmpty()) {
-                    val requestQuery = REQUESTS_REF.whereIn(FieldPath.documentId(), user.requests!!)
-                    bookingsOption.value = FirestoreRecyclerOptions.Builder<Request>()
-                        .setQuery(requestQuery, Request::class.java)
-                        .build()
-                } else bookingsOption.value = null
+            .get().addOnSuccessListener { userDoc ->
+                val requestsLocal = ArrayList<Request>()
+                val user = userDoc!!.toObject(User::class.java)
+                val requests = user!!.requests
+                requests!!.forEach { id ->
+                    REQUESTS_REF.document(id)
+                        .get().addOnSuccessListener {
+                            val request = it.toObject(Request::class.java)!!
+                            requestsLocal.add(request)
+                            bookings.value = requestsLocal
+                        }
+                }
             }
     }
 }

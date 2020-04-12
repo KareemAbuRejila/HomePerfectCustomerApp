@@ -4,27 +4,25 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.codeshot.home_perfect.databinding.ItemRecentProvidersBinding
-import com.codeshot.home_perfect.init.MyApplication
 import com.codeshot.home_perfect.models.Provider
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
 class OnlineProvidersAdapters(options: FirestoreRecyclerOptions<Provider>) :
-    FirestoreRecyclerAdapter<Provider, OnlineProvidersAdapters.RecentProviderItem>(options) {
+    FirestoreRecyclerAdapter<Provider, OnlineProvidersAdapters.OnlineProviderItem>(options) {
     private lateinit var itemRecentProvidersBinding: ItemRecentProvidersBinding
     private var onOnlineProviderListener: OnOnlineProviderListener? = null
 
 
     private var providerList: List<Provider>? = ArrayList()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecentProviderItem {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OnlineProviderItem {
         val inflater=LayoutInflater.from(parent.context)
         itemRecentProvidersBinding=ItemRecentProvidersBinding.inflate(inflater,parent,false)
-        return RecentProviderItem(itemRecentProvidersBinding)
+        return OnlineProviderItem(itemRecentProvidersBinding)
     }
 
-    override fun onBindViewHolder(holder: RecentProviderItem, position: Int, model: Provider) {
-        if (!MyApplication.hasNetwork()) model.online = false
+    override fun onBindViewHolder(holder: OnlineProviderItem, position: Int, model: Provider) {
         holder.bindItem(model)
     }
 
@@ -41,7 +39,7 @@ class OnlineProvidersAdapters(options: FirestoreRecyclerOptions<Provider>) :
         this.onOnlineProviderListener = onOnlineProviderListener
     }
 
-    inner class RecentProviderItem(private val itemRecentProvidersBinding: ItemRecentProvidersBinding) :
+    inner class OnlineProviderItem(private val itemRecentProvidersBinding: ItemRecentProvidersBinding) :
         RecyclerView.ViewHolder(itemRecentProvidersBinding.root) {
 
         fun bindItem(provider: Provider) {

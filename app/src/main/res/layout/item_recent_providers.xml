@@ -95,7 +95,7 @@
                     app:layout_constraintBottom_toTopOf="@+id/item_ratDoctorRating"
                     app:layout_constraintStart_toStartOf="parent" />
 
-                <RatingBar
+                <androidx.appcompat.widget.AppCompatRatingBar
                     android:id="@+id/item_ratDoctorRating"
                     style="@android:style/Widget.Material.RatingBar.Small"
                     android:layout_width="wrap_content"
@@ -108,7 +108,8 @@
                     android:rating="3.5"
                     android:theme="@style/ratingStyle"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:ratingValue="@{provider.rate}" />
 
                 <ImageView
                     android:id="@+id/item_ImgDoctorFav"

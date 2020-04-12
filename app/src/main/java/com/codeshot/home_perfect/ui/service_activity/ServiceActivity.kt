@@ -7,37 +7,43 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.codeshot.home_perfect.R
-import com.codeshot.home_perfect.adapters.ProvidersAdapters
+import com.codeshot.home_perfect.adapters.ProvidersAdapter
 import com.codeshot.home_perfect.common.Common
 import com.codeshot.home_perfect.common.StandardActivity
 import com.codeshot.home_perfect.databinding.ActivityServiceBinding
 import com.codeshot.home_perfect.models.Provider
 import com.codeshot.home_perfect.ui.provider_profile.ProviderProfileDialog
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.tabs.TabLayout
-import com.google.firebase.firestore.FieldPath
 
-class ServiceActivity : StandardActivity(), ProvidersAdapters.OnItemClickListener {
+class ServiceActivity : StandardActivity(),
+    ProvidersAdapter.OnItemClickListener
+    , TabLayout.OnTabSelectedListener {
     private lateinit var activityServiceBinding: ActivityServiceBinding
     private lateinit var serviceViewModel: ServiceViewModel
     private var serviceId: String? = null
     private var providersId: List<String>? = ArrayList()
-    private var providersAdapter: ProvidersAdapters? = null
+    private lateinit var providersAdapter: ProvidersAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityServiceBinding = DataBindingUtil.setContentView(this, R.layout.activity_service)
         serviceViewModel = ViewModelProvider.AndroidViewModelFactory(application)
             .create(ServiceViewModel::class.java)
-        serviceViewModel.getInstance(this)
+        checkIntent()
+        serviceViewModel.getInstance(context = this, providersId = providersId!!)
+        serviceViewModel.getAllProviders()
+
+        activityServiceBinding.back.setOnClickListener { onBackPressed() }
+        setUpList()
+        setUpTypeView()
         activityServiceBinding.tabLayoutService.selectTab(
             activityServiceBinding.tabLayoutService.getTabAt(
                 1
             )
         )
-        activityServiceBinding.back.setOnClickListener { onBackPressed() }
-        checkIntent()
-        setUpList()
+    }
+
+    private fun setUpTypeView() {
         var listType = false
         activityServiceBinding.btnviewType.setOnClickListener {
             if (!listType) {
@@ -52,66 +58,53 @@ class ServiceActivity : StandardActivity(), ProvidersAdapters.OnItemClickListene
                 listType = false
             }
 
-
         }
-
     }
 
     private fun setUpList() {
-        val query = Common.PROVIDERS_REF.whereIn(FieldPath.documentId().toString(), providersId!!)
-        val options = FirestoreRecyclerOptions.Builder<Provider>()
-            .setQuery(query, Provider::class.java)
-            .build()
-        providersAdapter = ProvidersAdapters(options)
-        providersAdapter!!.setViewType(providersAdapter!!.PROVIDERS_TYPE)
-        providersAdapter!!.setOnCLickListener(this)
+        providersAdapter = ProvidersAdapter()
+        providersAdapter.setViewType(providersAdapter.PROVIDER_SERVICE)
+        providersAdapter.setOnCLickListener(this)
         activityServiceBinding.adapter = providersAdapter
-        serviceViewModel.providersOption.observe(this, Observer {
-            providersAdapter!!.updateOptions(it)
+        serviceViewModel.providers.observe(this, Observer {
+            providersAdapter.setList(it)
         })
-        activityServiceBinding.tabLayoutService.addOnTabSelectedListener(object :
-            TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-
-                when {
-                    tab!!.text == "All" -> serviceViewModel.getAll(providersId = providersId!!)
-                    tab.text == "Male" -> serviceViewModel.getMales(providersId = providersId!!)
-                    tab.text == "Female" -> serviceViewModel.getFemales(providersId = providersId!!)
-                }
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-                return
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-                return
-            }
-        })
-    }
-
-    override fun onStart() {
-        super.onStart()
-        providersAdapter!!.startListening()
-
+        activityServiceBinding.tabLayoutService.addOnTabSelectedListener(this)
     }
 
     private fun checkIntent() {
         if (intent != null) {
             serviceId = intent.getStringExtra("serviceId")!!.toString()
             providersId = intent.getStringArrayListExtra("providersId")
-
         }
     }
 
     override fun onItemClicked(providerId: String) {
-        Common.PROVIDERS_REF.document(providerId).get()
-            .addOnSuccessListener {
-                val provider = it.toObject(Provider::class.java)
-                provider!!.id = it.id
-                val profileDialog = ProviderProfileDialog(provider)
-                profileDialog.show(this.supportFragmentManager, "ProviderProfileDialog")
-            }
+        val profileDialog = ProviderProfileDialog(providerId)
+        profileDialog.show(
+            this.supportFragmentManager,
+            "ProviderProfileDialog"
+        )
+    }
+
+    override fun onTabReselected(tab: TabLayout.Tab?) {
+        when {
+            tab!!.text == "All" -> serviceViewModel.getAll()
+            tab.text == "Male" -> serviceViewModel.getMales()
+            tab.text == "Female" -> serviceViewModel.getFemales()
+        }
+    }
+
+    override fun onTabUnselected(tab: TabLayout.Tab?) {
+        return
+    }
+
+    override fun onTabSelected(tab: TabLayout.Tab?) {
+        when {
+            tab!!.text == "All" -> serviceViewModel.getAll()
+            tab.text == "Male" -> serviceViewModel.getMales()
+            tab.text == "Female" -> serviceViewModel.getFemales()
+        }
     }
 
 

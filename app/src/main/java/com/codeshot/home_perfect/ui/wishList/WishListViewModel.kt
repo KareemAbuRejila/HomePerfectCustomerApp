@@ -6,15 +6,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.codeshot.home_perfect.common.Common
 import com.codeshot.home_perfect.common.Common.CURRENT_USER_KEY
+import com.codeshot.home_perfect.common.Common.PROVIDERS_REF
 import com.codeshot.home_perfect.common.Common.USERS_REF
 import com.codeshot.home_perfect.models.Provider
 import com.codeshot.home_perfect.models.User
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FieldPath
+import com.google.firebase.firestore.MetadataChanges
 
 class WishListViewModel : ViewModel() {
     private var sharedPreferences: SharedPreferences? = null
-    val providersOptions = MutableLiveData<FirestoreRecyclerOptions<Provider>>()
+    val providers = MutableLiveData<List<Provider>>()
 
     fun getInstance(context: Context) {
         if (sharedPreferences != null) return
@@ -24,17 +26,37 @@ class WishListViewModel : ViewModel() {
 
     fun getProviders() {
         USERS_REF.document(CURRENT_USER_KEY)
-            .addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
-                if (firebaseFirestoreException != null) return@addSnapshotListener
-                val user = documentSnapshot!!.toObject(User::class.java)
-                if (user!!.wishList.isNotEmpty()) {
-                    val query =
-                        Common.PROVIDERS_REF.whereIn(FieldPath.documentId(), user!!.wishList)
-                    providersOptions.value = FirestoreRecyclerOptions.Builder<Provider>()
-                        .setQuery(query, com.codeshot.home_perfect.models.Provider::class.java)
-                        .build()
-                } else providersOptions.value = null
+            .get().addOnSuccessListener {
+                val user = it.toObject(User::class.java)
+                val wishList = user!!.wishList
+                val providersLocal = ArrayList<Provider>()
+                PROVIDERS_REF.addSnapshotListener(MetadataChanges.INCLUDE) { querySnapshot, firebaseFirestoreException ->
+                    if (firebaseFirestoreException != null) return@addSnapshotListener
+                    if (!querySnapshot!!.metadata.isFromCache) {
+                        providersLocal.clear()
+                        querySnapshot.forEach { doc ->
+                            if (wishList.contains(doc.id)) {
+                                val provider = doc.toObject(Provider::class.java)
+                                provider.id = doc.id
+                                providersLocal.add(provider)
+                            }
+                        }
+                    } else {
+                        providersLocal.clear()
+                        querySnapshot.forEach { doc ->
+                            if (wishList.contains(doc.id)) {
+                                val provider = doc.toObject(Provider::class.java)
+                                provider.id = doc.id
+                                provider.online = false
+                                providersLocal.add(provider)
+                            }
 
+                        }
+                    }
+                    providers.value = providersLocal
+
+                }
             }
+
     }
 }
