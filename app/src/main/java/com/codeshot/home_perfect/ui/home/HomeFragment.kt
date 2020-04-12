@@ -13,7 +13,6 @@ import androidx.lifecycle.ViewModelProvider
 import cc.cloudist.acplibrary.ACProgressBaseDialog
 import com.codeshot.home_perfect.common.Common.SERVICE_Providers
 import com.codeshot.home_perfect.R
-import com.codeshot.home_perfect.adapters.OnlineProvidersAdapters
 import com.codeshot.home_perfect.adapters.ProvidersAdapter
 import com.codeshot.home_perfect.adapters.ServicesAdapters
 import com.codeshot.home_perfect.databinding.FragmentHomeBinding
@@ -23,7 +22,7 @@ import com.codeshot.home_perfect.ui.service_activity.ServiceActivity
 import java.util.*
 
 class HomeFragment : Fragment(), ProvidersAdapter.OnItemClickListener,
-    ServicesAdapters.OnItemClickListener, OnlineProvidersAdapters.OnOnlineProviderListener {
+    ServicesAdapters.OnItemClickListener {
 
 
     private var homeViewModel: HomeViewModel? = HomeViewModel()

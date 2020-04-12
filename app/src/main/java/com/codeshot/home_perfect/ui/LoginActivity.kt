@@ -40,7 +40,6 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        isLogined()
         activityLoginBinding = DataBindingUtil.setContentView(
             this,
             R.layout.activity_login
@@ -67,13 +66,6 @@ class LoginActivity : AppCompatActivity() {
             verifySignInCode()
         }
 
-    }
-
-    private fun isLogined() {
-        if (FirebaseAuth.getInstance().currentUser != null) {
-            sendToHomeActivity("old")
-        } else
-            return
     }
 
     private fun checkNumber(phoneNum: String): Boolean {

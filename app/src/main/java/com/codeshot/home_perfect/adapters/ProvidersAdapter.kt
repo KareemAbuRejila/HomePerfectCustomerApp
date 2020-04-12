@@ -15,14 +15,12 @@ class ProvidersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var onItemClickListener: OnItemClickListener? = null
     private var requestListener: ItemRequestListener? = null
 
-
     private var VIEW__TYPE: Int = 0
     val PROVIDER_TOP = 1
     val PROVIDER_ONLINE = 2
     val PROVIDER_SERVICE = 3
     val PROVIDER_WISHLIST = 4
     val REQUEST = 5
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
