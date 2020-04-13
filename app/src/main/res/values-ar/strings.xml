@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">المنزل الافضل</string>
+    <string name="app_name">المنزل المثالي</string>
     <string name="recent_providers">العمال السابقين</string>
     <string name="classroom">الشهاده الجامعيه</string>
     <string name="works_hours">ساعات العمل</string>
@@ -12,7 +12,7 @@
     <string name="personal_info">المعلومات الشخصيه</string>
     <string name="address">العنوان</string>
     <string name="level">الطابق</string>
-    <string name="home">المنزل</string>
+    <string name="home">الرئيسية</string>
     <string name="city">المدينه</string>
     <string name="street">الشارع</string>
     <string name="hello_blank_fragment">واجهه فارغه</string>
@@ -51,7 +51,7 @@
     <string name="signIn">تسجيل</string>
     <string name="input_user_data">ادخال البيانات</string>
     <string name="save">حفظ</string>
-    <string name="user_name">اسم المستخدم</string>
+    <string name="user_name_hint">اسم المستخدم</string>
     <string name="booking_provider">خطوات طلب العامل</string>
     <string name="accepted">مقبول</string>
     <string name="waiting">جار الانتظار</string>
@@ -59,4 +59,24 @@
     <string name="done">اكتمل</string>
     <string name="rating">جاري التقيم</string>
     <string name="canceled">مرفوض</string>
+    <string name="user_name">اسم المستخدم</string>
+    <string name="provider_image">الصوره الشخصيه</string>
+    <string name="more">المزيد</string>
+    <string name="update_user_name_des">اسم المستخدم يسهل من معرفه من هو صاحب الطلب</string>
+    <string name="email_address">البريد الالكتروني</string>
+    <string name="update_user_email_des">استقبال التحديثات والاعلانات الرائعه على البريد الالكتروني</string>
+    <string name="update_user_address_des">العنوان الكامل يسهل من الوصول لموقعك باسرع وقت ممكن</string>
+    <string name="male">ذكر</string>
+    <string name="female">انذى</string>
+    <string name="no_providers_in_service">لا يوجد عملاء في</string>
+    <string name="your_gender">الجنس</string>
+    <string name="view">عرض</string>
+    <string name="edit">تعديل</string>
+    <string name="add">اضافه</string>
+    <string name="choosePImg">تحديد الصوره الشخصيه</string>
+    <string name="please_select_img">الرجاء تحديد الصوره</string>
+    <string name="img_not_found">لايوجد صوره</string>
+    <string name="set_img_Profile">تحديد صوره الملف</string>
+    <string name="please_waite">الرجاء الانتظار</string>
+    <string name="choose">اختيار</string>
 </resources>

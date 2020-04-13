@@ -8,6 +8,7 @@ import android.location.Location
 import cc.cloudist.acplibrary.ACProgressBaseDialog
 import cc.cloudist.acplibrary.ACProgressConstant
 import cc.cloudist.acplibrary.ACProgressFlower
+import com.codeshot.home_perfect.R
 import com.codeshot.home_perfect.remote.FCMClient
 import com.codeshot.home_perfect.remote.IFCMService
 import com.google.firebase.firestore.FirebaseFirestore
@@ -39,7 +40,7 @@ object Common {
         val acProgressBaseDialog = ACProgressFlower.Builder(context)
             .direction(ACProgressConstant.DIRECT_CLOCKWISE)
             .themeColor(Color.WHITE)
-            .text("Please Wait ....!")
+            .text(context.resources.getString(R.string.please_waite))
             .fadeColor(Color.DKGRAY).build()
         return acProgressBaseDialog
     }

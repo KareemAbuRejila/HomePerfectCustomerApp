@@ -15,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageView
+import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -70,11 +71,13 @@ class ProfileFragment : Fragment() {
             showImageInDialog()
         }
         profileBinding.layoutUserName.setOnClickListener {
-            showEditDialog("User Name","Your name makes it easy to Providers to confirm who they's booking",
+            showEditDialog(
+                R.string.user_name, R.string.update_user_name_des,
                 R.drawable.ic_person_black_24dp,"userName")
         }
         profileBinding.layoutEmail.setOnClickListener {
-            showEditDialog("Email Address","Receive info about new update and awesome promos in your inbox",
+            showEditDialog(
+                R.string.email_address, R.string.update_user_email_des,
                 R.drawable.ic_email_black_24dp,"email")
         }
         profileBinding.layoutGender.setOnClickListener {
@@ -83,9 +86,16 @@ class ProfileFragment : Fragment() {
         profileBinding.layoutDob.setOnClickListener {
             showDobDialog()
         }
+        profileBinding.layoutAddress.setOnClickListener {
+            showEditDialog(
+                R.string.address, R.string.update_user_address_des,
+                R.drawable.ic_location, "address"
+            )
+        }
+
     }
 
-    private fun showEditDialog(title:String,des:String,icon:Int, tag:String){
+    private fun showEditDialog(@StringRes title: Int, @StringRes des: Int, icon: Int, tag: String) {
         val editText=EditText(context)
         val layoutParams= FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT,
@@ -95,7 +105,7 @@ class ProfileFragment : Fragment() {
         layoutParams.marginStart=dpToPx(16)
         layoutParams.marginEnd=dpToPx(16)
         editText.layoutParams=layoutParams
-        editText.hint=title
+        editText.hint = resources.getString(title)
         editText.marqueeRepeatLimit=16
         if (tag=="userName"){
             editText.inputType=android.text.InputType.TYPE_TEXT_VARIATION_PERSON_NAME
@@ -121,19 +131,24 @@ class ProfileFragment : Fragment() {
     }
     private fun showGenderDialog(){
         val genderDialog=AlertDialog.Builder(context)
-        val genderArray= arrayOf("Male","Female")
+        val genderArray = arrayOf(
+            resources.getString(R.string.male),
+            resources.getString(R.string.female)
+        )
 
-        genderDialog.setTitle("Your Gender")
+
+
+        genderDialog.setTitle(resources.getString(R.string.your_gender))
             .setItems(genderArray, DialogInterface.OnClickListener { dialog, which ->
             if (which==0){
                 USERS_REF.document(CURRENT_USER_KEY)
                     .update("gender","Male").addOnSuccessListener {
-                        profileBinding.tvUserGender.text="Male"
+                        profileBinding.tvUserGender.text = resources.getString(R.string.male)
                     }
             }else if (which==1){
                 USERS_REF.document(CURRENT_USER_KEY)
                     .update("gender","Female").addOnSuccessListener {
-                        profileBinding.tvUserGender.text="Female"
+                        profileBinding.tvUserGender.text = resources.getString(R.string.female)
                     }
             }
         })
@@ -157,7 +172,6 @@ class ProfileFragment : Fragment() {
     private fun dpToPx(dp: Int): Int {
         return (dp * Resources.getSystem().displayMetrics.density).toInt()
     }
-
     private fun pxToDp(px: Int): Int {
         return (px / Resources.getSystem().displayMetrics.density).toInt()
     }
@@ -167,21 +181,21 @@ class ProfileFragment : Fragment() {
 
     private fun showImageInDialog() {
         val builder = AlertDialog.Builder(context)
-        builder.setTitle("Choose!")
+        builder.setTitle(R.string.choose)
         if (imageUri!=null || user.personalImageUri!=null){
-            builder.setPositiveButton("View") { dialog, which ->
+            builder.setPositiveButton(R.string.view) { dialog, which ->
                 if (imageUri!=null){
                     showImageViewer(imageUri.toString())
                 }else if (user.personalImageUri!=null){
                     showImageViewer(user.personalImageUri!!)
 
-                } else UIUtil.showLongToast("Image Not Founded", requireContext())
-            }.setNegativeButton("Edit") { dialog, which ->
+                } else UIUtil.showLongToast(R.string.img_not_found, requireContext())
+            }.setNegativeButton(R.string.edit) { dialog, which ->
                 chooseImage()
             }
         }else{
-            builder.setTitle("Choose Personal Image").setMessage("please Select you Image !")
-                .setPositiveButton("Add"){dialog, which ->
+            builder.setTitle(R.string.choosePImg).setMessage(R.string.please_select_img)
+                .setPositiveButton(R.string.add) { dialog, which ->
                     chooseImage()
                 }
         }
@@ -212,8 +226,8 @@ class ProfileFragment : Fragment() {
     }
     private fun uploadProviderImage(localImageURI: Uri) {
         val progressDialog = ProgressDialog(context)
-        progressDialog.setTitle("Set Profile Image")
-        progressDialog.setMessage("Please wait....")
+        progressDialog.setTitle(R.string.set_img_Profile)
+        progressDialog.setMessage(resources.getString(R.string.please_waite))
         progressDialog.setCancelable(false)
         progressDialog.show()
         val imagesStorageRef = FirebaseStorage.getInstance().reference.child("Users Images")

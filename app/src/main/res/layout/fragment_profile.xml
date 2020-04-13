@@ -219,6 +219,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/layoutAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -245,15 +246,12 @@
                     android:text="@string/address"
                     android:textColor="@android:color/black" />
 
-<!--                <TextView-->
-<!--                    android:id="@+id/tvAddressNAme"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    tools:text="Gaza, Senaa st, Sossi Home, 3th"-->
-<!--                    android:text="@{user.address[`city`]+`, `+-->
-<!--                    user.address[`street`]+`, `+-->
-<!--                    user.address[`home`]+`, `+-->
-<!--                    user.address[`level`]}"/>-->
+                <TextView
+                    android:id="@+id/tvAddressNAme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Gaza, Senaa st, Sossi Home, 3th"
+                    android:text="@{user.address}" />
             </LinearLayout>
 
         </LinearLayout>

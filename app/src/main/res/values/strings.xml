@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Home_Perfect</string>
+    <string name="app_name">Home Perfect</string>
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
     <string name="nav_header_title" translatable="false">Android Studio</string>
@@ -58,7 +58,8 @@
     <string name="signIn">SignIn</string>
     <string name="input_user_data">Input User Data</string>
     <string name="save">Save</string>
-    <string name="user_name">User Name....</string>
+    <string name="user_name_hint">User Name....</string>
+    <string name="user_name">User Name</string>
     <string name="booking_provider">Booking provider</string>
     <string name="accepted">Accepted</string>
     <string name="waiting">Waiting</string>
@@ -67,4 +68,24 @@
     <string name="rating">Rating</string>
     <string name="canceled">Canceled</string>
     <string name="provider_image">Provider Image</string>
+    <string name="more">More</string>
+    <string name="update_user_name_des">Your name makes it easy to Providers to confirm who they\'s booking</string>
+    <string name="email_address">Email Address</string>
+    <string name="update_user_email_des">Receive info about new update and awesome promos in your inbox</string>
+    <string name="update_user_address_des">Your address makes it easy to Providers to confirm book location</string>
+    <string name="your_gender">Your Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="no_providers_in_service">"No Providers in "</string>
+    <string name="view">View</string>
+    <string name="edit">Edit</string>
+    <string name="add">Add</string>
+    <string name="choosePImg">Choose Personal Image</string>
+    <string name="please_select_img">please Select you Image !</string>
+    <string name="img_not_found">Image Not Founded</string>
+    <string name="set_img_Profile">Set Profile Image</string>
+    <string name="please_waite">Please wait</string>
+    <string name="choose">Choose</string>
+
+
 </resources>

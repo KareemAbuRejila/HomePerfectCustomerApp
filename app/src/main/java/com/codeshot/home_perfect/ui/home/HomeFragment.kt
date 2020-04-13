@@ -116,7 +116,10 @@ class HomeFragment : Fragment(), ProvidersAdapter.OnItemClickListener,
             serviceIntent.putExtra("serviceName", service.name)
             startActivity(serviceIntent)
         } else
-            UIUtil.showShortToast("No Providers in ${service.name}", requireActivity())
+            UIUtil.showLongToast(
+                resources.getString(R.string.no_providers_in_service) + service.name,
+                requireContext()
+            )
 
 
     }

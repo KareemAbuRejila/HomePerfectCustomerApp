@@ -100,7 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@null"
-                android:hint="@string/user_name"
+                android:hint="@string/user_name_hint"
                 android:paddingStart="16dp"
                 android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>

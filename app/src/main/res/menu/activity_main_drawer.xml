@@ -19,7 +19,7 @@
             android:title="@string/menu_myBooking" />
     </group>
 
-    <item android:title="More">
+    <item android:title="@string/more">
         <menu>
             <item
                 android:id="@+id/nav_aboutUs"

@@ -23,7 +23,7 @@ class User : Serializable {
     var email:String?=null
     var bod:String?=null
     var gender:String?=null
-    var address=HashMap<String,String>()
+    var address: String? = null
     var rate: Double? = 0.0
     var rates = ArrayList<Rate>()
     var wishList = ArrayList<String>()
