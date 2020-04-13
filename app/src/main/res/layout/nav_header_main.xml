@@ -29,7 +29,7 @@
             app:layout_constraintHeight_max="110dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_logohomeperefect"
+            app:srcCompat="@drawable/logo_black"
             tools:ignore="VectorDrawableCompat"
             />
 

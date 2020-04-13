@@ -26,7 +26,7 @@
         tools:visibility="visible">
 
         <TextView
-            android:id="@+id/text_home"
+            android:id="@+id/tvTopProviders"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -49,11 +49,20 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/rvServices"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_home"
-
+            app:layout_constraintTop_toBottomOf="@+id/tvTopProviders"
             app:layout_constraintVertical_weight="3"
             tools:itemCount="4"
             tools:listitem="@layout/item_provider" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/services"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/rvServices" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvServices"
@@ -77,6 +86,18 @@
             tools:listitem="@layout/item_service"
             tools:visibility="visible" />
 
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/online_providers"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/rvServices"
+            app:layout_constraintStart_toStartOf="@+id/rvRecentProviders" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvRecentProviders"
             android:layout_width="wrap_content"
@@ -92,29 +113,20 @@
             app:layout_constraintVertical_weight="2.5"
             tools:itemCount="4"
             tools:listitem="@layout/item_recent_providers"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/services"
-            android:textColor="#000000"
-            android:textSize="18sp"
+        <ImageView
+            android:id="@+id/imgOnlineEmpty"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/rvServices" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="16dp"
-            android:text="@string/online_providers"
-            android:textColor="#000000"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/rvServices"
-            app:layout_constraintStart_toStartOf="@+id/rvRecentProviders" />
+            app:layout_constraintTop_toBottomOf="@+id/rvServices"
+            app:layout_constraintVertical_weight="2.5"
+            app:srcCompat="@drawable/empty"
+            tools:visibility="visible" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -73,14 +73,17 @@ class HomeFragment : Fragment(), ProvidersAdapter.OnItemClickListener,
             topProvidersAdapter.setList(it)
         })
 
-
         homeBinding.servicesAdapter = servicesAdapters
         homeViewModel!!.servicesOption.observe(viewLifecycleOwner, Observer {
             servicesAdapters.updateOptions(it)
         })
+
         homeBinding.onlineProviderAdapter = onlineProvidersAdapter
         homeViewModel!!.onlineProviders.observe(viewLifecycleOwner, Observer {
             onlineProvidersAdapter.setList(it)
+            if (it.isEmpty())
+                homeBinding.imgOnlineEmpty.visibility = View.VISIBLE
+            else homeBinding.imgOnlineEmpty.visibility = View.GONE
         })
 
         homeBinding.homeLayout.visibility = View.VISIBLE
@@ -102,7 +105,6 @@ class HomeFragment : Fragment(), ProvidersAdapter.OnItemClickListener,
             "ProviderProfileDialog"
         )
 
-
     }
 
     override fun onItemClicked(service: Service) {
@@ -118,7 +120,6 @@ class HomeFragment : Fragment(), ProvidersAdapter.OnItemClickListener,
 
 
     }
-
 
 }
 

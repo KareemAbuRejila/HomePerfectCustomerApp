@@ -63,19 +63,8 @@ class LoginActivity : AppCompatActivity() {
             true
         }
         activityLoginBinding.codeInput.addOnCompleteListener { code: String? ->
-            verifySignInCode()
+            verifySignInCode(code)
         }
-
-    }
-
-    private fun checkNumber(phoneNum: String): Boolean {
-        var isUser = true
-        PROVIDERS_REF.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
-            if (firebaseFirestoreException != null) return@addSnapshotListener
-            querySnapshot!!.forEach {
-            }
-        }
-        return isUser
 
     }
 
@@ -153,25 +142,18 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun hideCodeInput() {
-//        activityLoginBinding.codeInput.visibility = View.GONE
-//        activityLoginBinding.tvCodeEnter.visibility=View.GONE
-//        activityLoginBinding.btnConLogin.visibility = View.VISIBLE
-//        activityLoginBinding.phoneLayoutLogin.visibility = View.VISIBLE
-//        activityLoginBinding.textView3.visibility = View.VISIBLE
-
         activityLoginBinding.groupDefult.visibility = View.VISIBLE
         activityLoginBinding.phoneNumber = phoneNumber
         activityLoginBinding.groupCode.visibility = View.GONE
     }
 
-    private fun verifySignInCode() {
-        val code: String = activityLoginBinding.codeInput.code.toString()
+    private fun verifySignInCode(code: String?) {
         if (TextUtils.isEmpty(code)) {
             UIUtil.showLongToast("Code IS Empty", this@LoginActivity)
 
         } else {
             loadingDialog.show()
-            val credential = PhoneAuthProvider.getCredential(codeSent, code)
+            val credential = PhoneAuthProvider.getCredential(codeSent, code!!)
             signInWithPhoneAuthCredential(credential)
         }
     }
