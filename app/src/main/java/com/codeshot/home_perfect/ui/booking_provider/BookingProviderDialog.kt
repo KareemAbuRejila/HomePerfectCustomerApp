@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.codeshot.home_perfect.common.Common
 import com.codeshot.home_perfect.common.Common.CURRENT_USER_IMAGE
@@ -22,6 +21,7 @@ import com.codeshot.home_perfect.remote.IFCMService
 import com.codeshot.home_perfect.ui.booking_provider.steps_fragments.FirstStepBookingFragment
 import com.codeshot.home_perfect.ui.booking_provider.steps_fragments.SecondStepBookingFragment
 import com.codeshot.home_perfect.ui.booking_provider.steps_fragments.ThirdStepBookingFragment
+import com.codeshot.home_perfect.util.UIUtil
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FieldValue
@@ -157,32 +157,33 @@ class BookingProviderDialog(val provider: Provider?) : DialogFragment() {
                                         .update("requests", FieldValue.arrayUnion(it.id))
                                     val userTask= USERS_REF.document(CURRENT_USER_KEY)
                                         .update("requests",FieldValue.arrayUnion(it.id))
-                                    Tasks.whenAllSuccess<Toast>(providerTask,userTask)
+                                    Tasks.whenAllSuccess<Tasks>(providerTask, userTask)
                                         .addOnSuccessListener {
                                             fcmService.sendMessage(dataMessage)
                                                 .enqueue(object : Callback<FCMResponse> {
                                                     override fun onResponse(call: Call<FCMResponse>,response: Response<FCMResponse>) {
                                                         if (response.isSuccessful) {
-                                                            Toast.makeText(dialog!!.context, "Success", Toast.LENGTH_LONG)
-                                                                .show()
+                                                            UIUtil.showShortToast(
+                                                                "Success",
+                                                                dialog!!.context
+                                                            )
                                                             loadingDialog.dismiss()
                                                             dialog!!.dismiss()
                                                         } else {
-                                                            Toast.makeText(
-                                                                dialog!!.context,
+                                                            UIUtil.showShortToast(
                                                                 "Request Failed sent!",
-                                                                Toast.LENGTH_SHORT
-                                                            ).show()
+                                                                dialog!!.context
+                                                            )
                                                         }
                                                     }
 
                                                     override fun onFailure(call: Call<FCMResponse>,t: Throwable) {
                                                         Log.e("ERROR REQUEST SENT ", t.message!!)
-                                                        Toast.makeText(
-                                                            dialog!!.context,
-                                                            "ERROR REQUEST SENT! " + t.message,
-                                                            Toast.LENGTH_SHORT
-                                                        ).show()
+                                                        UIUtil.showShortToast(
+                                                            "Check Your Internet",
+                                                            dialog!!.context
+                                                        )
+
                                                     }
                                                 })
                                         }

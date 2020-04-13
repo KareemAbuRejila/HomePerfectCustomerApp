@@ -5,10 +5,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.codeshot.home_perfect.ui.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 
 
 class SplashActivity : AppCompatActivity() {
@@ -21,7 +17,7 @@ class SplashActivity : AppCompatActivity() {
             override fun run() {
                 try {
                     sleep(3000)
-                    isLogined()
+                    isLogged()
 
                 } catch (e: InterruptedException) {
                     e.printStackTrace()
@@ -38,12 +34,12 @@ class SplashActivity : AppCompatActivity() {
         finish()
     }
 
-    fun sendToLoginActivity() {
-        startActivity(Intent(this@SplashActivity,LoginActivity::class.java))
+    private fun sendToLoginActivity() {
+        startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
         finish()
     }
 
-    private fun isLogined() {
+    private fun isLogged() {
         if (FirebaseAuth.getInstance().currentUser != null)
             sendToHomeActivity("old")
         else

@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -19,6 +18,7 @@ import com.codeshot.home_perfect.databinding.FragmentHomeBinding
 import com.codeshot.home_perfect.models.Service
 import com.codeshot.home_perfect.ui.provider_profile.ProviderProfileDialog
 import com.codeshot.home_perfect.ui.service_activity.ServiceActivity
+import com.codeshot.home_perfect.util.UIUtil
 import java.util.*
 
 class HomeFragment : Fragment(), ProvidersAdapter.OnItemClickListener,
@@ -92,7 +92,7 @@ class HomeFragment : Fragment(), ProvidersAdapter.OnItemClickListener,
     }
 
 
-    override fun onItemClicked(providerId: String) {
+    override fun onProviderClicked(providerId: String) {
         val profileDialog =
             ProviderProfileDialog(
                 providerId
@@ -114,7 +114,8 @@ class HomeFragment : Fragment(), ProvidersAdapter.OnItemClickListener,
             serviceIntent.putExtra("serviceName", service.name)
             startActivity(serviceIntent)
         } else
-            Toast.makeText(activity, "No Providers in ${service.name}", Toast.LENGTH_SHORT).show()
+            UIUtil.showShortToast("No Providers in ${service.name}", requireActivity())
+
 
     }
 

@@ -15,7 +15,6 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -28,6 +27,7 @@ import com.codeshot.home_perfect.R
 import com.codeshot.home_perfect.common.Common.LOADING_DIALOG
 import com.codeshot.home_perfect.databinding.FragmentProfileBinding
 import com.codeshot.home_perfect.models.User
+import com.codeshot.home_perfect.util.UIUtil
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
@@ -175,7 +175,7 @@ class ProfileFragment : Fragment() {
                 }else if (user.personalImageUri!=null){
                     showImageViewer(user.personalImageUri!!)
 
-                } else Toast.makeText(context, "Image Not Founded", Toast.LENGTH_SHORT).show()
+                } else UIUtil.showLongToast("Image Not Founded", requireContext())
             }.setNegativeButton("Edit") { dialog, which ->
                 chooseImage()
             }
@@ -237,7 +237,7 @@ class ProfileFragment : Fragment() {
                         }
                 } else {
                     val errorMsg = task.exception.toString()
-                    Toast.makeText(context, "Error $errorMsg", Toast.LENGTH_SHORT).show();
+                    UIUtil.showLongToast("Error $errorMsg", requireContext())
                     progressDialog.dismiss()
                 }
             }

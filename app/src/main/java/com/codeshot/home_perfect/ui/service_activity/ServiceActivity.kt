@@ -79,7 +79,7 @@ class ServiceActivity : StandardActivity(),
         }
     }
 
-    override fun onItemClicked(providerId: String) {
+    override fun onProviderClicked(providerId: String) {
         val profileDialog = ProviderProfileDialog(providerId)
         profileDialog.show(
             this.supportFragmentManager,

@@ -15,7 +15,7 @@ class ProvidersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var onItemClickListener: OnItemClickListener? = null
     private var requestListener: ItemRequestListener? = null
 
-    private var VIEW__TYPE: Int = 0
+    private var VIEW_TYPE: Int = 0
     val PROVIDER_TOP = 1
     val PROVIDER_ONLINE = 2
     val PROVIDER_SERVICE = 3
@@ -24,7 +24,7 @@ class ProvidersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return when (VIEW__TYPE) {
+        return when (VIEW_TYPE) {
             PROVIDER_SERVICE -> {
                 val itemProviderBinding = ItemProviderBinding.inflate(inflater, parent, false)
                 ProviderServiceItem(itemProviderBinding)
@@ -58,7 +58,7 @@ class ProvidersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (VIEW__TYPE) {
+        when (VIEW_TYPE) {
             PROVIDER_TOP -> (holder as TopProviderItem).bindItem(providersList!![position])
             PROVIDER_ONLINE -> (holder as OnlineProviderItem).bindItem(providersList!![position])
             PROVIDER_SERVICE -> (holder as ProviderServiceItem).bindItem(providersList!![position])
@@ -68,7 +68,7 @@ class ProvidersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     fun setViewType(viewType: Int) {
-        this.VIEW__TYPE = viewType
+        this.VIEW_TYPE = viewType
         notifyDataSetChanged()
     }
 
@@ -93,14 +93,13 @@ class ProvidersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
     interface OnItemClickListener {
-        fun onItemClicked(providerId: String)
+        fun onProviderClicked(providerId: String)
     }
 
     interface ItemRequestListener {
-        fun OnItemClicked(request: Request)
-        fun OnImageClicked(providerId: String)
+        fun onRequestClicked(request: Request)
+        fun onImageRequestClicked(providerId: String)
     }
-
 
     inner class TopProviderItem(private val itemTopProviderBinding: ItemTopProviderBinding) :
         RecyclerView.ViewHolder(itemTopProviderBinding.root) {
@@ -110,7 +109,7 @@ class ProvidersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             itemTopProviderBinding.executePendingBindings()
             itemTopProviderBinding.root.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION && onItemClickListener != null) {
-                    onItemClickListener!!.onItemClicked(providerId = provider.id!!)
+                    onItemClickListener!!.onProviderClicked(providerId = provider.id!!)
                 }
 
             }
@@ -126,7 +125,7 @@ class ProvidersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
             itemRecentProvidersBinding.root.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION && onItemClickListener != null) {
-                    onItemClickListener!!.onItemClicked(providerId = provider.id!!)
+                    onItemClickListener!!.onProviderClicked(providerId = provider.id!!)
                 }
 
             }
@@ -146,7 +145,7 @@ class ProvidersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
             itemProviderBinding.root.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION && onItemClickListener != null) {
-                    onItemClickListener!!.onItemClicked(providerId = provider.id!!)
+                    onItemClickListener!!.onProviderClicked(providerId = provider.id!!)
 
                 }
             }
@@ -161,7 +160,7 @@ class ProvidersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             itemWishListProviderBinding.executePendingBindings()
             itemWishListProviderBinding.root.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION && onItemClickListener != null) {
-                    onItemClickListener!!.onItemClicked(providerId = provider.id!!)
+                    onItemClickListener!!.onProviderClicked(providerId = provider.id!!)
                 }
             }
             if (adapterPosition == providersList!!.size - 1) {
@@ -177,12 +176,12 @@ class ProvidersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             itemBookBinding.executePendingBindings()
             itemBookBinding.root.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION && requestListener != null) {
-                    requestListener!!.OnItemClicked(request = request)
+                    requestListener!!.onRequestClicked(request = request)
                 }
             }
             itemBookBinding.circleImageView2.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION && requestListener != null) {
-                    requestListener!!.OnImageClicked(request.to!!)
+                    requestListener!!.onImageRequestClicked(request.to!!)
                 }
             }
             if (adapterPosition == 0)

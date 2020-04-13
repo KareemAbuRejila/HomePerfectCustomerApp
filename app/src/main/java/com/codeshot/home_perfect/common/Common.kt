@@ -10,27 +10,10 @@ import cc.cloudist.acplibrary.ACProgressConstant
 import cc.cloudist.acplibrary.ACProgressFlower
 import com.codeshot.home_perfect.remote.FCMClient
 import com.codeshot.home_perfect.remote.IFCMService
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreSettings
 
 object Common {
-    //    fun isCONNECTED():Boolean?{
-//        var connected:Boolean?=false
-//        val connectRef= FirebaseDatabase.getInstance().getReference(".info/connected")
-//        connectRef.addValueEventListener(object : ValueEventListener {
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                connected=dataSnapshot.getValue(Boolean::class.java)
-//            }
-//            override fun onCancelled(databaseError: DatabaseError) {
-//                connected=false
-//            }
-//        })
-//        return connected
-//    }
+
     var CURRENT_USER_KEY =""
     var CURRENT_TOKEN=""
     var CURRENT_USER_PHONE=""
@@ -69,5 +52,7 @@ object Common {
     }
 
 
-
+    const val FILE_PROVIDER_AUTHORITY = "com.codeshot.home_perfect.provider"
+    const val FILE_PROVIDER_PATH =
+        "/Android/data/com.codeshot.home_perfect/files/Pictures"
 }

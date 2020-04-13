@@ -4,14 +4,12 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
@@ -22,8 +20,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import cc.cloudist.acplibrary.ACProgressBaseDialog
-import cc.cloudist.acplibrary.ACProgressConstant
-import cc.cloudist.acplibrary.ACProgressFlower
 import com.codeshot.home_perfect.common.Common
 import com.codeshot.home_perfect.common.Common.CURRENT_LOCATION
 import com.codeshot.home_perfect.common.Common.CURRENT_TOKEN
@@ -32,7 +28,6 @@ import com.codeshot.home_perfect.common.Common.CURRENT_USER_KEY
 import com.codeshot.home_perfect.common.Common.CURRENT_USER_NAME
 import com.codeshot.home_perfect.common.Common.CURRENT_USER_PHONE
 import com.codeshot.home_perfect.common.Common.LOADING_DIALOG
-import com.codeshot.home_perfect.common.Common.ROOT_REF
 import com.codeshot.home_perfect.common.Common.SHARED_PREF
 import com.codeshot.home_perfect.common.Common.USERS_REF
 import com.codeshot.home_perfect.common.StandardActivity
@@ -42,6 +37,8 @@ import com.codeshot.home_perfect.models.Token
 import com.codeshot.home_perfect.models.User
 import com.codeshot.home_perfect.ui.LoginActivity
 import com.codeshot.home_perfect.ui.user_profile.DialogUpdateUserInfo
+import com.codeshot.home_perfect.util.PermissionUtil
+import com.codeshot.home_perfect.util.UIUtil
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.GooglePlayServicesUtil
@@ -53,7 +50,6 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.Source
 import com.google.firebase.iid.FirebaseInstanceId
@@ -258,21 +254,15 @@ class HomeActivity : StandardActivity(),
     }
 
     private fun setUpLocation() {
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
+        if (PermissionUtil.isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION, this)
+            && PermissionUtil.isPermissionGranted(Manifest.permission.ACCESS_COARSE_LOCATION, this)
         ) {
             //Request runtime permission
-            ActivityCompat.requestPermissions(
+            PermissionUtil.requestPermissions(
                 this, arrayOf(
                     Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION
-                ), My_PERMISSION_REQUEST_CODE
+                ), LOCATION_PERMISSION_REQUEST_CODE
             )
         } else {
             if (checkPlayServices()) {
@@ -297,7 +287,7 @@ class HomeActivity : StandardActivity(),
     }
 
     //PlayService
-    private val My_PERMISSION_REQUEST_CODE = 7000
+    private val LOCATION_PERMISSION_REQUEST_CODE = 7000
     private val PLAY_SERVICE_RES_REQUEST = 7001
 
     //LocationRequest
@@ -319,7 +309,7 @@ class HomeActivity : StandardActivity(),
                     PLAY_SERVICE_RES_REQUEST
                 ).show()
             } else {
-                Toast.makeText(this, "This Device is not supported", Toast.LENGTH_LONG).show()
+                UIUtil.showLongToast("This Device is not supported", this)
             }
             return false
         }
@@ -352,8 +342,7 @@ class HomeActivity : StandardActivity(),
     }
 
     override fun onConnectionFailed(p0: ConnectionResult) {
-        Toast.makeText(this, p0.errorMessage, Toast.LENGTH_SHORT).show()
-
+        UIUtil.showShortToast(p0.errorMessage!!, this)
     }
 
     override fun onLocationChanged(p0: Location?) {
@@ -384,6 +373,5 @@ class HomeActivity : StandardActivity(),
             )
         }
     }
-
 
 }

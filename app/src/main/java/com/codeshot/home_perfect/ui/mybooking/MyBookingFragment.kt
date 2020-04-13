@@ -13,6 +13,7 @@ import com.codeshot.home_perfect.adapters.ProvidersAdapter
 import com.codeshot.home_perfect.databinding.FragmentMyBookingBinding
 import com.codeshot.home_perfect.models.Provider
 import com.codeshot.home_perfect.models.Request
+import com.codeshot.home_perfect.util.UIUtil
 
 class MyBookingFragment : Fragment(),
     ProvidersAdapter.ItemRequestListener {
@@ -62,11 +63,12 @@ class MyBookingFragment : Fragment(),
 
     }
 
-    override fun OnItemClicked(request: Request) {
+    override fun onRequestClicked(request: Request) {
         val requestId = request.id
-//        Toast.makeText(requireContext(), "Request: $requestId", Toast.LENGTH_SHORT).show()
+//        UIUtil.showShortToast("Request: $requestId",requireContext())
     }
-    override fun OnImageClicked(providerId: String) {
+
+    override fun onImageRequestClicked(providerId: String) {
         Common.PROVIDERS_REF.document(providerId).get()
             .addOnSuccessListener {
                 val provider = it.toObject(Provider::class.java)

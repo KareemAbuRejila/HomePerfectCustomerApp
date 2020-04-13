@@ -13,7 +13,6 @@ import android.view.View.OnFocusChangeListener
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.codeshot.home_perfect.common.Common
@@ -22,6 +21,7 @@ import com.codeshot.home_perfect.HomeActivity
 import com.codeshot.home_perfect.R
 import com.codeshot.home_perfect.databinding.DialogUpdateUserInfoBinding
 import com.codeshot.home_perfect.models.User
+import com.codeshot.home_perfect.util.UIUtil
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.Source
 import com.google.firebase.storage.FirebaseStorage
@@ -114,7 +114,7 @@ class DialogUpdateUserInfo : DialogFragment() {
                     // Handle failures
                     // ...
                     val errotMsg = task .exception.toString()
-                    Toast.makeText(context, "Error " + errotMsg, Toast.LENGTH_SHORT).show();
+                    UIUtil.showShortToast("Error $errotMsg", requireContext())
                     progressDialog.dismiss()
                 }
             }

@@ -10,13 +10,12 @@ import androidx.lifecycle.ViewModelProvider
 import cc.cloudist.acplibrary.ACProgressBaseDialog
 import com.codeshot.home_perfect.adapters.ProvidersAdapter
 import com.codeshot.home_perfect.common.Common
-import com.codeshot.home_perfect.common.Common.PROVIDERS_REF
 import com.codeshot.home_perfect.databinding.FragmentWishListBinding
-import com.codeshot.home_perfect.models.Provider
 import com.codeshot.home_perfect.ui.provider_profile.ProviderProfileDialog
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
-class WishListFragment : Fragment(), ProvidersAdapter.OnItemClickListener {
+
+class WishListFragment : Fragment(),
+    ProvidersAdapter.OnItemClickListener {
 
     private lateinit var fragmentWishListBinding: FragmentWishListBinding
     private var wishListViewModel: WishListViewModel? = null
@@ -77,7 +76,7 @@ class WishListFragment : Fragment(), ProvidersAdapter.OnItemClickListener {
         loadingDialog.dismiss()
     }
 
-    override fun onItemClicked(providerId: String) {
+    override fun onProviderClicked(providerId: String) {
         val profileDialog = ProviderProfileDialog(providerId)
         profileDialog.show(
             requireActivity().supportFragmentManager,

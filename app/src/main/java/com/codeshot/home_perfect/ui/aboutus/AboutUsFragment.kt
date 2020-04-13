@@ -4,14 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import com.codeshot.home_perfect.R
+import androidx.lifecycle.ViewModelProvider
+import com.codeshot.home_perfect.databinding.FragmentAboutusBinding
 
 class AboutUsFragment : Fragment() {
 
+    private lateinit var fragmentAboutUsBinding: FragmentAboutusBinding
     private lateinit var shareViewModel: AboutUSViewModel
 
     override fun onCreateView(
@@ -19,13 +19,12 @@ class AboutUsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        shareViewModel =
-            ViewModelProviders.of(this).get(AboutUSViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_aboutus, container, false)
-        val textView: TextView = root.findViewById(R.id.text_share)
+        shareViewModel = ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+            .create(AboutUSViewModel::class.java)
+        fragmentAboutUsBinding = FragmentAboutusBinding.inflate(inflater, container, false)
         shareViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+            fragmentAboutUsBinding.textShare.text = it
         })
-        return root
+        return fragmentAboutUsBinding.root
     }
 }

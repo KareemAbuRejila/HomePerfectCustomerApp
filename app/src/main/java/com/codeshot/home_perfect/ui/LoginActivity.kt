@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView.OnEditorActionListener
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -21,6 +20,7 @@ import com.codeshot.home_perfect.common.Common.LOADING_DIALOG
 import com.codeshot.home_perfect.common.Common.PROVIDERS_REF
 import com.codeshot.home_perfect.databinding.ActivityLoginBinding
 import com.codeshot.home_perfect.databinding.DialogLoginBinding
+import com.codeshot.home_perfect.util.UIUtil
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -103,11 +103,7 @@ class LoginActivity : AppCompatActivity() {
                             ) // OnVerificationStateChangedCallbacks
                         } else {
                             loadingDialog.dismiss()
-                            Toast.makeText(
-                                this,
-                                "This Number used by Provider Account",
-                                Toast.LENGTH_LONG
-                            ).show()
+                            UIUtil.showLongToast("This Number used by Provider Account", this)
                             return@addSnapshotListener
                         }
                     }
@@ -128,7 +124,7 @@ class LoginActivity : AppCompatActivity() {
             }
 
             override fun onVerificationFailed(e: FirebaseException) {
-                Toast.makeText(this@LoginActivity, e.message, Toast.LENGTH_LONG).show()
+                UIUtil.showLongToast(e.message!!, this@LoginActivity)
                 Log.e(TAG, e.message!!)
                 loadingDialog.dismiss()
             }
@@ -171,10 +167,8 @@ class LoginActivity : AppCompatActivity() {
     private fun verifySignInCode() {
         val code: String = activityLoginBinding.codeInput.code.toString()
         if (TextUtils.isEmpty(code)) {
-            Toast.makeText(
-                this@LoginActivity,
-                "Code IS Empty", Toast.LENGTH_LONG
-            ).show()
+            UIUtil.showLongToast("Code IS Empty", this@LoginActivity)
+
         } else {
             loadingDialog.show()
             val credential = PhoneAuthProvider.getCredential(codeSent, code)
@@ -186,23 +180,18 @@ class LoginActivity : AppCompatActivity() {
         FirebaseAuth.getInstance().signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-//                    val userID: String = FirebaseAuth.getInstance().currentUser?.uid.toString()
-//                    val drviceToken =FirebaseInstanceId.getInstance().token
-                    Toast.makeText(
-                        this@LoginActivity,
-                        " " + "IS Logined",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    UIUtil.showShortToast("Is logged", this@LoginActivity)
                     loadingDialog.dismiss()
                     sendToHomeActivity("new")
                 } else {
                     if (task.exception is FirebaseAuthInvalidCredentialsException) {
                         val errorMsg = task.exception.toString()
                         loadingDialog.dismiss()
-                        Toast.makeText(
-                            this@LoginActivity,
-                            "Incorrect Verification Code $errorMsg", Toast.LENGTH_LONG
-                        ).show()
+                        UIUtil.showLongToast(
+                            "Incorrect Verification Code $errorMsg",
+                            this@LoginActivity
+                        )
+
                         Log.e(TAG, errorMsg)
                     }
                 }
@@ -266,7 +255,8 @@ class LoginActivity : AppCompatActivity() {
                     sendToHomeActivity("new")
                 }.addOnFailureListener {
                     loadingDialog.dismiss()
-                    Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                    UIUtil.showLongToast(it.message!!, this@LoginActivity)
+
                 }
         }
 
