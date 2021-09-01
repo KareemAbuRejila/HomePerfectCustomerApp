@@ -86,6 +86,12 @@
     <string name="set_img_Profile">Set Profile Image</string>
     <string name="please_waite">Please wait</string>
     <string name="choose">Choose</string>
+    <string name="booking">Booking</string>
+    <string name="your_request">"Your Request is"</string>
+    <string name="please_rate_this_provider">Please rate this provider</string>
+    <string name="submit">Submit</string>
+    <string name="please_rate">please_rate</string>
+    <string name="enter_code">Enter Code:</string>
 
 
 </resources>

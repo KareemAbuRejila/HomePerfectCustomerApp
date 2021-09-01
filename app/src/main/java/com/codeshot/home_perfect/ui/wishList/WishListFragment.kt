@@ -11,11 +11,12 @@ import cc.cloudist.acplibrary.ACProgressBaseDialog
 import com.codeshot.home_perfect.adapters.ProvidersAdapter
 import com.codeshot.home_perfect.common.Common
 import com.codeshot.home_perfect.databinding.FragmentWishListBinding
+import com.codeshot.home_perfect.interfaces.ItemProviderListener
 import com.codeshot.home_perfect.ui.provider_profile.ProviderProfileDialog
 
 
 class WishListFragment : Fragment(),
-    ProvidersAdapter.OnItemClickListener {
+    ItemProviderListener {
 
     private lateinit var fragmentWishListBinding: FragmentWishListBinding
     private var wishListViewModel: WishListViewModel? = null
@@ -40,8 +41,6 @@ class WishListFragment : Fragment(),
         providersAdapter.setViewType(providersAdapter.PROVIDER_WISHLIST)
         providersAdapter.setOnCLickListener(this)
 
-
-
     }
 
     override fun onCreateView(
@@ -62,7 +61,7 @@ class WishListFragment : Fragment(),
         fragmentWishListBinding.imgEmptyWishList.visibility = View.VISIBLE
 
         wishListViewModel!!.providers.observe(viewLifecycleOwner, Observer {
-            providersAdapter.setList(it)
+            providersAdapter.setProviders(it)
             fragmentWishListBinding.rvProviders.visibility = View.VISIBLE
             fragmentWishListBinding.imgEmptyWishList.visibility = View.GONE
             loadingDialog.dismiss()

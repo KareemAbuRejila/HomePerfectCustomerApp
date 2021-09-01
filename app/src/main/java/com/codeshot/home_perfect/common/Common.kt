@@ -22,6 +22,8 @@ object Common {
     var CURRENT_USER_IMAGE=""
     var CURRENT_LOCATION:Location?=null
     var SERVICE_Providers:List<String>?=ArrayList<String>()
+
+
     val ROOT_REF = FirebaseFirestore.getInstance()
     val USERS_REF = ROOT_REF.collection("Users")
     val PROVIDERS_REF = ROOT_REF.collection("Providers")

@@ -5,6 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.codeshot.home_perfect.databinding.*
+import com.codeshot.home_perfect.interfaces.ItemProviderListener
+import com.codeshot.home_perfect.interfaces.ItemRequestListener
+import com.codeshot.home_perfect.models.Notification
 import com.codeshot.home_perfect.models.Provider
 import com.codeshot.home_perfect.models.Request
 
@@ -12,7 +15,8 @@ class ProvidersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var providersList: List<Provider>? = ArrayList()
     private var requests: List<Request>? = ArrayList()
-    private var onItemClickListener: OnItemClickListener? = null
+    private var notifications: List<Notification>? = ArrayList()
+    private var itemProviderListener: ItemProviderListener? = null
     private var requestListener: ItemRequestListener? = null
 
     private var VIEW_TYPE: Int = 0
@@ -21,6 +25,7 @@ class ProvidersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val PROVIDER_SERVICE = 3
     val PROVIDER_WISHLIST = 4
     val REQUEST = 5
+    val NOTIFICATION = 6
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -43,6 +48,11 @@ class ProvidersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 val itemBookBinding = ItemBookBinding.inflate(inflater, parent, false)
                 ItemRequest(itemBookBinding)
             }
+            NOTIFICATION -> {
+                val itemNotificationBinding =
+                    ItemNotificationBinding.inflate(inflater, parent, false)
+                ItemNotification(itemNotificationBinding)
+            }
             else -> {
                 val itemTopProviderBinding = ItemTopProviderBinding.inflate(inflater, parent, false)
                 TopProviderItem(itemTopProviderBinding)
@@ -52,9 +62,11 @@ class ProvidersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return if (providersList!!.isNotEmpty())
-            providersList!!.size
-        else requests!!.size
+        return when {
+            providersList!!.isNotEmpty() -> providersList!!.size
+            notifications!!.isNotEmpty() -> notifications!!.size
+            else -> requests!!.size
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -63,6 +75,7 @@ class ProvidersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             PROVIDER_ONLINE -> (holder as OnlineProviderItem).bindItem(providersList!![position])
             PROVIDER_SERVICE -> (holder as ProviderServiceItem).bindItem(providersList!![position])
             REQUEST -> (holder as ItemRequest).bindItem(requests!![position])
+            NOTIFICATION -> (holder as ItemNotification).bindItem(notifications!![position])
             PROVIDER_WISHLIST -> (holder as WishListItem).bindItem(providersList!![position])
         }
     }
@@ -72,7 +85,7 @@ class ProvidersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    fun setList(providers: List<Provider>) {
+    fun setProviders(providers: List<Provider>) {
         this.providersList = providers
         notifyDataSetChanged()
     }
@@ -82,24 +95,20 @@ class ProvidersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         notifyDataSetChanged()
     }
 
+    fun setNotifications(notifications: List<Notification>) {
+        this.notifications = notifications
+        notifyDataSetChanged()
+    }
 
-    fun setOnCLickListener(onItemClickListener: OnItemClickListener) {
-        this.onItemClickListener = onItemClickListener
+
+    fun setOnCLickListener(itemProviderListener: ItemProviderListener) {
+        this.itemProviderListener = itemProviderListener
     }
 
     fun setItemRequestListener(requestListener: ItemRequestListener) {
         this.requestListener = requestListener
     }
 
-
-    interface OnItemClickListener {
-        fun onProviderClicked(providerId: String)
-    }
-
-    interface ItemRequestListener {
-        fun onRequestClicked(request: Request)
-        fun onImageRequestClicked(providerId: String)
-    }
 
     inner class TopProviderItem(private val itemTopProviderBinding: ItemTopProviderBinding) :
         RecyclerView.ViewHolder(itemTopProviderBinding.root) {
@@ -108,8 +117,8 @@ class ProvidersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             itemTopProviderBinding.provider = provider
             itemTopProviderBinding.executePendingBindings()
             itemTopProviderBinding.root.setOnClickListener {
-                if (adapterPosition != RecyclerView.NO_POSITION && onItemClickListener != null) {
-                    onItemClickListener!!.onProviderClicked(providerId = provider.id!!)
+                if (adapterPosition != RecyclerView.NO_POSITION && itemProviderListener != null) {
+                    itemProviderListener!!.onProviderClicked(providerId = provider.id!!)
                 }
 
             }
@@ -124,8 +133,8 @@ class ProvidersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             itemRecentProvidersBinding.executePendingBindings()
 
             itemRecentProvidersBinding.root.setOnClickListener {
-                if (adapterPosition != RecyclerView.NO_POSITION && onItemClickListener != null) {
-                    onItemClickListener!!.onProviderClicked(providerId = provider.id!!)
+                if (adapterPosition != RecyclerView.NO_POSITION && itemProviderListener != null) {
+                    itemProviderListener!!.onProviderClicked(providerId = provider.id!!)
                 }
 
             }
@@ -144,8 +153,8 @@ class ProvidersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 itemProviderBinding.imgStatus.setImageResource(android.R.color.holo_red_light)
             }
             itemProviderBinding.root.setOnClickListener {
-                if (adapterPosition != RecyclerView.NO_POSITION && onItemClickListener != null) {
-                    onItemClickListener!!.onProviderClicked(providerId = provider.id!!)
+                if (adapterPosition != RecyclerView.NO_POSITION && itemProviderListener != null) {
+                    itemProviderListener!!.onProviderClicked(providerId = provider.id!!)
 
                 }
             }
@@ -159,8 +168,8 @@ class ProvidersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             itemWishListProviderBinding.provider = provider
             itemWishListProviderBinding.executePendingBindings()
             itemWishListProviderBinding.root.setOnClickListener {
-                if (adapterPosition != RecyclerView.NO_POSITION && onItemClickListener != null) {
-                    onItemClickListener!!.onProviderClicked(providerId = provider.id!!)
+                if (adapterPosition != RecyclerView.NO_POSITION && itemProviderListener != null) {
+                    itemProviderListener!!.onProviderClicked(providerId = provider.id!!)
                 }
             }
             if (adapterPosition == providersList!!.size - 1) {
@@ -191,6 +200,16 @@ class ProvidersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 itemBookBinding.lineDown.visibility = View.GONE
 
 
+        }
+
+    }
+
+    inner class ItemNotification(private val itemNotificationBinding: ItemNotificationBinding) :
+        RecyclerView.ViewHolder(itemNotificationBinding.root) {
+
+        fun bindItem(notification: Notification) {
+            itemNotificationBinding.noti = notification
+            itemNotificationBinding.executePendingBindings()
         }
 
     }

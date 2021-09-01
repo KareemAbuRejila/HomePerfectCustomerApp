@@ -1,14 +1,18 @@
 package com.codeshot.home_perfect
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
@@ -32,10 +36,12 @@ import com.codeshot.home_perfect.common.Common.SHARED_PREF
 import com.codeshot.home_perfect.common.Common.USERS_REF
 import com.codeshot.home_perfect.common.StandardActivity
 import com.codeshot.home_perfect.databinding.ActivityHomeBinding
+import com.codeshot.home_perfect.databinding.DialogRaringBinding
 import com.codeshot.home_perfect.databinding.NavHeaderMainBinding
 import com.codeshot.home_perfect.models.Token
 import com.codeshot.home_perfect.models.User
 import com.codeshot.home_perfect.ui.LoginActivity
+import com.codeshot.home_perfect.ui.notifications.NotificationsDialog
 import com.codeshot.home_perfect.ui.user_profile.DialogUpdateUserInfo
 import com.codeshot.home_perfect.util.PermissionUtil
 import com.codeshot.home_perfect.util.UIUtil
@@ -47,12 +53,11 @@ import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.appbar.CollapsingToolbarLayout
-import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.Source
-import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import org.imperiumlabs.geofirestore.GeoFirestore
 
@@ -81,7 +86,7 @@ class HomeActivity : StandardActivity(),
         loadingDialog = LOADING_DIALOG(this)
 
         CURRENT_USER_KEY = FirebaseAuth.getInstance().currentUser!!.uid
-        Common.CURRENT_USER_PHONE = FirebaseAuth.getInstance().currentUser!!.email.toString()
+        CURRENT_USER_PHONE = FirebaseAuth.getInstance().currentUser!!.email.toString()
 
         checkIntent()
         setUpDrawerNav()
@@ -98,15 +103,42 @@ class HomeActivity : StandardActivity(),
                 } else if (intent.getStringExtra("user") == "old") {
                     checkUserData()
                 }
+            } else if (intent.getStringExtra("type") != null) {
+                val type = intent.getStringExtra("type")
+                if (type == "rating") {
+                    showRatingDialog()
+                }
             }
-
         }
+    }
+
+    private fun showRatingDialog() {
+        val dialogRaringBinding = DialogRaringBinding.inflate(layoutInflater)
+        val ratingDialog = AlertDialog.Builder(this)
+            .setView(dialogRaringBinding.root)
+            .create()
+        ratingDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogRaringBinding.btnRate.setOnClickListener { ratingDialog.dismiss() }
+        dialogRaringBinding.ratingBarRating.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
+            dialogRaringBinding.btnRate.isEnabled = rating != 0F
+        }
+        ratingDialog.show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_notifications -> {
+                NotificationsDialog().show(supportFragmentManager, "NotificationsDialog")
+                true
+            }
+            else -> false
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -116,9 +148,9 @@ class HomeActivity : StandardActivity(),
 
 
     private fun checkToken() {
-        FirebaseInstanceId.getInstance().instanceId
-            .addOnSuccessListener { instantResult ->
-                val token = instantResult.token
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val token = task.result
                 updateTokenToServer(token)
                 CURRENT_TOKEN = token
                 val sharedPreferences = getSharedPreferences(
@@ -127,6 +159,9 @@ class HomeActivity : StandardActivity(),
                 )
                 sharedPreferences.edit().putString("token", token).apply()
             }
+        }
+
+
     }
 
     private fun updateTokenToServer(newToken: String) {
@@ -143,21 +178,20 @@ class HomeActivity : StandardActivity(),
     fun checkUserData() {
         loadingDialog.show()
         // Source can be CACHE, SERVER, or DEFAULT.
-        val source = Source.SERVER
         USERS_REF.document(CURRENT_USER_KEY)
-            .get(source).addOnSuccessListener { document ->
+            .get().addOnSuccessListener { document ->
                 if (!document!!.exists()) {
                     dialogUpdateUserInfo.show(this.supportFragmentManager, "tag")
                 } else {
-                    val user = document.toObject(User::class.java)
-                    CURRENT_USER_NAME = user!!.userName!!
-                    CURRENT_USER_IMAGE = user.personalImageUri!!
+                    val currentUser = document.toObject(User::class.java)
+                    CURRENT_USER_NAME = currentUser!!.userName!!
+                    CURRENT_USER_IMAGE = currentUser.personalImageUri!!
                     navHeaderMainBinding =
                         NavHeaderMainBinding.bind(activityHomeBinding.navView.getHeaderView(0))
-                    navHeaderMainBinding.user = user
-                    user.id = CURRENT_USER_KEY
-                    user.phone = CURRENT_USER_PHONE
-                    val userGSON = Gson().toJson(user)
+                    navHeaderMainBinding.user = currentUser
+                    currentUser.id = CURRENT_USER_KEY
+                    currentUser.phone = CURRENT_USER_PHONE
+                    val userGSON = Gson().toJson(currentUser)
                     SHARED_PREF(this).edit().putString("user", userGSON).apply()
                 }
                 loadingDialog.dismiss()
@@ -169,7 +203,10 @@ class HomeActivity : StandardActivity(),
                     val user = Gson().fromJson<User>(userGSON, User::class.java)
                     navHeaderMainBinding.user = user
                     loadingDialog.dismiss()
-                } else return@addOnFailureListener
+                } else {
+                    signOut()
+                    return@addOnFailureListener
+                }
             }
     }
 
@@ -208,7 +245,10 @@ class HomeActivity : StandardActivity(),
                     navHeaderMainBinding =
                         NavHeaderMainBinding.bind(activityHomeBinding.navView.getHeaderView(0))
                     navHeaderMainBinding.user = user
-                } else return@addOnFailureListener
+                } else {
+                    signOut()
+                    return@addOnFailureListener
+                }
             }
     }
 
@@ -216,8 +256,6 @@ class HomeActivity : StandardActivity(),
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
-        val drawerLayout: DrawerLayout = activityHomeBinding.drawerLayout
-        val navView: NavigationView = activityHomeBinding.navView
         navController = findNavController(R.id.nav_host_fragment)
 
         // Passing each menu ID as a set of Ids because each
@@ -226,14 +264,14 @@ class HomeActivity : StandardActivity(),
             setOf(
                 R.id.nav_home, R.id.nav_profile, R.id.nav_wishlist,
                 R.id.nav_myBooking, R.id.nav_aboutUs
-            ), drawerLayout
+            ), activityHomeBinding.drawerLayout
         )
-        navView.setupWithNavController(navController)
+        activityHomeBinding.navView.setupWithNavController(navController)
         val collapsingToolbarLayout: CollapsingToolbarLayout = findViewById(R.id.colappsingtoolbar)
         collapsingToolbarLayout.setupWithNavController(toolbar, navController, appBarConfiguration)
 
 
-        val itemLogout = navView.menu.findItem(R.id.nav_logOut)
+        val itemLogout = activityHomeBinding.navView.menu.findItem(R.id.nav_logOut)
         itemLogout.setOnMenuItemClickListener {
             signOut()
             return@setOnMenuItemClickListener true

@@ -15,11 +15,19 @@
       },
       "oauth_client": [
         {
-          "client_id": "108668204364-mn59vfitga9cd08kum515l572s95fm6s.apps.googleusercontent.com",
+          "client_id": "108668204364-gfokkq8luh023vt2qciu2sliclpgn353.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.codeshot.home_perfect",
-            "certificate_hash": "21687790779c28894a266b4464b15216c42fd4db"
+            "certificate_hash": "0e76c075bb575c60aba25ca73d0efce859c8d085"
+          }
+        },
+        {
+          "client_id": "108668204364-gqr053qas8snqrlg539d8rramt8k5vgb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.codeshot.home_perfect",
+            "certificate_hash": "2daee01656068597a068a7bae437bb65adc8104c"
           }
         },
         {
@@ -52,11 +60,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "108668204364-to6jv89s9pff7a7a547vfksa613m5p3h.apps.googleusercontent.com",
+          "client_id": "108668204364-onfr34lsec3vv98oua8ok7fhc959hotl.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.codeshot.home_perfect_provider",
-            "certificate_hash": "21687790779c28894a266b4464b15216c42fd4db"
+            "certificate_hash": "2daee01656068597a068a7bae437bb65adc8104c"
           }
         },
         {

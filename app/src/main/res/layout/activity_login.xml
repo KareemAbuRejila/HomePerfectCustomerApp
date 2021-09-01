@@ -23,8 +23,9 @@
             android:id="@+id/imgBg"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:backgroundTint="#80000000"
-            android:backgroundTintMode="src_over"
+            android:foreground="#80000000"
+            android:foregroundTintMode="src_over"
+            android:fitsSystemWindows="true"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -144,8 +145,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="tvCodeEnter,codeInput,textView14"
-            tools:visibility="visible" />
+            app:constraint_referenced_ids="tvCodeEnter,codeInput,textView14" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/groupDefult"
@@ -160,7 +160,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
-            android:text="Entyer Code:"
+            android:text="@string/enter_code"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textColor="#000000"
             app:layout_constraintStart_toStartOf="parent"

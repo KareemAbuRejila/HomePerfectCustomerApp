@@ -52,33 +52,28 @@ class Request : Serializable {
         @BindingAdapter("statusRequest")
         fun loadRequestStatus(textView: TextView?, status: String?) {
             when (status) {
-                "accepted" ->{
-                    textView!!.setTextColor(textView.context.resources.getColor(android.R.color.holo_green_light))
-                    textView.text=textView.context.resources.getString(R.string.accepted)
-                }
                 "waiting" -> {
                     textView!!.setTextColor(textView.context.resources.getColor(android.R.color.holo_blue_dark))
-                    textView.text=textView.context.resources.getString(R.string.waiting)
+                    textView.text = textView.context.resources.getString(R.string.waiting)
+
+                }
+                "accepted" -> {
+                    textView!!.setTextColor(textView.context.resources.getColor(android.R.color.holo_purple))
+                    textView.text = textView.context.resources.getString(R.string.done)
 
                 }
                 "in progress" -> {
-                    textView!!.setTextColor(textView.context.resources.getColor(android.R.color.holo_blue_bright))
-                    textView.text=textView.context.resources.getString(R.string.in_progress)
+                    textView!!.setTextColor(textView.context.resources.getColor(android.R.color.holo_orange_light))
+                    textView.text = textView.context.resources.getString(R.string.in_progress)
 
                 }
                 "done" -> {
-                    textView!!.setTextColor(textView.context.resources.getColor(android.R.color.holo_green_dark))
-                    textView.text=textView.context.resources.getString(R.string.done)
-
+                    textView!!.setTextColor(textView.context.resources.getColor(android.R.color.holo_green_light))
+                    textView.text = textView.context.resources.getString(R.string.accepted)
                 }
-                "rating" -> {
-                    textView!!.setTextColor(textView.context.resources.getColor(android.R.color.black))
-                    textView.text=textView.context.resources.getString(R.string.rating)
-
-                }
-                "canceled"-> {
+                "canceled" -> {
                     textView!!.setTextColor(textView.context.resources.getColor(android.R.color.holo_red_light))
-                    textView.text=textView.context.resources.getString(R.string.canceled)
+                    textView.text = textView.context.resources.getString(R.string.canceled)
 
                 }
                 else -> return

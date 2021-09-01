@@ -6,6 +6,8 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.ContextWrapper
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.net.Uri
@@ -45,29 +47,46 @@ class NotificationsHelper(base: Context?) : ContextWrapper(base) {
         }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    fun getCarsNotification(
+    fun getCarsNotificationApi26(
         title: String?,
         content: String?,
         contentIntent: PendingIntent?,
         soundUri: Uri?
     ): Notification.Builder {
         return Notification.Builder(
-                applicationContext,
-                HomePerfect_CHANNEL_ID
-            )
+            applicationContext,
+            HomePerfect_CHANNEL_ID
+        )
             .setContentText(content)
             .setContentTitle(title)
-            .setSound(soundUri,AudioAttributes.Builder()
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
-                .build())
+            .setSound(soundUri)
             .setContentIntent(contentIntent)
             .setSmallIcon(R.mipmap.ic_launcher)
+            .setLargeIcon(BitmapFactory.decodeResource(baseContext.resources, R.mipmap.ic_launcher))
+            .setAutoCancel(true)
+
+    }
+
+    fun getCarsNotification(
+        title: String?,
+        content: String?,
+        contentIntent: PendingIntent?,
+        soundUri: Uri?
+    ): Notification.Builder {
+        return Notification.Builder(applicationContext)
+            .setContentText(content)
+            .setContentTitle(title)
+            .setSound(soundUri)
+            .setContentIntent(contentIntent)
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setLargeIcon(BitmapFactory.decodeResource(baseContext.resources, R.mipmap.ic_launcher))
+            .setAutoCancel(true)
+
     }
 
     companion object {
-        private const val HomePerfect_CHANNEL_ID = "com.codeshot.home_perfect_provider"
-        private const val HomePerfect_CHANNEL_NAME = "Home Perfect ProviderApp"
+        const val HomePerfect_CHANNEL_ID = "com.codeshot.home_perfect"
+        private const val HomePerfect_CHANNEL_NAME = "HomePerfectCustomerApp"
     }
 
     init {

@@ -98,9 +98,6 @@ class LoginActivity : AppCompatActivity() {
                     }
 
 
-
-
-
             }
         }
     }
@@ -225,7 +222,7 @@ class LoginActivity : AppCompatActivity() {
             layoutInflater,
             activityLoginBinding.root as ViewGroup?, false
         )
-        dialogbinding.edtRePassLogDia.visibility = View.INVISIBLE
+        dialogbinding.rePassLogDia.visibility = View.INVISIBLE
         dialogbinding.btnLogin.text = "Login"
         dialogbinding.btnLogin.setOnClickListener {
             loadingDialog.show()
@@ -264,6 +261,4 @@ class LoginActivity : AppCompatActivity() {
         } else
             super.onBackPressed()
     }
-
-
 }

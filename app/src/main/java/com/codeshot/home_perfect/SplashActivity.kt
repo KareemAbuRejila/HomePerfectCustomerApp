@@ -13,18 +13,19 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        val thread: Thread = object : Thread() {
-            override fun run() {
-                try {
-                    sleep(3000)
-                    isLogged()
-
-                } catch (e: InterruptedException) {
-                    e.printStackTrace()
-                }
-            }
-        }
-        thread.start()
+//        val thread: Thread = object : Thread() {
+//            override fun run() {
+//                try {
+//                    sleep(3000)
+//                    isLogged()
+//
+//                } catch (e: InterruptedException) {
+//                    e.printStackTrace()
+//                }
+//            }
+//        }
+//        thread.start()
+        isLogged()
     }
 
     private fun sendToHomeActivity(type: String) {

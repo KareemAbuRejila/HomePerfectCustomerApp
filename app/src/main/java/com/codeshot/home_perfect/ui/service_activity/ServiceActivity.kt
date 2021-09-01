@@ -8,15 +8,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.codeshot.home_perfect.R
 import com.codeshot.home_perfect.adapters.ProvidersAdapter
-import com.codeshot.home_perfect.common.Common
 import com.codeshot.home_perfect.common.StandardActivity
 import com.codeshot.home_perfect.databinding.ActivityServiceBinding
-import com.codeshot.home_perfect.models.Provider
+import com.codeshot.home_perfect.interfaces.ItemProviderListener
 import com.codeshot.home_perfect.ui.provider_profile.ProviderProfileDialog
 import com.google.android.material.tabs.TabLayout
 
 class ServiceActivity : StandardActivity(),
-    ProvidersAdapter.OnItemClickListener
+    ItemProviderListener
     , TabLayout.OnTabSelectedListener {
     private lateinit var activityServiceBinding: ActivityServiceBinding
     private lateinit var serviceViewModel: ServiceViewModel
@@ -67,7 +66,7 @@ class ServiceActivity : StandardActivity(),
         providersAdapter.setOnCLickListener(this)
         activityServiceBinding.adapter = providersAdapter
         serviceViewModel.providers.observe(this, Observer {
-            providersAdapter.setList(it)
+            providersAdapter.setProviders(it)
         })
         activityServiceBinding.tabLayoutService.addOnTabSelectedListener(this)
     }

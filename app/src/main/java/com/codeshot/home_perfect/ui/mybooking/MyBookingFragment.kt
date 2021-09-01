@@ -11,12 +11,13 @@ import cc.cloudist.acplibrary.ACProgressBaseDialog
 import com.codeshot.home_perfect.common.Common
 import com.codeshot.home_perfect.adapters.ProvidersAdapter
 import com.codeshot.home_perfect.databinding.FragmentMyBookingBinding
+import com.codeshot.home_perfect.interfaces.ItemRequestListener
 import com.codeshot.home_perfect.models.Provider
 import com.codeshot.home_perfect.models.Request
 import com.codeshot.home_perfect.util.UIUtil
 
 class MyBookingFragment : Fragment(),
-    ProvidersAdapter.ItemRequestListener {
+    ItemRequestListener {
 
     private lateinit var fragmentMyBookingBinding: FragmentMyBookingBinding
     private lateinit var myBookingViewModel: MyBookingViewModel

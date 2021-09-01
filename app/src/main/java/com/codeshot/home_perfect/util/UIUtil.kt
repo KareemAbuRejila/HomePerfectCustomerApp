@@ -32,7 +32,8 @@ object UIUtil {
         duration: Int,
         context: Context
     ) {
-        Toast.makeText(context, stringId, duration).show()
+        if (context != null)
+            Toast.makeText(context, stringId, duration).show()
     }
 
     fun showShortToast(text: String, context: Context) {
@@ -48,6 +49,7 @@ object UIUtil {
         duration: Int,
         context: Context
     ) {
-        Toast.makeText(context, text, duration).show()
+        if (context != null)
+            Toast.makeText(context, text, duration).show()
     }
 }

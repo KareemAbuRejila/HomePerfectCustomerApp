@@ -25,11 +25,28 @@
         android:visibility="invisible"
         tools:visibility="visible">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvTopProviders"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:adapter="@{topProviderAdapter}"
+            android:layoutDirection="ltr"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTopProviders"
+            app:layout_constraintVertical_weight="3"
+            tools:itemCount="4"
+            tools:listitem="@layout/item_provider"
+            tools:visibility="visible" />
+
         <TextView
             android:id="@+id/tvTopProviders"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="14dp"
             android:layout_marginEnd="8dp"
             android:text="@string/top_providers"
             android:textColor="#000000"
@@ -37,32 +54,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="TopProvider" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvTopProviders"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:adapter="@{topProviderAdapter}"
-            android:layoutDirection="ltr"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/rvServices"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTopProviders"
-            app:layout_constraintVertical_weight="3"
-            tools:itemCount="4"
-            tools:listitem="@layout/item_provider" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/services"
-            android:textColor="#000000"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/rvServices" />
+            tools:text="TopProvider"
+            tools:visibility="visible" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvServices"
@@ -72,48 +65,64 @@
             android:fadeScrollbars="false"
             android:nestedScrollingEnabled="false"
             android:padding="30dp"
+            android:visibility="visible"
             app:fastScrollEnabled="false"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/rvRecentProviders"
+            app:layout_constraintBottom_toTopOf="@+id/guideline2"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rvTopProviders"
+            app:layout_constraintTop_toBottomOf="@+id/textView17"
             app:layout_constraintVertical_weight="6"
             app:spanCount="3"
             tools:itemCount="9"
-            tools:listitem="@layout/item_service"
-            tools:visibility="visible" />
+            tools:listitem="@layout/item_service" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/textView17"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="16dp"
-            android:text="@string/online_providers"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/services"
             android:textColor="#000000"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/rvServices"
-            app:layout_constraintStart_toStartOf="@+id/rvRecentProviders" />
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvTopProviders"
+            tools:visibility="visible" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvRecentProviders"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="8dp"
             android:adapter="@{onlineProviderAdapter}"
             android:layoutDirection="ltr"
             android:orientation="horizontal"
             android:visibility="visible"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rvServices"
+            app:layout_constraintTop_toBottomOf="@+id/textView4"
             app:layout_constraintVertical_weight="2.5"
             tools:itemCount="4"
             tools:listitem="@layout/item_recent_providers"
-            tools:visibility="gone" />
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/online_providers"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline2"
+            tools:visibility="visible" />
 
         <ImageView
             android:id="@+id/imgOnlineEmpty"
@@ -126,7 +135,21 @@
             app:layout_constraintTop_toBottomOf="@+id/rvServices"
             app:layout_constraintVertical_weight="2.5"
             app:srcCompat="@drawable/empty"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.25" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.75" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -53,12 +53,12 @@
     <string name="save">حفظ</string>
     <string name="user_name_hint">اسم المستخدم</string>
     <string name="booking_provider">خطوات طلب العامل</string>
-    <string name="accepted">مقبول</string>
+    <string name="accepted">تم قبوله</string>
     <string name="waiting">جار الانتظار</string>
     <string name="in_progress">جار العمل</string>
     <string name="done">اكتمل</string>
     <string name="rating">جاري التقيم</string>
-    <string name="canceled">مرفوض</string>
+    <string name="canceled">تم رفضه</string>
     <string name="user_name">اسم المستخدم</string>
     <string name="provider_image">الصوره الشخصيه</string>
     <string name="more">المزيد</string>
@@ -79,4 +79,6 @@
     <string name="set_img_Profile">تحديد صوره الملف</string>
     <string name="please_waite">الرجاء الانتظار</string>
     <string name="choose">اختيار</string>
+    <string name="booking">الطلب</string>
+    <string name="your_request">طلبكم</string>
 </resources>

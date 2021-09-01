@@ -7,6 +7,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import com.codeshot.home_perfect.common.Common
+import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
 
@@ -16,6 +17,7 @@ class MyApplication : Application() {
         if (instance == null) {
             instance = this
         }
+        FirebaseApp.initializeApp(this)
         setUpFireBaseStorage()
     }
 

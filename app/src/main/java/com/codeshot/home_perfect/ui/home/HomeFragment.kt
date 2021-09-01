@@ -15,14 +15,16 @@ import com.codeshot.home_perfect.R
 import com.codeshot.home_perfect.adapters.ProvidersAdapter
 import com.codeshot.home_perfect.adapters.ServicesAdapters
 import com.codeshot.home_perfect.databinding.FragmentHomeBinding
+import com.codeshot.home_perfect.interfaces.ItemProviderListener
+import com.codeshot.home_perfect.interfaces.ItemServiceListener
 import com.codeshot.home_perfect.models.Service
 import com.codeshot.home_perfect.ui.provider_profile.ProviderProfileDialog
 import com.codeshot.home_perfect.ui.service_activity.ServiceActivity
 import com.codeshot.home_perfect.util.UIUtil
 import java.util.*
 
-class HomeFragment : Fragment(), ProvidersAdapter.OnItemClickListener,
-    ServicesAdapters.OnItemClickListener {
+class HomeFragment : Fragment(), ItemProviderListener,
+    ItemServiceListener {
 
 
     private var homeViewModel: HomeViewModel? = HomeViewModel()
@@ -70,7 +72,7 @@ class HomeFragment : Fragment(), ProvidersAdapter.OnItemClickListener,
 
         homeBinding.topProviderAdapter = topProvidersAdapter
         homeViewModel!!.topProviders.observe(viewLifecycleOwner, Observer {
-            topProvidersAdapter.setList(it)
+            topProvidersAdapter.setProviders(it)
         })
 
         homeBinding.servicesAdapter = servicesAdapters
@@ -80,7 +82,7 @@ class HomeFragment : Fragment(), ProvidersAdapter.OnItemClickListener,
 
         homeBinding.onlineProviderAdapter = onlineProvidersAdapter
         homeViewModel!!.onlineProviders.observe(viewLifecycleOwner, Observer {
-            onlineProvidersAdapter.setList(it)
+            onlineProvidersAdapter.setProviders(it)
             if (it.isEmpty())
                 homeBinding.imgOnlineEmpty.visibility = View.VISIBLE
             else homeBinding.imgOnlineEmpty.visibility = View.GONE

@@ -27,6 +27,7 @@ class User : Serializable {
     var rate: Double? = 0.0
     var rates = ArrayList<Rate>()
     var wishList = ArrayList<String>()
+    var notifications = ArrayList<Notification>()
 
 
     constructor(personalImageUri: String, userName: String) {
